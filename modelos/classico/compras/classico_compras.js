@@ -1,0 +1,3168 @@
+const classicoCompras = `
+
+/* =========================================================
+   IRONSTORE — COMPRAS
+   MODELO CLÁSSICO PREMIUM
+========================================================= */
+
+.ironstore-compras,
+.ironstore-compras *,
+.ironstore-compras *::before,
+.ironstore-compras *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PÁGINA
+========================================================= */
+
+.ironstore-compras {
+    --ic-navy: #142a4a;
+    --ic-navy-hover: #1b3b66;
+    --ic-navy-light: #edf3f9;
+
+    --ic-text: #101828;
+    --ic-text-secondary: #344054;
+    --ic-muted: #667085;
+    --ic-soft: #98a2b3;
+
+    --ic-border: #e4e7ec;
+    --ic-border-soft: #edf0f4;
+
+    --ic-bg: #f7f8fa;
+    --ic-card: #ffffff;
+
+    width: 100%;
+    min-height: 100vh;
+
+    padding:
+        42px
+        24px
+        90px;
+
+    background:
+        radial-gradient(
+            circle at 8% 0%,
+            rgba(255,255,255,.95),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 92% 5%,
+            rgba(20,42,74,.045),
+            transparent 25%
+        ),
+        linear-gradient(
+            180deg,
+            #fafbfc 0%,
+            #f5f7f9 100%
+        );
+
+    color: var(--ic-text);
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.ironstore-compras-cabecalho {
+    width: min(100%, 1240px);
+
+    margin:
+        0
+        auto
+        28px;
+}
+
+.ironstore-compras-cabecalho > div {
+    max-width: 680px;
+}
+
+.ironstore-compras-cabecalho h1 {
+    margin: 0;
+
+    color: var(--ic-text);
+
+    font-size:
+        clamp(
+            28px,
+            3vw,
+            40px
+        );
+
+    font-weight: 800;
+
+    line-height: 1.08;
+
+    letter-spacing: -.045em;
+}
+
+.ironstore-compras-cabecalho p {
+    margin:
+        9px
+        0
+        0;
+
+    color: var(--ic-muted);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+========================================================= */
+
+.ironstore-compras-conteudo {
+    width: min(100%, 1240px);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        350px;
+
+    align-items: start;
+
+    gap: 24px;
+}
+
+
+/* =========================================================
+   LISTA DE PRODUTOS
+========================================================= */
+
+.ironstore-compras-lista {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   CARD DO PRODUTO
+========================================================= */
+
+.ironstore-compras-produto {
+    position: relative;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        30px
+        104px
+        minmax(0,1fr)
+        auto;
+
+    align-items: center;
+
+    gap: 17px;
+
+    min-height: 132px;
+
+    padding:
+        14px
+        18px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #fdfdfd 100%
+        );
+
+    box-shadow:
+        0 1px 2px rgba(16,24,40,.025),
+        0 6px 18px rgba(16,24,40,.035);
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease,
+        opacity .2s ease,
+        background .2s ease;
+}
+
+
+/* =========================================================
+   CARD SELECIONADO
+========================================================= */
+
+.ironstore-compras-produto.selecionado {
+    border-color:
+        rgba(20,42,74,.15);
+
+    box-shadow:
+        0 1px 2px rgba(16,24,40,.025),
+        0 8px 24px rgba(20,42,74,.055);
+}
+
+.ironstore-compras-produto.selecionado::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 22px;
+    bottom: 22px;
+
+    width: 3px;
+
+    border-radius:
+        0
+        999px
+        999px
+        0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #142a4a,
+            #244f7d
+        );
+}
+
+
+/* =========================================================
+   CARD DESMARCADO
+========================================================= */
+
+.ironstore-compras-produto.desmarcado {
+    opacity: .58;
+
+    background: #fafafa;
+
+    box-shadow: none;
+}
+
+.ironstore-compras-produto.desmarcado:hover {
+    opacity: .82;
+}
+
+
+/* =========================================================
+   HOVER DO PRODUTO
+========================================================= */
+
+.ironstore-compras-produto:hover {
+    transform:
+        translateY(-2px);
+
+    border-color:
+        #d8dee6;
+
+    box-shadow:
+        0 4px 10px rgba(16,24,40,.035),
+        0 14px 32px rgba(16,24,40,.07);
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.ironstore-compras-produto-check {
+    position: relative;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.ironstore-compras-produto-check input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.ironstore-compras-produto-check span {
+    position: relative;
+
+    width: 21px;
+    height: 21px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1.5px solid
+        #cfd5dc;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    box-shadow:
+        inset 0 1px 1px
+        rgba(16,24,40,.025);
+
+    transition:
+        background .16s ease,
+        border-color .16s ease,
+        box-shadow .16s ease,
+        transform .16s ease;
+}
+
+.ironstore-compras-produto-check:hover span {
+    border-color: #8c9bab;
+
+    transform:
+        scale(1.04);
+}
+
+.ironstore-compras-produto-check input:checked + span {
+    border-color:
+        var(--ic-navy);
+
+    background:
+        linear-gradient(
+            135deg,
+            #1d3d68,
+            #142a4a
+        );
+
+    box-shadow:
+        0 4px 10px
+        rgba(20,42,74,.18);
+}
+
+.ironstore-compras-produto-check input:checked + span::after {
+    content: "";
+
+    width: 8px;
+    height: 4px;
+
+    margin-top: -2px;
+
+    border-left:
+        2px solid #ffffff;
+
+    border-bottom:
+        2px solid #ffffff;
+
+    transform:
+        rotate(-45deg);
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+.ironstore-compras-produto-imagem {
+    position: relative;
+
+    width: 104px;
+    height: 104px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--ic-border-soft);
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f7f8fa
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.95),
+        0 3px 8px rgba(16,24,40,.035);
+}
+
+.ironstore-compras-produto-imagem img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    padding: 5px;
+
+    object-fit: contain;
+
+    transition:
+        transform .28s
+        cubic-bezier(.22,1,.36,1);
+}
+
+.ironstore-compras-produto:hover
+.ironstore-compras-produto-imagem img {
+    transform:
+        scale(1.045);
+}
+
+
+/* =========================================================
+   SEM IMAGEM
+========================================================= */
+
+.ironstore-compras-produto-sem-imagem {
+    padding: 10px;
+
+    color: var(--ic-soft);
+
+    font-size: 9px;
+    font-weight: 650;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   INFORMAÇÕES
+========================================================= */
+
+.ironstore-compras-produto-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 6px;
+}
+
+.ironstore-compras-produto-info h2 {
+    width: 100%;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    color: var(--ic-text);
+
+    font-size: 15px;
+    font-weight: 750;
+
+    line-height: 1.3;
+
+    letter-spacing: -.02em;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ironstore-compras-produto-info p {
+    display: -webkit-box;
+
+    max-width: 520px;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    color: var(--ic-muted);
+
+    font-size: 10px;
+    font-weight: 500;
+
+    line-height: 1.45;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+
+/* =========================================================
+   UNIDADE
+========================================================= */
+
+.ironstore-compras-produto-unidade {
+    min-height: 20px;
+
+    display: inline-flex;
+    align-items: center;
+
+    padding:
+        0
+        7px;
+
+    border:
+        1px solid
+        #e4e9ef;
+
+    border-radius: 999px;
+
+    background: #f7f9fb;
+
+    color: #65768a;
+
+    font-size: 8px;
+    font-weight: 750;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: .035em;
+}
+
+
+/* =========================================================
+   QUANTIDADE
+========================================================= */
+
+.ironstore-compras-produto-quantidade {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 4px;
+}
+
+.ironstore-compras-produto-quantidade > span {
+    color: var(--ic-muted);
+
+    font-size: 9px;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   CONTROLE DE QUANTIDADE
+========================================================= */
+
+.ironstore-compras-quantidade-controle {
+    height: 34px;
+
+    display: inline-grid;
+
+    grid-template-columns:
+        34px
+        42px
+        34px;
+
+    align-items: center;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        #dfe3e8;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 1px 2px
+        rgba(16,24,40,.025);
+}
+
+.ironstore-compras-quantidade-controle button {
+    width: 34px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #344054;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background .15s ease,
+        color .15s ease;
+}
+
+.ironstore-compras-quantidade-controle button:hover:not(:disabled) {
+    background: #f2f4f7;
+
+    color: var(--ic-navy);
+}
+
+.ironstore-compras-quantidade-controle button:active:not(:disabled) {
+    background: #e9edf2;
+}
+
+.ironstore-compras-quantidade-controle button:disabled {
+    color: #d0d5dd;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   INPUT QUANTIDADE
+========================================================= */
+
+.ironstore-compras-quantidade-controle input {
+    width: 42px;
+    height: 32px;
+
+    padding: 0;
+
+    outline: none;
+
+    border: 0;
+    border-left:
+        1px solid #edf0f4;
+    border-right:
+        1px solid #edf0f4;
+
+    background: #ffffff;
+
+    color: var(--ic-text);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 750;
+
+    text-align: center;
+
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.ironstore-compras-quantidade-controle
+input::-webkit-inner-spin-button,
+.ironstore-compras-quantidade-controle
+input::-webkit-outer-spin-button {
+    margin: 0;
+
+    -webkit-appearance: none;
+}
+
+
+/* =========================================================
+   PREÇO DO PRODUTO
+========================================================= */
+
+.ironstore-compras-produto-preco {
+    min-width: 115px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    gap: 5px;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+.ironstore-compras-produto-preco small {
+    color: var(--ic-soft);
+
+    font-size: 9px;
+    font-weight: 550;
+}
+
+.ironstore-compras-produto-preco strong {
+    color: var(--ic-navy);
+
+    font-size: 17px;
+    font-weight: 850;
+
+    line-height: 1;
+
+    letter-spacing: -.035em;
+}
+
+
+/* =========================================================
+   RESUMO
+========================================================= */
+
+.ironstore-compras-resumo {
+    position: sticky;
+
+    top: 24px;
+
+    width: 100%;
+
+    padding: 22px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(20,42,74,.11);
+
+    border-radius: 21px;
+
+    background:
+        linear-gradient(
+            160deg,
+            rgba(255,255,255,.99),
+            rgba(249,250,252,.98)
+        );
+
+    box-shadow:
+        0 3px 8px rgba(16,24,40,.035),
+        0 16px 40px rgba(16,24,40,.075);
+}
+
+.ironstore-compras-resumo::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 20px;
+    right: 20px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,1),
+            transparent
+        );
+}
+
+.ironstore-compras-resumo h2 {
+    margin:
+        0
+        0
+        20px;
+
+    color: var(--ic-text);
+
+    font-size: 17px;
+    font-weight: 800;
+
+    letter-spacing: -.025em;
+}
+
+
+/* =========================================================
+   LINHA DO RESUMO
+========================================================= */
+
+.ironstore-compras-resumo-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding:
+        12px
+        0;
+
+    border-bottom:
+        1px solid
+        var(--ic-border-soft);
+}
+
+.ironstore-compras-resumo-linha span {
+    color: var(--ic-muted);
+
+    font-size: 11px;
+    font-weight: 550;
+}
+
+.ironstore-compras-resumo-linha strong {
+    color: var(--ic-text-secondary);
+
+    font-size: 12px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.ironstore-compras-resumo-total {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 17px;
+
+    padding-top: 4px;
+}
+
+.ironstore-compras-resumo-total span {
+    color: var(--ic-text-secondary);
+
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.ironstore-compras-resumo-total strong {
+    color: var(--ic-navy);
+
+    font-size: 23px;
+    font-weight: 850;
+
+    line-height: 1;
+
+    letter-spacing: -.045em;
+}
+
+
+/* =========================================================
+   BOTÃO COMPRAR
+========================================================= */
+
+.ironstore-compras-botao-comprar {
+    position: relative;
+
+    width: 100%;
+    min-height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 22px;
+
+    padding:
+        0
+        20px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius: 14px;
+
+    background:
+        radial-gradient(
+            circle at 12% 0%,
+            rgba(255,255,255,.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #253f63 0%,
+            #142a4a 55%,
+            #0d1e35 100%
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: .01em;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 17px rgba(20,42,74,.18),
+        0 16px 32px rgba(20,42,74,.13);
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        opacity .18s ease;
+}
+
+.ironstore-compras-botao-comprar::after {
+    content: "→";
+
+    position: absolute;
+
+    right: 18px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    color:
+        rgba(255,255,255,.78);
+
+    font-size: 17px;
+
+    transition:
+        transform .18s ease;
+}
+
+.ironstore-compras-botao-comprar:hover:not(:disabled) {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 22px rgba(20,42,74,.21),
+        0 22px 42px rgba(20,42,74,.16);
+}
+
+.ironstore-compras-botao-comprar:hover:not(:disabled)::after {
+    transform:
+        translate(3px,-50%);
+}
+
+.ironstore-compras-botao-comprar:active:not(:disabled) {
+    transform:
+        translateY(0)
+        scale(.995);
+}
+
+.ironstore-compras-botao-comprar:disabled {
+    opacity: .48;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   PRODUTOS SELECIONADOS
+========================================================= */
+
+.ironstore-compras-selecionados {
+    display: block;
+
+    margin-top: 10px;
+
+    color: var(--ic-soft);
+
+    font-size: 9px;
+    font-weight: 550;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ERRO
+========================================================= */
+
+.ironstore-compras-erro {
+    width: min(100%, 1240px);
+
+    margin:
+        0
+        auto
+        18px;
+
+    padding:
+        13px
+        15px;
+
+    border:
+        1px solid
+        #fecdca;
+
+    border-radius: 12px;
+
+    background:
+        #fff6f5;
+
+    color: #b42318;
+
+    font-size: 11px;
+    font-weight: 650;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.ironstore-compras-loading {
+    width: min(100%, 500px);
+
+    margin:
+        80px
+        auto;
+
+    padding: 30px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    color: var(--ic-muted);
+
+    font-size: 12px;
+    font-weight: 650;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 30px
+        rgba(16,24,40,.06);
+}
+
+
+/* =========================================================
+   CARRINHO VAZIO
+========================================================= */
+
+.ironstore-compras-vazio {
+    width:
+        min(
+            100%,
+            500px
+        );
+
+    margin:
+        75px
+        auto;
+
+    padding:
+        45px
+        30px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fafbfc
+        );
+
+    text-align: center;
+
+    box-shadow:
+        0 12px 35px
+        rgba(16,24,40,.065);
+}
+
+.ironstore-compras-vazio h2 {
+    margin: 0;
+
+    color: var(--ic-text);
+
+    font-size: 20px;
+    font-weight: 800;
+
+    letter-spacing: -.025em;
+}
+
+.ironstore-compras-vazio p {
+    margin:
+        8px
+        0
+        22px;
+
+    color: var(--ic-muted);
+
+    font-size: 11px;
+}
+
+.ironstore-compras-vazio button {
+    min-height: 44px;
+
+    padding:
+        0
+        20px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background:
+        var(--ic-navy);
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 14px
+        rgba(20,42,74,.16);
+
+    transition:
+        transform .16s ease,
+        background .16s ease;
+}
+
+.ironstore-compras-vazio button:hover {
+    background:
+        var(--ic-navy-hover);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   MODAL DE PAGAMENTO
+========================================================= */
+
+.ironstore-pagamento-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 22px;
+
+    background:
+        rgba(9,18,31,.52);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    animation:
+        ironstorePagamentoOverlay
+        .18s ease;
+}
+
+@keyframes ironstorePagamentoOverlay {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   CAIXA DO MODAL
+========================================================= */
+
+.ironstore-pagamento-modal {
+    position: relative;
+
+    width:
+        min(
+            100%,
+            480px
+        );
+
+    max-height:
+        calc(100vh - 44px);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding: 26px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.72);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            160deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.22);
+
+    animation:
+        ironstorePagamentoModal
+        .22s
+        cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes ironstorePagamentoModal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px)
+            scale(.975);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   FECHAR MODAL
+========================================================= */
+
+.ironstore-pagamento-fechar {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    width: 33px;
+    height: 33px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: var(--ic-muted);
+
+    font-family: inherit;
+    font-size: 19px;
+    font-weight: 400;
+
+    cursor: pointer;
+
+    transition:
+        color .15s ease,
+        background .15s ease,
+        transform .15s ease;
+}
+
+.ironstore-pagamento-fechar:hover {
+    background: #f2f4f7;
+
+    color: var(--ic-text);
+
+    transform:
+        scale(1.04);
+}
+
+
+/* =========================================================
+   TÍTULO PAGAMENTO
+========================================================= */
+
+.ironstore-pagamento-modal > h2 {
+    margin:
+        0
+        0
+        22px;
+
+    padding-right: 45px;
+
+    color: var(--ic-text);
+
+    font-size: 21px;
+    font-weight: 800;
+
+    letter-spacing: -.035em;
+}
+
+
+/* =========================================================
+   RESUMO PAGAMENTO
+========================================================= */
+
+.ironstore-pagamento-resumo {
+    padding: 15px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 15px;
+
+    background:
+        #f8fafc;
+}
+
+.ironstore-pagamento-resumo > div {
+    min-height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.ironstore-pagamento-resumo span {
+    color: var(--ic-muted);
+
+    font-size: 10px;
+    font-weight: 550;
+}
+
+.ironstore-pagamento-resumo strong {
+    color: var(--ic-text-secondary);
+
+    font-size: 11px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   TOTAL DO MODAL
+========================================================= */
+
+.ironstore-pagamento-resumo
+.ironstore-pagamento-total {
+    margin-top: 8px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid
+        var(--ic-border);
+}
+
+.ironstore-pagamento-total span {
+    color: var(--ic-text-secondary);
+
+    font-weight: 700;
+}
+
+.ironstore-pagamento-total strong {
+    color: var(--ic-navy);
+
+    font-size: 18px;
+    font-weight: 850;
+
+    letter-spacing: -.035em;
+}
+
+
+/* =========================================================
+   MÉTODOS DE PAGAMENTO
+========================================================= */
+
+.ironstore-pagamento-metodos {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.ironstore-pagamento-metodos button {
+    min-height: 50px;
+
+    padding:
+        0
+        15px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    color: var(--ic-text-secondary);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px
+        rgba(16,24,40,.025);
+
+    transition:
+        color .17s ease,
+        background .17s ease,
+        border-color .17s ease,
+        box-shadow .17s ease,
+        transform .17s ease;
+}
+
+.ironstore-pagamento-metodos button:hover:not(:disabled) {
+    transform:
+        translateY(-1px);
+
+    border-color:
+        rgba(20,42,74,.22);
+
+    background:
+        #f8fafc;
+
+    color: var(--ic-navy);
+
+    box-shadow:
+        0 6px 15px
+        rgba(16,24,40,.055);
+}
+
+.ironstore-pagamento-metodos button:first-child {
+    border-color:
+        var(--ic-navy);
+
+    background:
+        linear-gradient(
+            135deg,
+            #1d3d68,
+            #142a4a
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 7px 16px
+        rgba(20,42,74,.16);
+}
+
+.ironstore-pagamento-metodos button:disabled {
+    opacity: .5;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   PIX
+========================================================= */
+
+.ironstore-pagamento-pix {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    margin-top: 20px;
+
+    text-align: center;
+}
+
+.ironstore-pagamento-pix h3 {
+    margin:
+        0
+        0
+        15px;
+
+    color: var(--ic-text);
+
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.ironstore-pagamento-pix > img {
+    width: min(100%, 220px);
+    aspect-ratio: 1;
+
+    padding: 10px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    object-fit: contain;
+
+    box-shadow:
+        0 8px 22px
+        rgba(16,24,40,.07);
+}
+
+.ironstore-pagamento-pix p {
+    margin:
+        18px
+        0
+        8px;
+
+    color: var(--ic-muted);
+
+    font-size: 10px;
+    font-weight: 550;
+}
+
+
+/* =========================================================
+   PIX COPIA E COLA
+========================================================= */
+
+.ironstore-pagamento-pix textarea {
+    width: 100%;
+    min-height: 78px;
+
+    resize: none;
+
+    padding: 11px;
+
+    outline: none;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 11px;
+
+    background: #f8fafc;
+
+    color: var(--ic-text-secondary);
+
+    font-family: inherit;
+    font-size: 9px;
+
+    line-height: 1.45;
+}
+
+.ironstore-pagamento-pix textarea:focus {
+    border-color:
+        rgba(20,42,74,.3);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(20,42,74,.05);
+}
+
+
+/* =========================================================
+   COPIAR PIX
+========================================================= */
+
+.ironstore-pagamento-pix > button {
+    width: 100%;
+    min-height: 44px;
+
+    margin-top: 9px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background:
+        var(--ic-navy);
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 14px
+        rgba(20,42,74,.15);
+
+    transition:
+        background .16s ease,
+        transform .16s ease;
+}
+
+.ironstore-pagamento-pix > button:hover {
+    background:
+        var(--ic-navy-hover);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   STATUS PIX
+========================================================= */
+
+.ironstore-pagamento-pix-status {
+    width: 100%;
+
+    margin-top: 13px;
+
+    padding: 10px;
+
+    border:
+        1px solid
+        #e4e9ef;
+
+    border-radius: 10px;
+
+    background: #f7f9fb;
+
+    color: var(--ic-muted);
+
+    font-size: 9px;
+    font-weight: 550;
+
+    text-align: center;
+}
+
+.ironstore-pagamento-pix-status strong {
+    color: var(--ic-navy);
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   RESPONSIVO — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .ironstore-compras-conteudo {
+        grid-template-columns:
+            minmax(0,1fr)
+            310px;
+
+        gap: 18px;
+    }
+
+
+    .ironstore-compras-produto {
+        grid-template-columns:
+            28px
+            90px
+            minmax(0,1fr)
+            auto;
+
+        gap: 13px;
+    }
+
+
+    .ironstore-compras-produto-imagem {
+        width: 90px;
+        height: 90px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVO — MOBILE
+========================================================= */
+
+@media (max-width: 780px) {
+
+    .ironstore-compras {
+        min-height: 100dvh;
+
+        padding:
+            26px
+            14px
+            60px;
+    }
+
+
+    .ironstore-compras-cabecalho {
+        margin-bottom: 20px;
+    }
+
+
+    .ironstore-compras-cabecalho h1 {
+        font-size: 27px;
+    }
+
+
+    .ironstore-compras-cabecalho p {
+        font-size: 11px;
+    }
+
+
+    .ironstore-compras-conteudo {
+        display: flex;
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+
+    .ironstore-compras-lista {
+        width: 100%;
+    }
+
+
+    /* =====================================================
+       PRODUTO MOBILE
+    ===================================================== */
+
+    .ironstore-compras-produto {
+        grid-template-columns:
+            24px
+            78px
+            minmax(0,1fr);
+
+        align-items: start;
+
+        gap: 11px;
+
+        min-height: 0;
+
+        padding: 12px;
+
+        border-radius: 16px;
+    }
+
+
+    .ironstore-compras-produto.selecionado::before {
+        top: 17px;
+        bottom: 17px;
+    }
+
+
+    .ironstore-compras-produto-imagem {
+        width: 78px;
+        height: 78px;
+
+        border-radius: 12px;
+    }
+
+
+    .ironstore-compras-produto-info {
+        padding-top: 2px;
+    }
+
+
+    .ironstore-compras-produto-info h2 {
+        font-size: 12px;
+    }
+
+
+    .ironstore-compras-produto-info p {
+        font-size: 9px;
+
+        -webkit-line-clamp: 1;
+    }
+
+
+    .ironstore-compras-produto-quantidade {
+        flex-wrap: wrap;
+
+        gap: 6px;
+    }
+
+
+    .ironstore-compras-produto-quantidade > span {
+        width: 100%;
+    }
+
+
+    /* =====================================================
+       PREÇO MOBILE
+    ===================================================== */
+
+    .ironstore-compras-produto-preco {
+        grid-column:
+            2 / -1;
+
+        width: 100%;
+        min-width: 0;
+
+        flex-direction: row;
+
+        align-items: center;
+        justify-content: flex-end;
+
+        gap: 8px;
+
+        padding-top: 4px;
+    }
+
+
+    .ironstore-compras-produto-preco strong {
+        font-size: 15px;
+    }
+
+
+    /* =====================================================
+       RESUMO MOBILE
+    ===================================================== */
+
+    .ironstore-compras-resumo {
+        position: static;
+
+        width: 100%;
+
+        padding: 18px;
+
+        border-radius: 18px;
+    }
+
+
+    .ironstore-compras-resumo-total strong {
+        font-size: 21px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE PEQUENO
+========================================================= */
+
+@media (max-width: 440px) {
+
+    .ironstore-compras {
+        padding:
+            22px
+            10px
+            50px;
+    }
+
+
+    .ironstore-compras-cabecalho h1 {
+        font-size: 24px;
+    }
+
+
+    .ironstore-compras-produto {
+        grid-template-columns:
+            22px
+            67px
+            minmax(0,1fr);
+
+        gap: 9px;
+
+        padding: 10px;
+    }
+
+
+    .ironstore-compras-produto-imagem {
+        width: 67px;
+        height: 67px;
+    }
+
+
+    .ironstore-compras-produto-info h2 {
+        font-size: 11px;
+    }
+
+
+    .ironstore-compras-produto-unidade {
+        min-height: 18px;
+
+        font-size: 7px;
+    }
+
+
+    .ironstore-compras-quantidade-controle {
+        height: 31px;
+
+        grid-template-columns:
+            31px
+            38px
+            31px;
+    }
+
+
+    .ironstore-compras-quantidade-controle button {
+        width: 31px;
+        height: 29px;
+    }
+
+
+    .ironstore-compras-quantidade-controle input {
+        width: 38px;
+        height: 29px;
+    }
+
+
+    .ironstore-compras-resumo {
+        padding: 16px;
+    }
+
+
+    /* =====================================================
+       PAGAMENTO
+    ===================================================== */
+
+    .ironstore-pagamento-overlay {
+        padding: 10px;
+
+        align-items: flex-end;
+    }
+
+
+    .ironstore-pagamento-modal {
+        width: 100%;
+
+        max-height:
+            calc(100dvh - 20px);
+
+        padding:
+            22px
+            16px
+            18px;
+
+        border-radius:
+            20px
+            20px
+            14px
+            14px;
+    }
+
+
+    .ironstore-pagamento-metodos {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+@media (hover: none) {
+
+    .ironstore-compras-produto:hover {
+        transform: none;
+
+        box-shadow:
+            0 1px 2px rgba(16,24,40,.025),
+            0 6px 18px rgba(16,24,40,.035);
+    }
+
+
+    .ironstore-compras-botao-comprar:hover:not(:disabled) {
+        transform: none;
+    }
+
+}
+
+
+/* =========================================================
+   REDUZIR MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-compras *,
+    .ironstore-compras *::before,
+    .ironstore-compras *::after,
+    .ironstore-pagamento-overlay,
+    .ironstore-pagamento-modal {
+        animation: none !important;
+
+        transition: none !important;
+    }
+
+}
+/* =========================================================
+   PAGAMENTO COM CARTÃO
+========================================================= */
+
+.ironstore-pagamento-cartao {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 18px;
+
+    animation:
+        ironstoreCartaoEntrada
+        .22s
+        cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes ironstoreCartaoEntrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   VOLTAR
+========================================================= */
+
+.ironstore-pagamento-cartao-voltar {
+    width: fit-content;
+    min-height: 32px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin:
+        0
+        0
+        15px;
+
+    padding:
+        0
+        11px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 9px;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--ic-muted);
+
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 1px 2px
+        rgba(16,24,40,.025);
+
+    transition:
+        background .16s ease,
+        border-color .16s ease,
+        color .16s ease,
+        transform .16s ease;
+}
+
+.ironstore-pagamento-cartao-voltar:hover:not(:disabled) {
+    border-color:
+        rgba(20,42,74,.18);
+
+    background:
+        #f7f9fb;
+
+    color:
+        var(--ic-navy);
+
+    transform:
+        translateX(-2px);
+}
+
+.ironstore-pagamento-cartao-voltar:disabled {
+    opacity: .5;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.ironstore-pagamento-cartao > h3 {
+    margin:
+        0
+        0
+        5px;
+
+    color:
+        var(--ic-text);
+
+    font-size: 17px;
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    letter-spacing: -.025em;
+}
+
+.ironstore-pagamento-cartao > p {
+    margin:
+        0
+        0
+        18px;
+
+    color:
+        var(--ic-muted);
+
+    font-size: 10px;
+    font-weight: 500;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.ironstore-pagamento-cartao-form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 13px;
+
+    padding: 17px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fafbfc
+        );
+
+    box-shadow:
+        0 2px 6px
+        rgba(16,24,40,.025);
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.ironstore-pagamento-cartao-form label {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.ironstore-pagamento-cartao-form label > span {
+    color:
+        var(--ic-text-secondary);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing: .005em;
+}
+
+
+/* =========================================================
+   INPUTS / SELECT
+========================================================= */
+
+.ironstore-pagamento-cartao-form input,
+.ironstore-pagamento-cartao-form select {
+    width: 100%;
+    height: 45px;
+
+    padding:
+        0
+        13px;
+
+    outline: none;
+
+    border:
+        1px solid
+        #dfe3e8;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fbfcfd
+        );
+
+    color:
+        var(--ic-text);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    box-shadow:
+        inset 0 1px 1px
+        rgba(16,24,40,.018);
+
+    transition:
+        border-color .16s ease,
+        box-shadow .16s ease,
+        background .16s ease;
+}
+
+.ironstore-pagamento-cartao-form input::placeholder {
+    color:
+        #a9b1bc;
+
+    font-weight: 500;
+}
+
+.ironstore-pagamento-cartao-form input:hover,
+.ironstore-pagamento-cartao-form select:hover {
+    border-color:
+        #cfd6df;
+}
+
+.ironstore-pagamento-cartao-form input:focus,
+.ironstore-pagamento-cartao-form select:focus {
+    border-color:
+        rgba(20,42,74,.38);
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(20,42,74,.055),
+        0 2px 5px
+        rgba(16,24,40,.025);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.ironstore-pagamento-cartao-form select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding-right: 38px;
+
+    cursor: pointer;
+
+    background-image:
+        linear-gradient(
+            45deg,
+            transparent 50%,
+            #667085 50%
+        ),
+        linear-gradient(
+            135deg,
+            #667085 50%,
+            transparent 50%
+        );
+
+    background-position:
+        calc(100% - 17px) 19px,
+        calc(100% - 12px) 19px;
+
+    background-size:
+        5px 5px,
+        5px 5px;
+
+    background-repeat:
+        no-repeat;
+}
+
+
+/* =========================================================
+   VALIDADE + CVV
+========================================================= */
+
+.ironstore-pagamento-cartao-duplo {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+    gap: 11px;
+}
+
+
+/* =========================================================
+   BOTÃO PAGAR
+========================================================= */
+
+.ironstore-pagamento-cartao-pagar {
+    position: relative;
+
+    width: 100%;
+    min-height: 51px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 4px;
+
+    padding:
+        0
+        45px
+        0
+        20px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius: 13px;
+
+    background:
+        radial-gradient(
+            circle at 12% 0%,
+            rgba(255,255,255,.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #253f63 0%,
+            #142a4a 55%,
+            #0d1e35 100%
+        );
+
+    color:
+        #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .005em;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 17px
+        rgba(20,42,74,.18),
+        0 14px 28px
+        rgba(20,42,74,.11);
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        opacity .18s ease;
+}
+
+.ironstore-pagamento-cartao-pagar::after {
+    content: "→";
+
+    position: absolute;
+
+    top: 50%;
+    right: 18px;
+
+    transform:
+        translateY(-50%);
+
+    color:
+        rgba(255,255,255,.78);
+
+    font-size: 16px;
+
+    transition:
+        transform .18s ease;
+}
+
+.ironstore-pagamento-cartao-pagar:hover:not(:disabled) {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 22px
+        rgba(20,42,74,.22),
+        0 20px 36px
+        rgba(20,42,74,.14);
+}
+
+.ironstore-pagamento-cartao-pagar:hover:not(:disabled)::after {
+    transform:
+        translate(
+            3px,
+            -50%
+        );
+}
+
+.ironstore-pagamento-cartao-pagar:active:not(:disabled) {
+    transform:
+        translateY(0)
+        scale(.995);
+}
+
+.ironstore-pagamento-cartao-pagar:disabled {
+    opacity: .5;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   RESULTADO DO CARTÃO
+========================================================= */
+
+.ironstore-pagamento-cartao-resultado {
+    width: 100%;
+
+    margin-top: 13px;
+
+    padding: 13px;
+
+    border:
+        1px solid
+        #dfe5ec;
+
+    border-radius: 11px;
+
+    background:
+        #f7f9fb;
+
+    color:
+        var(--ic-text-secondary);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   CARTÃO — MOBILE
+========================================================= */
+
+@media (max-width: 440px) {
+
+    .ironstore-pagamento-cartao {
+        margin-top: 15px;
+    }
+
+    .ironstore-pagamento-cartao-form {
+        gap: 12px;
+
+        padding: 14px;
+
+        border-radius: 14px;
+    }
+
+    .ironstore-pagamento-cartao-form input,
+    .ironstore-pagamento-cartao-form select {
+        height: 43px;
+
+        font-size: 11px;
+    }
+
+    .ironstore-pagamento-cartao-duplo {
+        gap: 8px;
+    }
+
+    .ironstore-pagamento-cartao-pagar {
+        min-height: 49px;
+    }
+
+}
+
+/* =========================================================
+   CARTÃO — COMPLEMENTO DO NOVO FORMULÁRIO
+========================================================= */
+
+.ironstore-pagamento-cartao {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   TOPO
+========================================================= */
+
+.ironstore-pagamento-cartao-topo {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding-bottom: 14px;
+
+    border-bottom:
+        1px solid
+        var(--ic-border);
+}
+
+.ironstore-pagamento-cartao-topo h3 {
+    flex: 1;
+
+    margin: 0;
+
+    color:
+        var(--ic-text);
+
+    font-size: 16px;
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    letter-spacing: -.025em;
+}
+
+
+/* =========================================================
+   VOLTAR
+========================================================= */
+
+.ironstore-pagamento-cartao-voltar {
+    min-height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        0
+        12px;
+
+    border:
+        1px solid
+        var(--ic-border);
+
+    border-radius: 9px;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--ic-muted);
+
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background .16s ease,
+        border-color .16s ease,
+        color .16s ease,
+        transform .16s ease;
+}
+
+.ironstore-pagamento-cartao-voltar:hover:not(:disabled) {
+    border-color:
+        rgba(20,42,74,.2);
+
+    background:
+        #f7f9fb;
+
+    color:
+        var(--ic-navy);
+
+    transform:
+        translateX(-2px);
+}
+
+.ironstore-pagamento-cartao-voltar:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   CAMPOS
+========================================================= */
+
+.ironstore-pagamento-cartao-campo {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.ironstore-pagamento-cartao-campo > span {
+    color:
+        var(--ic-text-secondary);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing: .005em;
+}
+
+
+/* =========================================================
+   INPUT / SELECT
+========================================================= */
+
+.ironstore-pagamento-cartao-campo input,
+.ironstore-pagamento-cartao-campo select {
+    width: 100%;
+    height: 46px;
+
+    padding:
+        0
+        13px;
+
+    outline: none;
+
+    border:
+        1px solid
+        #dfe3e8;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fbfcfd
+        );
+
+    color:
+        var(--ic-text);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    box-shadow:
+        inset 0 1px 1px
+        rgba(16,24,40,.018);
+
+    transition:
+        border-color .16s ease,
+        box-shadow .16s ease,
+        background .16s ease;
+}
+
+.ironstore-pagamento-cartao-campo input::placeholder {
+    color:
+        #a9b1bc;
+
+    font-weight: 500;
+}
+
+.ironstore-pagamento-cartao-campo input:hover,
+.ironstore-pagamento-cartao-campo select:hover {
+    border-color:
+        #cbd3dc;
+}
+
+.ironstore-pagamento-cartao-campo input:focus,
+.ironstore-pagamento-cartao-campo select:focus {
+    border-color:
+        rgba(20,42,74,.42);
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(20,42,74,.055),
+        0 3px 8px
+        rgba(16,24,40,.035);
+}
+
+.ironstore-pagamento-cartao-campo input:disabled,
+.ironstore-pagamento-cartao-campo select:disabled {
+    opacity: .6;
+
+    cursor: not-allowed;
+
+    background:
+        #f2f4f7;
+}
+
+
+/* =========================================================
+   VALIDADE + CVV
+========================================================= */
+
+.ironstore-pagamento-cartao-linha {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+    gap: 11px;
+}
+
+
+/* =========================================================
+   SELECT PARCELAS
+========================================================= */
+
+.ironstore-pagamento-cartao-campo select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding-right: 40px;
+
+    cursor: pointer;
+
+    background-image:
+        linear-gradient(
+            45deg,
+            transparent 50%,
+            #667085 50%
+        ),
+        linear-gradient(
+            135deg,
+            #667085 50%,
+            transparent 50%
+        );
+
+    background-position:
+        calc(100% - 18px) 20px,
+        calc(100% - 13px) 20px;
+
+    background-size:
+        5px 5px,
+        5px 5px;
+
+    background-repeat:
+        no-repeat;
+}
+
+
+/* =========================================================
+   RESULTADO DO CARTÃO
+========================================================= */
+
+.ironstore-pagamento-cartao-resultado {
+    width: 100%;
+
+    padding:
+        12px
+        13px;
+
+    border:
+        1px solid
+        #dfe5ec;
+
+    border-radius:
+        11px;
+
+    background:
+        #f7f9fb;
+
+    color:
+        var(--ic-text-secondary);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   BOTÃO PAGAR
+========================================================= */
+
+.ironstore-pagamento-cartao-pagar {
+    position: relative;
+
+    width: 100%;
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        0
+        46px
+        0
+        20px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:
+        13px;
+
+    background:
+        radial-gradient(
+            circle at 12% 0%,
+            rgba(255,255,255,.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #253f63 0%,
+            #142a4a 55%,
+            #0d1e35 100%
+        );
+
+    color:
+        #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 17px
+        rgba(20,42,74,.18),
+        0 14px 28px
+        rgba(20,42,74,.11);
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        opacity .18s ease;
+}
+
+.ironstore-pagamento-cartao-pagar::after {
+    content: "→";
+
+    position: absolute;
+
+    top: 50%;
+    right: 18px;
+
+    transform:
+        translateY(-50%);
+
+    color:
+        rgba(255,255,255,.78);
+
+    font-size: 16px;
+
+    transition:
+        transform .18s ease;
+}
+
+.ironstore-pagamento-cartao-pagar:hover:not(:disabled) {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 22px
+        rgba(20,42,74,.22),
+        0 20px 36px
+        rgba(20,42,74,.14);
+}
+
+.ironstore-pagamento-cartao-pagar:hover:not(:disabled)::after {
+    transform:
+        translate(
+            3px,
+            -50%
+        );
+}
+
+.ironstore-pagamento-cartao-pagar:active:not(:disabled) {
+    transform:
+        scale(.995);
+}
+
+.ironstore-pagamento-cartao-pagar:disabled {
+    opacity: .5;
+
+    cursor:
+        not-allowed;
+
+    box-shadow:
+        none;
+}
+
+
+/* =========================================================
+   PAGAMENTO APROVADO
+========================================================= */
+
+.ironstore-pagamento-sucesso {
+    width: 100%;
+
+    min-height: 330px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        32px
+        20px;
+
+    text-align: center;
+}
+
+.ironstore-pagamento-sucesso-icone {
+    width: 68px;
+    height: 68px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius:
+        50%;
+
+    background:
+        #ecfdf3;
+
+    color:
+        #067647;
+
+    font-size: 31px;
+    font-weight: 800;
+
+    box-shadow:
+        0 0 0 8px
+        rgba(6,118,71,.055);
+}
+
+.ironstore-pagamento-sucesso h2 {
+    margin:
+        0
+        0
+        8px;
+
+    color:
+        var(--ic-text);
+
+    font-size: 22px;
+    font-weight: 850;
+
+    letter-spacing:
+        -.035em;
+}
+
+.ironstore-pagamento-sucesso p {
+    max-width: 310px;
+
+    margin:
+        0
+        0
+        25px;
+
+    color:
+        var(--ic-muted);
+
+    font-size: 11px;
+    font-weight: 500;
+
+    line-height: 1.55;
+}
+
+.ironstore-pagamento-sucesso-botao {
+    min-width: 180px;
+    min-height: 48px;
+
+    padding:
+        0
+        24px;
+
+    border: 0;
+
+    border-radius:
+        12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #253f63,
+            #142a4a
+        );
+
+    color:
+        #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(20,42,74,.18);
+
+    transition:
+        transform .17s ease,
+        box-shadow .17s ease;
+}
+
+.ironstore-pagamento-sucesso-botao:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 11px 24px
+        rgba(20,42,74,.23);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 440px) {
+
+    .ironstore-pagamento-cartao {
+        gap: 12px;
+
+        margin-top:
+            15px;
+    }
+
+    .ironstore-pagamento-cartao-topo {
+        padding-bottom:
+            12px;
+    }
+
+    .ironstore-pagamento-cartao-topo h3 {
+        font-size:
+            14px;
+    }
+
+    .ironstore-pagamento-cartao-campo input,
+    .ironstore-pagamento-cartao-campo select {
+        height:
+            44px;
+    }
+
+    .ironstore-pagamento-cartao-linha {
+        gap:
+            8px;
+    }
+
+    .ironstore-pagamento-cartao-pagar {
+        min-height:
+            50px;
+    }
+
+    .ironstore-pagamento-sucesso {
+        min-height:
+            300px;
+
+        padding:
+            25px
+            10px;
+    }
+
+    .ironstore-pagamento-sucesso-icone {
+        width:
+            62px;
+
+        height:
+            62px;
+
+        font-size:
+            28px;
+    }
+
+}
+`;
+
+export default classicoCompras;

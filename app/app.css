@@ -1,0 +1,21 @@
+* {
+  margin: 0px;
+  margin-top: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+.app {
+  background-color: aliceblue;
+  color: #ffffff;
+}
+
+
+html {
+  zoom: 99%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
