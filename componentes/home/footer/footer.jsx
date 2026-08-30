@@ -8,7 +8,11 @@ import { API_URL } from "../../../config";
 import classicoFooter
     from "../../../modelos/classico/footer/classico_footer";
 
-
+import facebookLogo from "./logos/facebook.png";
+import instagramLogo from "./logos/instagram.jpeg";
+import tiktokLogo from "./logos/tiktok.jpeg";
+import xLogo from "./logos/x.avif";
+import youtubeLogo from "./logos/youtube.avif";
 /* =========================================================
    CACHE
 ========================================================= */
@@ -359,39 +363,56 @@ export default function Footer() {
        Somente redes existentes serão renderizadas.
     ===================================================== */
 
+    /* =====================================================
+     REDES SOCIAIS
+  
+     Somente redes existentes serão renderizadas.
+  ===================================================== */
+
+    /* =====================================================
+     REDES SOCIAIS
+  
+     Somente redes cadastradas serão renderizadas.
+  ===================================================== */
+
     const redesSociais = [
 
         footer.instagram && {
             nome: "Instagram",
-            valor: footer.instagram
+            tipo: "instagram",
+            valor: footer.instagram,
+            logo: instagramLogo,
         },
-
 
         footer.tiktok && {
             nome: "TikTok",
-            valor: footer.tiktok
+            tipo: "tiktok",
+            valor: footer.tiktok,
+            logo: tiktokLogo,
         },
-
 
         footer.youtube && {
             nome: "YouTube",
-            valor: footer.youtube
+            tipo: "youtube",
+            valor: footer.youtube,
+            logo: youtubeLogo,
         },
-
 
         footer.x && {
             nome: "X",
-            valor: footer.x
+            tipo: "x",
+            valor: footer.x,
+            logo: xLogo,
         },
-
 
         footer.facebook && {
             nome: "Facebook",
-            valor: footer.facebook
+            tipo: "facebook",
+            valor: footer.facebook,
+            logo: facebookLogo,
         },
 
     ].filter(Boolean);
-
 
     /* =====================================================
        WHATSAPP
@@ -425,24 +446,21 @@ export default function Footer() {
                 {estiloFooter}
             </style>
 
-
             <footer
                 className="ironstore-footer-classico-principal"
             >
 
-
                 {/* =========================================
-                    CONTEÚDO
-                ========================================= */}
+                CONTEÚDO PRINCIPAL
+            ========================================= */}
 
                 <div
                     className="ironstore-footer-classico-conteudo"
                 >
 
-
                     {/* =====================================
-                        IDENTIDADE
-                    ===================================== */}
+                    IDENTIDADE DA LOJA
+                ===================================== */}
 
                     <section
                         className="ironstore-footer-classico-identidade"
@@ -450,14 +468,18 @@ export default function Footer() {
 
                         {comercio.imagem && (
 
-                            <img
-                                className="ironstore-footer-classico-logo"
-                                src={comercio.imagem}
-                                alt={
-                                    comercio.loja ||
-                                    "Loja"
-                                }
-                            />
+                            <div
+                                className="ironstore-footer-classico-logo-container"
+                            >
+                                <img
+                                    className="ironstore-footer-classico-logo"
+                                    src={comercio.imagem}
+                                    alt={
+                                        comercio.loja ||
+                                        "Loja"
+                                    }
+                                />
+                            </div>
 
                         )}
 
@@ -487,8 +509,8 @@ export default function Footer() {
 
 
                     {/* =====================================
-                        ATENDIMENTO
-                    ===================================== */}
+                    ATENDIMENTO
+                ===================================== */}
 
                     {(
                         comercio.email ||
@@ -497,7 +519,7 @@ export default function Footer() {
                     ) && (
 
                             <section
-                                className="ironstore-footer-classico-bloco"
+                                className="ironstore-footer-classico-bloco ironstore-footer-classico-atendimento"
                             >
 
                                 <h3>
@@ -505,35 +527,50 @@ export default function Footer() {
                                 </h3>
 
 
-                                {comercio.email && (
+                                <div
+                                    className="ironstore-footer-classico-lista"
+                                >
 
-                                    <a
-                                        href={
-                                            `mailto:${comercio.email}`
-                                        }
-                                    >
-                                        {comercio.email}
-                                    </a>
+                                    {comercio.email && (
 
-                                )}
+                                        <a
+                                            href={`mailto:${comercio.email}`}
+                                            className="ironstore-footer-classico-link"
+                                        >
+                                            {comercio.email}
+                                        </a>
 
-
-
+                                    )}
 
 
-                                {whatsappLink && (
+                                    {comercio.celular && (
 
-                                    <a
-                                        href={
-                                            whatsappLink
-                                        }
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        WhatsApp
-                                    </a>
+                                        <a
+                                            href={`tel:${String(
+                                                comercio.celular
+                                            ).replace(/\D/g, "")}`}
+                                            className="ironstore-footer-classico-link"
+                                        >
+                                            {comercio.celular}
+                                        </a>
 
-                                )}
+                                    )}
+
+
+                                    {whatsappLink && (
+
+                                        <a
+                                            href={whatsappLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="ironstore-footer-classico-link ironstore-footer-classico-whatsapp"
+                                        >
+                                            WhatsApp
+                                        </a>
+
+                                    )}
+
+                                </div>
 
                             </section>
 
@@ -541,32 +578,39 @@ export default function Footer() {
 
 
                     {/* =====================================
-                        ENDEREÇO
-                    ===================================== */}
+                    ENDEREÇO
+                ===================================== */}
 
                     {endereco && (
 
                         <section
-                            className="ironstore-footer-classico-bloco"
+                            className="ironstore-footer-classico-bloco ironstore-footer-classico-endereco"
                         >
 
                             <h3>
                                 Onde estamos
                             </h3>
 
-
-                            <p>
-                                {endereco}
-                            </p>
-
-
-                            {comercio.cep && (
+                            <div
+                                className="ironstore-footer-classico-lista"
+                            >
 
                                 <p>
-                                    CEP {comercio.cep}
+                                    {endereco}
                                 </p>
 
-                            )}
+
+                                {comercio.cep && (
+
+                                    <p
+                                        className="ironstore-footer-classico-cep"
+                                    >
+                                        CEP {comercio.cep}
+                                    </p>
+
+                                )}
+
+                            </div>
 
                         </section>
 
@@ -574,17 +618,17 @@ export default function Footer() {
 
 
                     {/* =====================================
-                        REDES SOCIAIS
-                    ===================================== */}
+                    REDES SOCIAIS
+                ===================================== */}
 
                     {redesSociais.length > 0 && (
 
                         <section
-                            className="ironstore-footer-classico-bloco"
+                            className="ironstore-footer-classico-bloco ironstore-footer-classico-bloco-redes"
                         >
 
                             <h3>
-                                Redes sociais
+                                Siga-nos
                             </h3>
 
 
@@ -596,16 +640,29 @@ export default function Footer() {
                                     (rede) => (
 
                                         <a
-                                            key={
-                                                rede.nome
-                                            }
-                                            href={
-                                                rede.valor
-                                            }
+                                            key={rede.tipo}
+                                            href={rede.valor}
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            className={
+                                                `ironstore-footer-classico-rede-link ironstore-footer-classico-rede-${rede.tipo}`
+                                            }
+                                            aria-label={rede.nome}
+                                            title={rede.nome}
                                         >
-                                            {rede.nome}
+
+                                            <span
+                                                className="ironstore-footer-classico-rede-icone"
+                                            >
+
+                                                <img
+                                                    src={rede.logo}
+                                                    alt={rede.nome}
+                                                    className="ironstore-footer-classico-rede-imagem"
+                                                />
+
+                                            </span>
+
                                         </a>
 
                                     )
@@ -621,34 +678,34 @@ export default function Footer() {
 
 
                 {/* =========================================
-                    PARTE INFERIOR
-                ========================================= */}
+                RODAPÉ INFERIOR
+            ========================================= */}
 
                 <div
                     className="ironstore-footer-classico-inferior"
                 >
 
-                    {/* =====================================
-        LOJA
-    ===================================== */}
+                    <div
+                        className="ironstore-footer-classico-inferior-loja"
+                    >
 
-                    <div className="ironstore-footer-classico-inferior-loja">
-
-                        <span>
-
+                        <span
+                            className="ironstore-footer-classico-copyright"
+                        >
                             © {new Date().getFullYear()}
 
                             {comercio.loja
                                 ? ` ${comercio.loja}`
                                 : ""
                             }
-
                         </span>
 
 
                         {comercio.cnpj && (
 
-                            <span className="ironstore-footer-classico-cnpj">
+                            <span
+                                className="ironstore-footer-classico-cnpj"
+                            >
                                 CNPJ {comercio.cnpj}
                             </span>
 
@@ -657,11 +714,9 @@ export default function Footer() {
                     </div>
 
 
-                    {/* =====================================
-        IRON EXECUTIONS
-    ===================================== */}
-
-                    <div className="ironstore-footer-classico-desenvolvimento">
+                    <div
+                        className="ironstore-footer-classico-desenvolvimento"
+                    >
 
                         <span>
                             Desenvolvido e em constante evolução por
