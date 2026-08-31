@@ -2,7 +2,10 @@ import React, {
     useEffect,
     useState
 } from "react";
-
+console.error(
+    "🔥🔥🔥 FRETE.JS NOVO CARREGADO 🔥🔥🔥",
+    new Date().toISOString()
+);
 
 /* =========================================================
    API
@@ -128,7 +131,15 @@ export default function Frete({
 
 
         async function calcular() {
-
+            console.log("[FRETE DEBUG INICIO]", {
+                temProdutos,
+                produtos,
+                quantidadeProdutos: Array.isArray(produtos)
+                    ? produtos.length
+                    : "NÃO É ARRAY",
+                cepOrigem,
+                cepDestino
+            });
             /* =============================================
                SEM PRODUTOS
             ============================================= */
