@@ -442,6 +442,23 @@ export default function Compraslog() {
                 const resultado =
                     await buscarCarrinhoCompra();
 
+                console.log(
+                    "🔥 RESPOSTA COMPLETA DO CARRINHO:",
+                    resultado
+                );
+
+                console.log(
+                    "🔥 CEP ORIGEM RECEBIDO:",
+                    resultado?.cep_origem
+                );
+
+                console.log(
+                    "🔥 CEP DESTINO RECEBIDO:",
+                    resultado?.cep_destino
+                );
+
+
+
 
                 if (!ativo) {
 
