@@ -1,0 +1,1189 @@
+/* =========================================================
+   IRONSTORE
+   VER REELS FLUTUANTE
+========================================================= */
+
+.ironstore-ver-reels-flutuante {
+    position: fixed;
+
+    right: 22px;
+    bottom: 22px;
+
+    z-index: 9998;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 118px;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    animation:
+        ironstore-ver-reels-entrada 520ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+
+/* =========================================================
+   ENTRADA
+========================================================= */
+
+@keyframes ironstore-ver-reels-entrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px) scale(.9);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   FECHAR
+========================================================= */
+
+.ironstore-ver-reels-fechar {
+    position: absolute;
+
+    top: -14px;
+    right: -7px;
+
+    z-index: 10;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border:
+        1px solid rgba(255, 255, 255, .18);
+
+    border-radius: 50%;
+
+    background:
+        rgba(15, 23, 42, .96);
+
+    color: #ffffff;
+
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, .24);
+
+    transition:
+        transform 160ms ease,
+        background 160ms ease;
+}
+
+
+.ironstore-ver-reels-fechar:hover {
+    transform:
+        scale(1.1);
+
+    background:
+        rgba(30, 41, 59, 1);
+}
+
+
+.ironstore-ver-reels-fechar:active {
+    transform:
+        scale(.92);
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+.ironstore-ver-reels-celular {
+    position: relative;
+
+    display: block;
+
+    width: 104px;
+    height: 178px;
+
+    padding: 5px;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(255, 255, 255, .22);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(145deg,
+            #111827,
+            #020617);
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, .30),
+        0 5px 14px rgba(0, 0, 0, .18);
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    transition:
+        transform 200ms ease,
+        box-shadow 200ms ease;
+}
+
+
+.ironstore-ver-reels-celular:hover {
+    transform:
+        translateY(-5px) scale(1.025);
+
+    box-shadow:
+        0 24px 55px rgba(0, 0, 0, .36),
+        0 7px 18px rgba(0, 0, 0, .20);
+}
+
+
+.ironstore-ver-reels-celular:active {
+    transform:
+        translateY(-1px) scale(.97);
+}
+
+
+/* =========================================================
+   DETALHES DO CELULAR
+========================================================= */
+
+.ironstore-ver-reels-celular-topo {
+    position: absolute;
+
+    top: 7px;
+    left: 50%;
+
+    z-index: 8;
+
+    transform:
+        translateX(-50%);
+
+    width: 42px;
+    height: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    border-radius: 0 0 8px 8px;
+
+    background:
+        #050505;
+}
+
+
+.ironstore-ver-reels-camera {
+    display: block;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background:
+        #334155;
+}
+
+
+.ironstore-ver-reels-alto-falante {
+    display: block;
+
+    width: 14px;
+    height: 2px;
+
+    border-radius: 10px;
+
+    background:
+        #334155;
+}
+
+
+/* =========================================================
+   TELA
+========================================================= */
+
+.ironstore-ver-reels-tela {
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    border-radius: 17px;
+
+    background:
+        #020617;
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+.ironstore-ver-reels-imagem {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transform:
+        scale(1.02);
+
+    transition:
+        transform 700ms cubic-bezier(.2, .8, .2, 1);
+}
+
+
+.ironstore-ver-reels-celular:hover .ironstore-ver-reels-imagem {
+    transform:
+        scale(1.09);
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.ironstore-ver-reels-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(to bottom,
+            rgba(0, 0, 0, .06) 15%,
+            rgba(0, 0, 0, .05) 42%,
+            rgba(0, 0, 0, .86) 100%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SELO REELS
+========================================================= */
+
+.ironstore-ver-reels-selo {
+    position: absolute;
+
+    top: 16px;
+    left: 8px;
+
+    z-index: 3;
+
+    padding:
+        3px 6px;
+
+    border:
+        1px solid rgba(255, 255, 255, .24);
+
+    border-radius: 20px;
+
+    background:
+        rgba(0, 0, 0, .34);
+
+    backdrop-filter:
+        blur(8px);
+
+    -webkit-backdrop-filter:
+        blur(8px);
+
+    color: #ffffff;
+
+    font-size: 6px;
+    font-weight: 800;
+
+    letter-spacing: .9px;
+}
+
+
+/* =========================================================
+   PLAY
+========================================================= */
+
+.ironstore-ver-reels-play {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    z-index: 4;
+
+    transform:
+        translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 31px;
+    height: 31px;
+
+    padding-left: 2px;
+
+    border:
+        1px solid rgba(255, 255, 255, .38);
+
+    border-radius: 50%;
+
+    background:
+        rgba(0, 0, 0, .28);
+
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, .20);
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease;
+}
+
+
+.ironstore-ver-reels-celular:hover .ironstore-ver-reels-play {
+    transform:
+        translate(-50%, -50%) scale(1.12);
+
+    background:
+        rgba(0, 0, 0, .42);
+}
+
+
+/* =========================================================
+   INFORMAÇÕES
+========================================================= */
+
+.ironstore-ver-reels-info {
+    position: absolute;
+
+    right: 8px;
+    bottom: 14px;
+    left: 8px;
+
+    z-index: 4;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    text-align: left;
+
+    color: #ffffff;
+}
+
+
+.ironstore-ver-reels-info strong {
+    display: -webkit-box;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.15;
+
+    text-shadow:
+        0 2px 8px rgba(0, 0, 0, .55);
+}
+
+
+.ironstore-ver-reels-info small {
+    display: block;
+
+    margin-top: 3px;
+
+    color:
+        rgba(255, 255, 255, .88);
+
+    font-size: 8px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   CHAMADA
+========================================================= */
+
+.ironstore-ver-reels-chamada {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    margin-top: 5px;
+
+    color:
+        rgba(255, 255, 255, .94);
+
+    font-size: 7px;
+    font-weight: 600;
+}
+
+
+.ironstore-ver-reels-chamada b {
+    font-size: 12px;
+    line-height: 7px;
+}
+
+
+/* =========================================================
+   BARRA DO CELULAR
+========================================================= */
+
+.ironstore-ver-reels-barra {
+    position: absolute;
+
+    bottom: 5px;
+    left: 50%;
+
+    z-index: 5;
+
+    width: 27px;
+    height: 2px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, .72);
+}
+
+
+/* =========================================================
+   TEXTO ABAIXO
+========================================================= */
+
+.ironstore-ver-reels-texto {
+    display: block;
+
+    margin-top: 7px;
+
+    padding:
+        4px 9px;
+
+    border:
+        1px solid rgba(15, 23, 42, .08);
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 255, 255, .92);
+
+    box-shadow:
+        0 5px 15px rgba(15, 23, 42, .10);
+
+    color:
+        #0f172a;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-ver-reels-flutuante {
+        right: 12px;
+        bottom: 16px;
+
+        width: 102px;
+    }
+
+
+    .ironstore-ver-reels-celular {
+        width: 90px;
+        height: 154px;
+
+        border-radius: 20px;
+    }
+
+
+    .ironstore-ver-reels-tela {
+        border-radius: 15px;
+    }
+
+
+    .ironstore-ver-reels-fechar {
+        top: -12px;
+        right: -5px;
+
+        width: 28px;
+        height: 28px;
+
+        font-size: 19px;
+    }
+
+}
+
+
+/* =========================================================
+   TELAS MUITO PEQUENAS
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .ironstore-ver-reels-flutuante {
+        right: 8px;
+        bottom: 12px;
+    }
+
+
+    .ironstore-ver-reels-celular {
+        width: 82px;
+        height: 140px;
+    }
+
+
+    .ironstore-ver-reels-texto {
+        font-size: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-ver-reels-flutuante {
+        animation: none;
+    }
+
+
+    .ironstore-ver-reels-celular,
+    .ironstore-ver-reels-imagem,
+    .ironstore-ver-reels-play,
+    .ironstore-ver-reels-fechar {
+        transition: none;
+    }
+
+}
+
+/* =========================================================
+   IRONSTORE VER REELS
+   CAMADA PREMIUM EXTRA
+========================================================= */
+
+
+/* =========================================================
+   PRESENÇA / PROFUNDIDADE DO COMPONENTE
+========================================================= */
+
+.ironstore-ver-reels-flutuante {
+    isolation: isolate;
+
+    filter:
+        drop-shadow(0 10px 18px rgba(15, 23, 42, .08));
+}
+
+
+/* =========================================================
+   SOMBRA AMBIENTE ATRÁS DO CELULAR
+========================================================= */
+
+.ironstore-ver-reels-flutuante::before {
+    content: "";
+
+    position: absolute;
+
+    z-index: -1;
+
+    left: 50%;
+    bottom: 24px;
+
+    width: 92px;
+    height: 65px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        rgba(15, 23, 42, .18);
+
+    filter:
+        blur(24px);
+
+    opacity: .42;
+
+    pointer-events: none;
+
+    transition:
+        opacity 250ms ease,
+        transform 250ms ease;
+}
+
+
+.ironstore-ver-reels-flutuante:hover::before {
+    opacity: .62;
+
+    transform:
+        translateX(-50%) scale(1.12);
+}
+
+
+/* =========================================================
+   FRAME FÍSICO MAIS REALISTA
+========================================================= */
+
+.ironstore-ver-reels-celular {
+    outline:
+        1px solid rgba(255, 255, 255, .06);
+
+    outline-offset:
+        -2px;
+
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, .14) inset,
+
+        0 -1px 0 rgba(0, 0, 0, .75) inset,
+
+        0 0 0 1px rgba(2, 6, 23, .45),
+
+        0 18px 45px rgba(0, 0, 0, .30),
+
+        0 6px 14px rgba(0, 0, 0, .18);
+}
+
+
+/* =========================================================
+   BOTÕES LATERAIS FÍSICOS DO CELULAR
+========================================================= */
+
+.ironstore-ver-reels-celular::before {
+    content: "";
+
+    position: absolute;
+
+    top: 43px;
+    left: -2px;
+
+    z-index: 20;
+
+    width: 2px;
+    height: 31px;
+
+    border-radius:
+        3px 0 0 3px;
+
+    background:
+        linear-gradient(to bottom,
+            #334155,
+            #0f172a);
+
+    box-shadow:
+        0 38px 0 #172033;
+
+    pointer-events: none;
+}
+
+
+.ironstore-ver-reels-celular::after {
+    content: "";
+
+    position: absolute;
+
+    top: 54px;
+    right: -2px;
+
+    z-index: 20;
+
+    width: 2px;
+    height: 39px;
+
+    border-radius:
+        0 3px 3px 0;
+
+    background:
+        linear-gradient(to bottom,
+            #334155,
+            #0f172a);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BRILHO REALISTA NA TELA
+========================================================= */
+
+.ironstore-ver-reels-tela::before {
+    content: "";
+
+    position: absolute;
+
+    z-index: 6;
+
+    top: -20%;
+    left: -80%;
+
+    width: 70%;
+    height: 150%;
+
+    transform:
+        rotate(16deg);
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, .13),
+            rgba(255, 255, 255, .035),
+            transparent);
+
+    opacity: .55;
+
+    pointer-events: none;
+
+    transition:
+        left 900ms cubic-bezier(.2, .8, .2, 1);
+}
+
+
+.ironstore-ver-reels-celular:hover .ironstore-ver-reels-tela::before {
+    left: 125%;
+}
+
+
+/* =========================================================
+   VINHETA NAS BORDAS
+========================================================= */
+
+.ironstore-ver-reels-tela::after {
+    content: "";
+
+    position: absolute;
+
+    z-index: 2;
+
+    inset: 0;
+
+    border-radius: inherit;
+
+    box-shadow:
+        inset 0 0 22px rgba(0, 0, 0, .22),
+
+        inset 0 0 0 1px rgba(255, 255, 255, .035);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   IMAGEM COM MOVIMENTO QUASE IMPERCEPTÍVEL
+========================================================= */
+
+.ironstore-ver-reels-imagem {
+    animation:
+        ironstore-ver-reels-imagem-viva 9s ease-in-out infinite alternate;
+}
+
+
+@keyframes ironstore-ver-reels-imagem-viva {
+
+    0% {
+        transform:
+            scale(1.025) translate3d(0,
+                0,
+                0);
+    }
+
+    100% {
+        transform:
+            scale(1.09) translate3d(-1.5%,
+                -1%,
+                0);
+    }
+
+}
+
+
+/* =========================================================
+   OVERLAY MAIS CINEMATOGRÁFICO
+========================================================= */
+
+.ironstore-ver-reels-overlay {
+    background:
+        linear-gradient(to bottom,
+            rgba(2, 6, 23, .17) 0%,
+            transparent 25%,
+            transparent 47%,
+            rgba(2, 6, 23, .16) 60%,
+            rgba(2, 6, 23, .88) 100%);
+}
+
+
+/* =========================================================
+   SELO REELS MAIS PREMIUM
+========================================================= */
+
+.ironstore-ver-reels-selo {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    padding:
+        4px 6px;
+
+    border:
+        1px solid rgba(255, 255, 255, .30);
+
+    background:
+        rgba(2, 6, 23, .36);
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, .14);
+
+    text-shadow:
+        0 1px 4px rgba(0, 0, 0, .35);
+}
+
+
+/* bolinha de conteúdo ativo */
+
+.ironstore-ver-reels-selo::before {
+    content: "";
+
+    width: 4px;
+    height: 4px;
+
+    flex: 0 0 4px;
+
+    border-radius: 50%;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .16);
+}
+
+
+/* =========================================================
+   PLAY COM PULSO MUITO SUTIL
+========================================================= */
+
+.ironstore-ver-reels-play {
+    animation:
+        ironstore-ver-reels-play-pulso 2.8s ease-in-out infinite;
+}
+
+
+@keyframes ironstore-ver-reels-play-pulso {
+
+    0%,
+    100% {
+        box-shadow:
+            0 6px 20px rgba(0, 0, 0, .20),
+
+            0 0 0 0 rgba(255, 255, 255, .14);
+    }
+
+    50% {
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, .24),
+
+            0 0 0 5px rgba(255, 255, 255, 0);
+    }
+
+}
+
+
+/* =========================================================
+   INFORMAÇÕES COM MAIS LEGIBILIDADE
+========================================================= */
+
+.ironstore-ver-reels-info {
+    padding-top: 15px;
+
+    background:
+        linear-gradient(to bottom,
+            transparent,
+            rgba(2, 6, 23, .13));
+}
+
+
+.ironstore-ver-reels-info strong {
+    letter-spacing:
+        -.1px;
+
+    text-wrap:
+        balance;
+}
+
+
+.ironstore-ver-reels-info small {
+    padding:
+        2px 5px;
+
+    margin-left:
+        -2px;
+
+    border-radius:
+        5px;
+
+    background:
+        rgba(255, 255, 255, .13);
+
+    backdrop-filter:
+        blur(5px);
+
+    -webkit-backdrop-filter:
+        blur(5px);
+}
+
+
+/* =========================================================
+   VER AGORA COMO MICRO CTA
+========================================================= */
+
+.ironstore-ver-reels-chamada {
+    width: fit-content;
+
+    padding:
+        3px 6px;
+
+    margin-left:
+        -2px;
+
+    border:
+        1px solid rgba(255, 255, 255, .18);
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(255, 255, 255, .13);
+
+    backdrop-filter:
+        blur(6px);
+
+    -webkit-backdrop-filter:
+        blur(6px);
+
+    transition:
+        background 180ms ease,
+        transform 180ms ease;
+}
+
+
+.ironstore-ver-reels-celular:hover .ironstore-ver-reels-chamada {
+    background:
+        rgba(255, 255, 255, .22);
+
+    transform:
+        translateX(2px);
+}
+
+
+/* =========================================================
+   X MAIS REFINADO
+========================================================= */
+
+.ironstore-ver-reels-fechar {
+    border:
+        1px solid rgba(255, 255, 255, .16);
+
+    background:
+        linear-gradient(145deg,
+            rgba(30, 41, 59, .98),
+            rgba(2, 6, 23, .98));
+
+    box-shadow:
+        0 8px 22px rgba(2, 6, 23, .28),
+
+        inset 0 1px 0 rgba(255, 255, 255, .10);
+}
+
+
+.ironstore-ver-reels-fechar:hover {
+    background:
+        linear-gradient(145deg,
+            #334155,
+            #0f172a);
+
+    box-shadow:
+        0 11px 28px rgba(2, 6, 23, .34),
+
+        inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+
+/* =========================================================
+   LABEL "VER REELS"
+========================================================= */
+
+.ironstore-ver-reels-texto {
+    position: relative;
+
+    padding:
+        5px 10px;
+
+    border:
+        1px solid rgba(15, 23, 42, .09);
+
+    background:
+        rgba(255, 255, 255, .94);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    box-shadow:
+        0 6px 18px rgba(15, 23, 42, .10);
+
+    letter-spacing:
+        -.1px;
+}
+
+
+/* indicador */
+
+.ironstore-ver-reels-texto::before {
+    content: "";
+
+    display: inline-block;
+
+    width: 5px;
+    height: 5px;
+
+    margin-right: 5px;
+    margin-bottom: 1px;
+
+    border-radius: 50%;
+
+    background:
+        currentColor;
+
+    opacity: .65;
+}
+
+
+/* =========================================================
+   HOVER DO CONJUNTO
+========================================================= */
+
+@media (hover: hover) {
+
+    .ironstore-ver-reels-flutuante:hover .ironstore-ver-reels-texto {
+        transform:
+            translateY(-1px);
+
+        box-shadow:
+            0 8px 22px rgba(15, 23, 42, .13);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-ver-reels-flutuante::before {
+        width: 76px;
+        height: 50px;
+
+        bottom: 21px;
+    }
+
+
+    .ironstore-ver-reels-info strong {
+        font-size: 8px;
+    }
+
+
+    .ironstore-ver-reels-info small {
+        font-size: 7px;
+    }
+
+
+    .ironstore-ver-reels-chamada {
+        padding:
+            2px 5px;
+
+        font-size: 6.5px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUZIR MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-ver-reels-imagem,
+    .ironstore-ver-reels-play {
+        animation: none !important;
+    }
+
+
+    .ironstore-ver-reels-tela::before {
+        transition: none;
+    }
+
+}

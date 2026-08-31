@@ -489,6 +489,117 @@ export default function Header() {
             `${rota}#${secao}`
         );
     };
+
+    /* =========================================================
+   ABRIR COMPRAS
+========================================================= */
+
+    const abrirComprasMenu = () => {
+
+        setMenuAberto(
+            false
+        );
+
+        navigate(
+            "/compras"
+        );
+
+    };
+
+
+    /* =========================================================
+       ABRIR REELS
+    
+       PEGA AUTOMATICAMENTE UM PRODUTO PRINCIPAL
+       CADASTRADO NESTA LOJA.
+    ========================================================= */
+
+    const abrirReelsMenu = () => {
+
+        setMenuAberto(
+            false
+        );
+
+
+        try {
+
+            const produtos =
+                pegarProdutosBusca();
+
+
+            if (
+                !Array.isArray(
+                    produtos
+                ) ||
+                produtos.length === 0
+            ) {
+
+                console.warn(
+                    "[HEADER REELS] Nenhum produto disponível."
+                );
+
+                return;
+            }
+
+
+            /*
+             * Procurar um produto principal.
+             *
+             * produto_variedade_id:
+             * null, "", 0 ou "0" = produto principal
+             */
+            const produto =
+                produtos.find(
+                    item => {
+
+                        if (!item?.id) {
+                            return false;
+                        }
+
+
+                        const variedadeId =
+                            item?.produto_variedade_id;
+
+
+                        return (
+                            variedadeId === null ||
+                            variedadeId === undefined ||
+                            variedadeId === "" ||
+                            variedadeId === 0 ||
+                            variedadeId === "0"
+                        );
+
+                    }
+                );
+
+
+            if (!produto?.id) {
+
+                console.warn(
+                    "[HEADER REELS] Nenhum produto principal encontrado."
+                );
+
+                return;
+            }
+
+
+            navigate(
+                `/reels/${produto.id}`
+            );
+
+
+        } catch (
+        erro
+        ) {
+
+            console.error(
+                "[HEADER REELS] Erro ao abrir Reels:",
+                erro
+            );
+
+        }
+
+    };
     useEffect(() => {
 
         function clicarFora(evento) {
@@ -1573,7 +1684,24 @@ export default function Header() {
                                         Explorar
                                     </span>
 
+                                    <button
+                                        type="button"
+                                        onClick={
+                                            abrirComprasMenu
+                                        }
+                                    >
+                                        Comprar
+                                    </button>
 
+
+                                    <button
+                                        type="button"
+                                        onClick={
+                                            abrirReelsMenu
+                                        }
+                                    >
+                                        Ver Reels
+                                    </button>
                                     <button
                                         type="button"
                                         onClick={() =>
