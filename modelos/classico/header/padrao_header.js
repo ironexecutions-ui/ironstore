@@ -3051,6 +3051,123 @@ span + span::before {
 
 }
 
+
+/* =========================================================
+   CORREÇÃO DEFINITIVA
+   BUSCA MOBILE SEM FICAR ATRÁS DE ELEMENTOS
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .ironstore-header-principal-vitrine {
+        position: relative !important;
+        z-index: 999999 !important;
+        overflow: visible !important;
+        isolation: auto !important;
+    }
+
+    .ironstore-header-central-pesquisa {
+        position: relative !important;
+        z-index: 1000001 !important;
+
+        width: 100% !important;
+
+        overflow: visible !important;
+        isolation: auto !important;
+    }
+
+    .ironstore-header-busca-container {
+        position: relative !important;
+        z-index: 2 !important;
+
+        width: 100% !important;
+
+        overflow: visible !important;
+    }
+
+    .ironstore-header-campo-busca-produtos {
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .ironstore-header-busca-resultados {
+        position: absolute !important;
+
+        top: calc(100% + 8px) !important;
+        left: 0 !important;
+        right: auto !important;
+
+        z-index: 2147483646 !important;
+
+        width: 100% !important;
+        max-width: none !important;
+
+        transform: none !important;
+
+        overflow: hidden !important;
+
+        background: #ffffff !important;
+
+        box-shadow:
+            0 12px 30px rgba(15, 23, 42, 0.16),
+            0 30px 70px rgba(15, 23, 42, 0.14) !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-header-central-pesquisa {
+        grid-column: 1 / -1 !important;
+        grid-row: 2 !important;
+
+        position: relative !important;
+        z-index: 1000001 !important;
+
+        width: 100% !important;
+
+        overflow: visible !important;
+    }
+
+    .ironstore-header-busca-resultados {
+        position: absolute !important;
+
+        top: calc(100% + 8px) !important;
+        left: 0 !important;
+
+        z-index: 2147483646 !important;
+
+        width: 100% !important;
+
+        max-height: calc(100dvh - 190px) !important;
+
+        border-radius: 15px !important;
+
+        background: #ffffff !important;
+
+        transform: none !important;
+    }
+
+    .ironstore-header-busca-lista {
+        position: relative !important;
+
+        z-index: 1 !important;
+
+        max-height: calc(100dvh - 270px) !important;
+
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+
+        background: #ffffff !important;
+
+        -webkit-overflow-scrolling: touch !important;
+    }
+}
+
 `;
 
 export default classicoHeader;
