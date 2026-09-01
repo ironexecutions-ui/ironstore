@@ -1312,13 +1312,11 @@ export default function Reelslog() {
                                 <div className="ironstore-reels-vitrine-loja">
 
                                     {comercio.imagem && (
-
                                         <img
                                             src={comercio.imagem}
                                             alt={comercio.loja}
                                             className="ironstore-reels-vitrine-loja-logo"
                                         />
-
                                     )}
 
                                     <strong>
@@ -1327,6 +1325,12 @@ export default function Reelslog() {
 
                                 </div>
 
+                                {/* NOME PRIMEIRO */}
+                                <h2 className="ironstore-reels-vitrine-produto-nome">
+                                    {produto.nome}
+                                </h2>
+
+                                {/* VARIEDADES DEPOIS DO NOME */}
                                 {produto.variedades?.length > 0 && (
 
                                     <div className="ironstore-reels-vitrine-variedades">
@@ -1350,10 +1354,6 @@ export default function Reelslog() {
                                     </div>
 
                                 )}
-                                <h2 className="ironstore-reels-vitrine-produto-nome">
-                                    {produto.nome}
-                                </h2>
-
 
                                 {(produto.descricao_curta ||
                                     produto.descricao) && (
@@ -1366,7 +1366,6 @@ export default function Reelslog() {
                                         </p>
 
                                     )}
-
 
                                 <div className="ironstore-reels-vitrine-precos">
 
@@ -1401,7 +1400,6 @@ export default function Reelslog() {
                                 </div>
 
                             </section>
-
                         </article>
 
                     );
