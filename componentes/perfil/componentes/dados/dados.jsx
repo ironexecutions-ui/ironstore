@@ -1406,6 +1406,34 @@ export default function Dados() {
             cancelarEdicao();
         }
     }
+
+    /* =========================================================
+   LOGOUT
+========================================================= */
+
+    function fazerLogout() {
+
+        localStorage.removeItem(
+            "ironstore_cliente_token"
+        );
+
+        localStorage.removeItem(
+            "ironstore_cliente"
+        );
+
+        apagarCache(
+            "perfil_dados",
+            true
+        );
+
+        window.dispatchEvent(
+            new Event(
+                "ironstore-cliente-atualizado"
+            )
+        );
+
+        window.location.replace("/");
+    }
     /* =====================================================
        CARREGANDO
     ===================================================== */
@@ -1749,100 +1777,131 @@ export default function Dados() {
 
                 <div className="ironstore-perfil-dados-identidade">
 
-                    {editando === "nome" ? (
+                    <div className="ironstore-perfil-dados-identidade-superior">
 
-                        <div className="ironstore-perfil-dados-edicao">
+                        {editando === "nome" ? (
 
-                            <input
-                                type="text"
-                                value={valorEdicao}
-                                autoFocus
-                                placeholder="Nome"
-                                onChange={(e) =>
-                                    setValorEdicao(
-                                        e.target.value
-                                    )
-                                }
-                                onKeyDown={
-                                    tecladoEdicao
-                                }
-                            />
+                            <div className="ironstore-perfil-dados-edicao">
 
+                                <input
+                                    type="text"
+                                    value={valorEdicao}
+                                    autoFocus
+                                    placeholder="Nome"
+                                    onChange={(e) =>
+                                        setValorEdicao(
+                                            e.target.value
+                                        )
+                                    }
+                                    onKeyDown={
+                                        tecladoEdicao
+                                    }
+                                />
 
-                            <input
-                                type="text"
-                                value={valorEdicaoSecundario}
-                                placeholder="Sobrenome"
-                                onChange={(e) =>
-                                    setValorEdicaoSecundario(
-                                        e.target.value
-                                    )
-                                }
-                                onKeyDown={
-                                    tecladoEdicao
-                                }
-                            />
+                                <input
+                                    type="text"
+                                    value={valorEdicaoSecundario}
+                                    placeholder="Sobrenome"
+                                    onChange={(e) =>
+                                        setValorEdicaoSecundario(
+                                            e.target.value
+                                        )
+                                    }
+                                    onKeyDown={
+                                        tecladoEdicao
+                                    }
+                                />
 
+                                <div className="ironstore-perfil-dados-edicao-acoes">
 
-                            <div className="ironstore-perfil-dados-edicao-acoes">
+                                    <button
+                                        type="button"
+                                        onClick={
+                                            salvarEdicao
+                                        }
+                                        disabled={salvando}
+                                    >
+                                        {salvando
+                                            ? "Salvando..."
+                                            : "Salvar"
+                                        }
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={
+                                            cancelarEdicao
+                                        }
+                                        disabled={salvando}
+                                    >
+                                        Cancelar
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        ) : (
+
+                            <div className="ironstore-perfil-dados-nome-linha">
+
+                                <h3
+                                    className="ironstore-perfil-dado-editavel"
+                                    onClick={() =>
+                                        iniciarEdicao(
+                                            "nome",
+                                            dados.nome,
+                                            dados.sobrenome
+                                        )
+                                    }
+                                    title="Clique para editar nome e sobrenome"
+                                >
+                                    {dados.nome ||
+                                        "Adicionar nome"}
+
+                                    {" "}
+
+                                    {dados.sobrenome || ""}
+                                </h3>
+
 
                                 <button
                                     type="button"
+                                    className="ironstore-perfil-dados-logout"
                                     onClick={
-                                        salvarEdicao
+                                        fazerLogout
                                     }
-                                    disabled={salvando}
+                                    title="Sair da conta"
+                                    aria-label="Sair da conta"
                                 >
-                                    {salvando
-                                        ? "Salvando..."
-                                        : "Salvar"
-                                    }
-                                </button>
 
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M10 17l5-5-5-5M15 12H3M14 3h4a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-4"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="1.8"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        />
+                                    </svg>
 
-                                <button
-                                    type="button"
-                                    onClick={
-                                        cancelarEdicao
-                                    }
-                                    disabled={salvando}
-                                >
-                                    Cancelar
+                                    <span>
+                                        Sair
+                                    </span>
+
                                 </button>
 
                             </div>
 
-                        </div>
-
-                    ) : (
-
-                        <h3
-                            className="ironstore-perfil-dado-editavel"
-
-                            onClick={() =>
-                                iniciarEdicao(
-                                    "nome",
-                                    dados.nome,
-                                    dados.sobrenome
-                                )
-                            }
-
-                            title="Clique para editar nome e sobrenome"
-                        >
-
-                            {dados.nome ||
-                                "Adicionar nome"}
-
-                            {" "}
-
-                            {dados.sobrenome || ""}
-
-                        </h3>
-
-                    )}
+                        )}
 
 
-                    {/* EMAIL NÃO EDITÁVEL */}
+                    </div>
+
 
                     <p className="ironstore-perfil-dado-email">
                         {dados.email || ""}

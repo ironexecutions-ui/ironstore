@@ -1448,7 +1448,147 @@ button:disabled {
 
 
 
+/* =========================================================
+   IDENTIDADE + LOGOUT
+========================================================= */
 
+.ironstore-perfil-dados-identidade-superior {
+    width: 100% !important;
+}
+
+.ironstore-perfil-dados-nome-linha {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+
+    width: 100% !important;
+}
+
+.ironstore-perfil-dados-nome-linha
+.ironstore-perfil-dado-editavel {
+    margin: 0 !important;
+}
+
+
+/* =========================================================
+   BOTÃO LOGOUT
+========================================================= */
+
+.ironstore-perfil-dados-logout {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+
+    flex: 0 0 auto !important;
+
+    min-height: 34px !important;
+
+    padding: 7px 11px !important;
+
+    margin: 0 !important;
+
+    border: 1px solid rgba(220, 38, 38, 0.14) !important;
+    border-radius: 10px !important;
+
+    background: rgba(220, 38, 38, 0.055) !important;
+
+    color: #b42318 !important;
+
+    font-family: inherit !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    letter-spacing: 0.01em !important;
+
+    cursor: pointer !important;
+
+    box-shadow: none !important;
+
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        transform 160ms ease !important;
+}
+
+.ironstore-perfil-dados-logout svg {
+    width: 16px !important;
+    height: 16px !important;
+
+    flex: 0 0 16px !important;
+
+    display: block !important;
+}
+
+.ironstore-perfil-dados-logout:hover {
+    background: rgba(220, 38, 38, 0.10) !important;
+
+    border-color: rgba(220, 38, 38, 0.24) !important;
+
+    color: #991b1b !important;
+
+    transform: translateY(-1px) !important;
+}
+
+.ironstore-perfil-dados-logout:active {
+    transform: translateY(0) scale(0.97) !important;
+}
+
+.ironstore-perfil-dados-logout:focus-visible {
+    outline: 3px solid rgba(220, 38, 38, 0.14) !important;
+    outline-offset: 2px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-perfil-dados-nome-linha {
+        gap: 9px !important;
+    }
+
+    .ironstore-perfil-dados-logout {
+        min-height: 32px !important;
+
+        padding: 6px 9px !important;
+
+        border-radius: 9px !important;
+
+        font-size: 11px !important;
+    }
+
+    .ironstore-perfil-dados-logout svg {
+        width: 15px !important;
+        height: 15px !important;
+
+        flex-basis: 15px !important;
+    }
+}
+
+
+/* =========================================================
+   CELULAR MUITO PEQUENO
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .ironstore-perfil-dados-logout span {
+        display: none !important;
+    }
+
+    .ironstore-perfil-dados-logout {
+        width: 32px !important;
+        min-width: 32px !important;
+
+        padding: 0 !important;
+    }
+}
 
     
 `;

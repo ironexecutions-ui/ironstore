@@ -118,6 +118,22 @@ export default function Entrar() {
         entrandoGoogle,
         setEntrandoGoogle
     ] = useState(false);
+
+
+    /* =====================================================
+   CONSULTA DE CEP
+===================================================== */
+
+    const [
+        buscandoCep,
+        setBuscandoCep
+    ] = useState(false);
+
+    const [
+        erroCep,
+        setErroCep
+    ] = useState("");
+
     useEffect(
         () => {
 
@@ -780,7 +796,25 @@ export default function Entrar() {
         return String(valor || "")
             .replace(/\D/g, "");
     }
+    /* =====================================================
+       FORMATAR CEP
+    ===================================================== */
 
+    function formatarCep(valor) {
+
+        const numeros =
+            somenteNumeros(valor)
+                .slice(0, 8);
+
+        if (numeros.length <= 5) {
+            return numeros;
+        }
+
+        return numeros.replace(
+            /^(\d{5})(\d+)/,
+            "$1-$2"
+        );
+    }
 
     /* =====================================================
        FORMATAR CPF / CNPJ
@@ -1236,7 +1270,86 @@ export default function Entrar() {
             </>
         );
     }
+    /* =====================================================
+       BUSCAR ENDEREÇO PELO CEP
+    ===================================================== */
 
+    async function buscarEnderecoPorCep(valorCep) {
+
+        const cep =
+            somenteNumeros(valorCep);
+
+        if (cep.length !== 8) {
+            return;
+        }
+
+        try {
+
+            setBuscandoCep(true);
+            setErroCep("");
+
+            const resposta =
+                await fetch(
+                    `https://viacep.com.br/ws/${cep}/json/`
+                );
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    "Não foi possível consultar o CEP."
+                );
+            }
+
+            const resultado =
+                await resposta.json();
+
+            if (resultado?.erro) {
+
+                setErroCep(
+                    "CEP não encontrado."
+                );
+
+                return;
+            }
+
+            setCliente(
+                anterior => ({
+                    ...anterior,
+
+                    cep:
+                        formatarCep(cep),
+
+                    rua_avenida:
+                        resultado.logradouro ||
+                        "",
+
+                    bairro:
+                        resultado.bairro ||
+                        "",
+
+                    cidade:
+                        resultado.localidade ||
+                        ""
+                })
+            );
+
+        } catch (erroConsultaCep) {
+
+            console.error(
+                "[IRONSTORE CADASTRO CEP]",
+                erroConsultaCep
+            );
+
+            setErroCep(
+                erroConsultaCep?.message ||
+                "Não foi possível consultar o CEP."
+            );
+
+        } finally {
+
+            setBuscandoCep(false);
+        }
+    }
 
     /* =====================================================
        NÃO LOGADO
@@ -1587,6 +1700,10 @@ export default function Entrar() {
                     ENDEREÇO
                 ========================================= */}
 
+                    {/* =========================================
+    ENDEREÇO
+========================================= */}
+
                     <div
                         className="ironstore-perfil-area"
                     >
@@ -1596,28 +1713,85 @@ export default function Entrar() {
                         </h2>
 
 
+                        {/* =====================================
+        CEP
+    ===================================== */}
+
                         <label>
                             CEP
 
                             <input
                                 type="text"
-                                value={cliente.cep || ""}
+                                inputMode="numeric"
+                                autoComplete="postal-code"
+                                maxLength={9}
+                                placeholder="00000-000"
+                                value={
+                                    cliente.cep || ""
+                                }
                                 onChange={
-                                    e =>
+                                    e => {
+
+                                        const valor =
+                                            formatarCep(
+                                                e.target.value
+                                            );
+
                                         alterarCampo(
                                             "cep",
-                                            e.target.value
-                                        )
+                                            valor
+                                        );
+
+                                        setErroCep("");
+
+                                        if (
+                                            somenteNumeros(valor)
+                                                .length === 8
+                                        ) {
+
+                                            buscarEnderecoPorCep(
+                                                valor
+                                            );
+                                        }
+                                    }
                                 }
                             />
+
+                            {buscandoCep && (
+                                <small>
+                                    Buscando endereço...
+                                </small>
+                            )}
+
+                            {!buscandoCep && erroCep && (
+                                <small
+                                    className="ironstore-campo-invalido"
+                                >
+                                    {erroCep}
+                                </small>
+                            )}
+
+                            {!buscandoCep && !erroCep && (
+                                <small>
+                                    Digite o CEP para preencher
+                                    o endereço automaticamente.
+                                </small>
+                            )}
+
                         </label>
 
+
+                        {/* =====================================
+        RUA / AVENIDA
+    ===================================== */}
 
                         <label>
                             Rua / Avenida
 
                             <input
                                 type="text"
+                                autoComplete="street-address"
+                                placeholder="Rua ou avenida"
                                 value={
                                     cliente.rua_avenida ||
                                     ""
@@ -1630,14 +1804,22 @@ export default function Entrar() {
                                         )
                                 }
                             />
+
                         </label>
 
+
+                        {/* =====================================
+        NÚMERO
+    ===================================== */}
 
                         <label>
                             Número
 
                             <input
                                 type="text"
+                                inputMode="numeric"
+                                autoComplete="address-line2"
+                                placeholder="Número"
                                 value={
                                     cliente.numero ||
                                     ""
@@ -1650,14 +1832,20 @@ export default function Entrar() {
                                         )
                                 }
                             />
+
                         </label>
 
+
+                        {/* =====================================
+        BAIRRO
+    ===================================== */}
 
                         <label>
                             Bairro
 
                             <input
                                 type="text"
+                                placeholder="Bairro"
                                 value={
                                     cliente.bairro ||
                                     ""
@@ -1670,14 +1858,21 @@ export default function Entrar() {
                                         )
                                 }
                             />
+
                         </label>
 
+
+                        {/* =====================================
+        CIDADE
+    ===================================== */}
 
                         <label>
                             Cidade
 
                             <input
                                 type="text"
+                                autoComplete="address-level2"
+                                placeholder="Cidade"
                                 value={
                                     cliente.cidade ||
                                     ""
@@ -1690,10 +1885,10 @@ export default function Entrar() {
                                         )
                                 }
                             />
+
                         </label>
 
                     </div>
-
 
                     {/* =========================================
                     MENSAGEM

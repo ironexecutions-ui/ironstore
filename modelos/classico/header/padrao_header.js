@@ -208,6 +208,7 @@ const classicoHeader = `
 
     .ironstore-header-campo-busca-produtos {
         position: relative;
+        z-index: 2 !important;
 
         width: 100%;
         height: 52px;
@@ -3119,55 +3120,73 @@ span + span::before {
    MOBILE
 ========================================================= */
 
+/* =========================================================
+   MENU MOBILE
+   ABAIXO DA PESQUISA
+========================================================= */
+
 @media (max-width: 600px) {
 
-    .ironstore-header-central-pesquisa {
-        grid-column: 1 / -1 !important;
-        grid-row: 2 !important;
+    .ironstore-header-menu-flutuante {
+        position: fixed !important;
 
-        position: relative !important;
-        z-index: 1000001 !important;
+        /*
+         * O header mobile possui:
+         * linha superior + pesquisa.
+         * Portanto o menu precisa começar
+         * DEPOIS da pesquisa.
+         */
+        top: 132px !important;
 
-        width: 100% !important;
+        left: 10px !important;
+        right: 10px !important;
 
-        overflow: visible !important;
-    }
+        width: auto !important;
 
-    .ironstore-header-busca-resultados {
-        position: absolute !important;
-
-        top: calc(100% + 8px) !important;
-        left: 0 !important;
-
-        z-index: 2147483646 !important;
-
-        width: 100% !important;
-
-        max-height: calc(100dvh - 190px) !important;
-
-        border-radius: 15px !important;
-
-        background: #ffffff !important;
-
-        transform: none !important;
-    }
-
-    .ironstore-header-busca-lista {
-        position: relative !important;
-
-        z-index: 1 !important;
-
-        max-height: calc(100dvh - 270px) !important;
+        max-height: calc(100dvh - 144px) !important;
 
         overflow-x: hidden !important;
         overflow-y: auto !important;
 
+        padding: 8px !important;
+
+        box-sizing: border-box !important;
+
+        border-radius: 14px !important;
+
         background: #ffffff !important;
+
+        z-index: 99999999 !important;
+
+        box-shadow:
+            0 18px 45px rgba(10, 28, 48, 0.16) !important;
+
+        overscroll-behavior: contain !important;
 
         -webkit-overflow-scrolling: touch !important;
     }
+
+    .ironstore-header-menu-flutuante::before {
+        display: none !important;
+    }
 }
 
+
+/* =========================================================
+   CELULARES PEQUENOS
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .ironstore-header-menu-flutuante {
+        top: 128px !important;
+
+        left: 7px !important;
+        right: 7px !important;
+
+        max-height: calc(100dvh - 140px) !important;
+    }
+}
 `;
 
 export default classicoHeader;

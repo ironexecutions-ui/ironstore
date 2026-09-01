@@ -211,7 +211,7 @@ export default function Frete({
                     zerarFrete();
 
                     setErro(
-                        "Informe um endereço válido para calcular o frete."
+                        "Informe um endereço válido no seu perfil para calcular o frete."
                     );
                 }
 
