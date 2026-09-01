@@ -4098,7 +4098,765 @@ input::-webkit-outer-spin-button {
     }
 
 }
+/* =========================================================
+   FRETE
+   OPÇÕES DE ENTREGA
+   PREMIUM
+========================================================= */
 
+.ironstore-compras-frete {
+    width: 100% !important;
+    position: relative !important;
+}
+
+
+/* =========================================================
+   LISTA DE OPÇÕES
+========================================================= */
+
+.ironstore-frete-opcoes {
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 9px !important;
+
+    margin-top: 12px !important;
+    padding: 0 !important;
+}
+
+
+/* =========================================================
+   OPÇÃO DE ENTREGA
+========================================================= */
+
+.ironstore-frete-opcao {
+    position: relative !important;
+
+    width: 100% !important;
+    min-height: 72px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 14px !important;
+
+    padding:
+        13px
+        14px
+        13px
+        17px !important;
+
+    overflow: hidden !important;
+
+    outline: none !important;
+
+    border:
+        1px solid
+        #e1e6ec !important;
+
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #fbfcfd 100%
+        ) !important;
+
+    color:
+        var(--ic-text) !important;
+
+    font-family:
+        inherit !important;
+
+    text-align: left !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 1px 2px rgba(16,24,40,.025),
+        0 4px 12px rgba(16,24,40,.035) !important;
+
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease !important;
+}
+
+
+/* =========================================================
+   BARRA LATERAL
+========================================================= */
+
+.ironstore-frete-opcao::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    top: 13px !important;
+    bottom: 13px !important;
+    left: 0 !important;
+
+    width: 3px !important;
+
+    border-radius:
+        0
+        999px
+        999px
+        0 !important;
+
+    background:
+        transparent !important;
+
+    transition:
+        background .18s ease !important;
+}
+
+
+/* =========================================================
+   INDICADOR DE SELEÇÃO
+========================================================= */
+
+.ironstore-frete-opcao::after {
+    content: "" !important;
+
+    flex:
+        0 0 auto !important;
+
+    width: 17px !important;
+    height: 17px !important;
+
+    order: 3 !important;
+
+    border:
+        1.5px solid
+        #c9d1db !important;
+
+    border-radius:
+        50% !important;
+
+    background:
+        #ffffff !important;
+
+    box-shadow:
+        inset 0 0 0 4px
+        #ffffff !important;
+
+    transition:
+        border-color .18s ease,
+        background .18s ease,
+        transform .18s ease,
+        box-shadow .18s ease !important;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.ironstore-frete-opcao:hover {
+    transform:
+        translateY(-2px) !important;
+
+    border-color:
+        rgba(20,42,74,.22) !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f6f9fc 100%
+        ) !important;
+
+    box-shadow:
+        0 4px 10px rgba(16,24,40,.04),
+        0 10px 24px rgba(20,42,74,.075) !important;
+}
+
+
+/* =========================================================
+   ACTIVE
+========================================================= */
+
+.ironstore-frete-opcao:active {
+    transform:
+        translateY(0)
+        scale(.995) !important;
+}
+
+
+/* =========================================================
+   OPÇÃO SELECIONADA
+========================================================= */
+
+.ironstore-frete-opcao.selecionada {
+    border-color:
+        rgba(20,42,74,.34) !important;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(20,42,74,.06),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f3f7fb 100%
+        ) !important;
+
+    box-shadow:
+        0 1px 2px rgba(16,24,40,.025),
+        0 8px 22px rgba(20,42,74,.085),
+        inset 0 0 0 1px rgba(20,42,74,.025) !important;
+}
+
+
+/* =========================================================
+   BARRA SELECIONADA
+========================================================= */
+
+.ironstore-frete-opcao.selecionada::before {
+    background:
+        linear-gradient(
+            180deg,
+            #315b8c 0%,
+            #142a4a 100%
+        ) !important;
+}
+
+
+/* =========================================================
+   RADIO SELECIONADO
+========================================================= */
+
+.ironstore-frete-opcao.selecionada::after {
+    border-color:
+        #142a4a !important;
+
+    background:
+        #142a4a !important;
+
+    box-shadow:
+        inset 0 0 0 4px
+        #ffffff,
+        0 3px 8px
+        rgba(20,42,74,.18) !important;
+
+    transform:
+        scale(1.03) !important;
+}
+
+
+/* =========================================================
+   INFORMAÇÕES
+========================================================= */
+
+.ironstore-frete-opcao-info {
+    min-width: 0 !important;
+
+    flex:
+        1 1 auto !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    align-items: flex-start !important;
+    justify-content: center !important;
+
+    gap: 4px !important;
+}
+
+
+/* =========================================================
+   NOME DO SERVIÇO
+========================================================= */
+
+.ironstore-frete-opcao-info > strong {
+    width: 100% !important;
+
+    margin: 0 !important;
+
+    color:
+        var(--ic-text) !important;
+
+    font-size:
+        11px !important;
+
+    font-weight:
+        800 !important;
+
+    line-height:
+        1.25 !important;
+
+    letter-spacing:
+        -.015em !important;
+}
+
+
+/* =========================================================
+   TRANSPORTADORA
+========================================================= */
+
+.ironstore-frete-opcao-info > small {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    width: fit-content !important;
+
+    margin: 0 !important;
+
+    padding:
+        3px
+        6px !important;
+
+    border:
+        1px solid
+        #e5e9ee !important;
+
+    border-radius:
+        999px !important;
+
+    background:
+        #f7f9fb !important;
+
+    color:
+        #65768a !important;
+
+    font-size:
+        7px !important;
+
+    font-weight:
+        750 !important;
+
+    line-height:
+        1 !important;
+
+    text-transform:
+        uppercase !important;
+
+    letter-spacing:
+        .04em !important;
+}
+
+
+/* =========================================================
+   PRAZO
+========================================================= */
+
+.ironstore-frete-opcao-info > span {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 5px !important;
+
+    margin-top:
+        1px !important;
+
+    color:
+        var(--ic-muted) !important;
+
+    font-size:
+        8px !important;
+
+    font-weight:
+        600 !important;
+
+    line-height:
+        1.3 !important;
+}
+
+
+/* PONTO VERDE DE PRAZO */
+
+.ironstore-frete-opcao-info > span::before {
+    content: "" !important;
+
+    width: 5px !important;
+    height: 5px !important;
+
+    flex:
+        0 0 auto !important;
+
+    border-radius:
+        50% !important;
+
+    background:
+        #12b76a !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(18,183,106,.09) !important;
+}
+
+
+/* =========================================================
+   PREÇO
+========================================================= */
+
+.ironstore-frete-opcao-preco {
+    flex:
+        0 0 auto !important;
+
+    min-width:
+        70px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+
+    margin-left:
+        auto !important;
+
+    color:
+        var(--ic-navy) !important;
+
+    font-size:
+        12px !important;
+
+    font-weight:
+        850 !important;
+
+    line-height:
+        1 !important;
+
+    letter-spacing:
+        -.025em !important;
+
+    white-space:
+        nowrap !important;
+}
+
+
+/* =========================================================
+   PREÇO QUANDO SELECIONADO
+========================================================= */
+
+.ironstore-frete-opcao.selecionada
+.ironstore-frete-opcao-preco {
+    color:
+        #102b4c !important;
+}
+
+
+/* =========================================================
+   TEXTO QUANDO SELECIONADO
+========================================================= */
+
+.ironstore-frete-opcao.selecionada
+.ironstore-frete-opcao-info > strong {
+    color:
+        #102b4c !important;
+}
+
+
+/* =========================================================
+   TRANSPORTADORA QUANDO SELECIONADA
+========================================================= */
+
+.ironstore-frete-opcao.selecionada
+.ironstore-frete-opcao-info > small {
+    border-color:
+        rgba(20,42,74,.11) !important;
+
+    background:
+        rgba(20,42,74,.055) !important;
+
+    color:
+        #395675 !important;
+}
+
+
+/* =========================================================
+   FOCO DE TECLADO
+========================================================= */
+
+.ironstore-frete-opcao:focus-visible {
+    border-color:
+        rgba(20,42,74,.45) !important;
+
+    box-shadow:
+        0 0 0 3px rgba(20,42,74,.075),
+        0 8px 20px rgba(20,42,74,.08) !important;
+}
+
+
+/* =========================================================
+   ERRO DO FRETE
+========================================================= */
+
+.ironstore-frete-erro {
+    position: relative !important;
+
+    width: 100% !important;
+
+    margin-top:
+        10px !important;
+
+    padding:
+        10px
+        11px
+        10px
+        30px !important;
+
+    border:
+        1px solid
+        #fecdca !important;
+
+    border-radius:
+        11px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff8f7,
+            #fff4f2
+        ) !important;
+
+    color:
+        #b42318 !important;
+
+    font-size:
+        9px !important;
+
+    font-weight:
+        650 !important;
+
+    line-height:
+        1.45 !important;
+
+    box-shadow:
+        0 2px 7px
+        rgba(180,35,24,.035) !important;
+}
+
+
+/* ÍCONE DO ERRO */
+
+.ironstore-frete-erro::before {
+    content: "!" !important;
+
+    position:
+        absolute !important;
+
+    top:
+        50% !important;
+
+    left:
+        10px !important;
+
+    width:
+        13px !important;
+
+    height:
+        13px !important;
+
+    display:
+        flex !important;
+
+    align-items:
+        center !important;
+
+    justify-content:
+        center !important;
+
+    transform:
+        translateY(-50%) !important;
+
+    border-radius:
+        50% !important;
+
+    background:
+        #b42318 !important;
+
+    color:
+        #ffffff !important;
+
+    font-size:
+        8px !important;
+
+    font-weight:
+        850 !important;
+}
+
+
+/* =========================================================
+   SEPARAÇÃO DO FRETE NO RESUMO
+========================================================= */
+
+.ironstore-compras-frete
+.ironstore-compras-resumo-linha {
+    position:
+        relative !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 780px) {
+
+    .ironstore-frete-opcoes {
+        gap:
+            8px !important;
+
+        margin-top:
+            10px !important;
+    }
+
+
+    .ironstore-frete-opcao {
+        min-height:
+            68px !important;
+
+        padding:
+            12px
+            12px
+            12px
+            15px !important;
+
+        gap:
+            10px !important;
+
+        border-radius:
+            13px !important;
+    }
+
+
+    .ironstore-frete-opcao-info > strong {
+        font-size:
+            10px !important;
+    }
+
+
+    .ironstore-frete-opcao-info > span {
+        font-size:
+            8px !important;
+    }
+
+
+    .ironstore-frete-opcao-preco {
+        min-width:
+            62px !important;
+
+        font-size:
+            11px !important;
+    }
+
+
+    .ironstore-frete-opcao::after {
+        width:
+            16px !important;
+
+        height:
+            16px !important;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE PEQUENO
+========================================================= */
+
+@media (max-width: 440px) {
+
+    .ironstore-frete-opcao {
+        min-height:
+            64px !important;
+
+        padding:
+            11px
+            10px
+            11px
+            13px !important;
+
+        gap:
+            8px !important;
+    }
+
+
+    .ironstore-frete-opcao-info {
+        gap:
+            3px !important;
+    }
+
+
+    .ironstore-frete-opcao-info > strong {
+        font-size:
+            9px !important;
+    }
+
+
+    .ironstore-frete-opcao-info > small {
+        padding:
+            2px
+            5px !important;
+
+        font-size:
+            6px !important;
+    }
+
+
+    .ironstore-frete-opcao-info > span {
+        font-size:
+            7px !important;
+    }
+
+
+    .ironstore-frete-opcao-preco {
+        min-width:
+            57px !important;
+
+        font-size:
+            10px !important;
+    }
+
+
+    .ironstore-frete-opcao::after {
+        width:
+            15px !important;
+
+        height:
+            15px !important;
+    }
+
+}
+
+
+/* =========================================================
+   DISPOSITIVOS TOUCH
+========================================================= */
+
+@media (hover: none) {
+
+    .ironstore-frete-opcao:hover {
+        transform:
+            none !important;
+    }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-frete-opcao,
+    .ironstore-frete-opcao::before,
+    .ironstore-frete-opcao::after {
+        transition:
+            none !important;
+    }
+
+}
 
 `;
 
