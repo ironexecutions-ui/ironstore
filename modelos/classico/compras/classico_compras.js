@@ -3163,6 +3163,943 @@ input::-webkit-outer-spin-button {
     }
 
 }
+
+
+
+/* =========================================================
+   CARRINHO VAZIO
+   IRONSTORE CLÁSSICO PREMIUM
+========================================================= */
+
+.ironstore-compras-vazio {
+    position: relative;
+
+    width: min(
+        calc(100% - 32px),
+        590px
+    );
+
+    min-height: 480px;
+
+    margin:
+        65px
+        auto;
+
+    padding:
+        58px
+        48px
+        38px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(
+            20,
+            42,
+            74,
+            0.09
+        );
+
+    border-radius:
+        30px;
+
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(
+                20,
+                42,
+                74,
+                0.07
+            ),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #fbfcfe 100%
+        );
+
+    text-align:
+        center;
+
+    box-shadow:
+        0 2px 5px
+        rgba(
+            16,
+            24,
+            40,
+            0.02
+        ),
+
+        0 16px 40px
+        rgba(
+            16,
+            24,
+            40,
+            0.05
+        ),
+
+        0 35px 80px
+        rgba(
+            16,
+            24,
+            40,
+            0.04
+        );
+
+    isolation:
+        isolate;
+
+    animation:
+        ironstoreComprasVazioEntrada
+        0.5s
+        cubic-bezier(
+            .22,
+            1,
+            .36,
+            1
+        );
+}
+
+
+/* =========================================================
+   DETALHE SUPERIOR
+========================================================= */
+
+.ironstore-compras-vazio::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    width: 130px;
+    height: 3px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        0 0 999px 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #142a4a,
+            transparent
+        );
+
+    opacity:
+        0.85;
+}
+
+
+/* =========================================================
+   LUZ DE FUNDO
+========================================================= */
+
+.ironstore-compras-vazio::after {
+    content: "";
+
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    top: -220px;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(
+            20,
+            42,
+            74,
+            0.055
+        );
+
+    filter:
+        blur(45px);
+
+    pointer-events:
+        none;
+
+    z-index:
+        -1;
+}
+
+
+/* =========================================================
+   ÍCONE
+========================================================= */
+
+.ironstore-compras-vazio-icone {
+    position: relative;
+
+    width: 92px;
+    height: 92px;
+
+    margin-bottom:
+        28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(
+            20,
+            42,
+            74,
+            0.09
+        );
+
+    border-radius:
+        28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f2f5f9
+        );
+
+    color:
+        #142a4a;
+
+    box-shadow:
+        inset
+        0 1px 0
+        rgba(
+            255,
+            255,
+            255,
+            1
+        ),
+
+        0 8px 20px
+        rgba(
+            20,
+            42,
+            74,
+            0.07
+        ),
+
+        0 20px 45px
+        rgba(
+            20,
+            42,
+            74,
+            0.06
+        );
+}
+
+
+/* ÍCONE SVG */
+
+.ironstore-compras-vazio-icone svg {
+    width:
+        40px;
+
+    height:
+        40px;
+
+    display:
+        block;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+========================================================= */
+
+.ironstore-compras-vazio-conteudo {
+    width:
+        100%;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+}
+
+
+/* =========================================================
+   ETIQUETA
+========================================================= */
+
+.ironstore-compras-vazio-etiqueta {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        27px;
+
+    margin-bottom:
+        11px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid
+        rgba(
+            20,
+            42,
+            74,
+            0.08
+        );
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(
+            20,
+            42,
+            74,
+            0.045
+        );
+
+    color:
+        #42566f;
+
+    font-size:
+        10px;
+
+    font-weight:
+        750;
+
+    letter-spacing:
+        0.07em;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.ironstore-compras-vazio-titulo {
+    max-width:
+        420px;
+
+    margin:
+        0;
+
+    color:
+        #101828;
+
+    font-size:
+        clamp(
+            23px,
+            3vw,
+            29px
+        );
+
+    font-weight:
+        850;
+
+    line-height:
+        1.16;
+
+    letter-spacing:
+        -0.045em;
+}
+
+
+/* =========================================================
+   DESCRIÇÃO
+========================================================= */
+
+.ironstore-compras-vazio-descricao {
+    max-width:
+        370px;
+
+    margin:
+        13px auto 0;
+
+    color:
+        #667085;
+
+    font-size:
+        13px;
+
+    font-weight:
+        450;
+
+    line-height:
+        1.65;
+
+    letter-spacing:
+        -0.01em;
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+.ironstore-compras-vazio-botao {
+    position:
+        relative;
+
+    width:
+        auto;
+
+    min-width:
+        225px;
+
+    min-height:
+        54px;
+
+    margin-top:
+        31px;
+
+    padding:
+        0 19px
+        0 24px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        17px;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
+
+    border-radius:
+        15px;
+
+    outline:
+        none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #29496f 0%,
+            #142a4a 55%,
+            #0c1d34 100%
+        );
+
+    color:
+        #ffffff;
+
+    font-family:
+        inherit;
+
+    font-size:
+        12px;
+
+    font-weight:
+        750;
+
+    letter-spacing:
+        -0.005em;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(
+            20,
+            42,
+            74,
+            0.18
+        ),
+
+        0 18px 35px
+        rgba(
+            20,
+            42,
+            74,
+            0.12
+        );
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+
+/* =========================================================
+   BRILHO DO BOTÃO
+========================================================= */
+
+.ironstore-compras-vazio-botao::before {
+    content: "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        -80%;
+
+    width:
+        45%;
+
+    height:
+        100%;
+
+    transform:
+        skewX(-20deg);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(
+                255,
+                255,
+                255,
+                0.11
+            ),
+            transparent
+        );
+
+    transition:
+        left 0.5s ease;
+}
+
+
+/* =========================================================
+   TEXTO BOTÃO
+========================================================= */
+
+.ironstore-compras-vazio-botao span {
+    position:
+        relative;
+
+    z-index:
+        2;
+}
+
+
+/* =========================================================
+   SETA
+========================================================= */
+
+.ironstore-compras-vazio-botao svg {
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        18px;
+
+    height:
+        18px;
+
+    flex-shrink:
+        0;
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.ironstore-compras-vazio-botao:hover {
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.05);
+
+    box-shadow:
+        0 11px 22px
+        rgba(
+            20,
+            42,
+            74,
+            0.22
+        ),
+
+        0 24px 42px
+        rgba(
+            20,
+            42,
+            74,
+            0.16
+        );
+}
+
+
+.ironstore-compras-vazio-botao:hover::before {
+    left:
+        135%;
+}
+
+
+.ironstore-compras-vazio-botao:hover svg {
+    transform:
+        translateX(4px);
+}
+
+
+.ironstore-compras-vazio-botao:active {
+    transform:
+        translateY(0)
+        scale(0.985);
+}
+
+
+/* =========================================================
+   FOCO
+========================================================= */
+
+.ironstore-compras-vazio-botao:focus-visible {
+    box-shadow:
+        0 0 0 4px
+        rgba(
+            20,
+            42,
+            74,
+            0.12
+        ),
+
+        0 10px 25px
+        rgba(
+            20,
+            42,
+            74,
+            0.18
+        );
+}
+
+
+/* =========================================================
+   RODAPÉ
+========================================================= */
+
+.ironstore-compras-vazio-rodape {
+    margin-top:
+        32px;
+
+    padding-top:
+        22px;
+
+    width:
+        min(
+            100%,
+            310px
+        );
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        7px;
+
+    border-top:
+        1px solid
+        rgba(
+            20,
+            42,
+            74,
+            0.07
+        );
+
+    color:
+        #98a2b3;
+
+    font-size:
+        10px;
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        0.01em;
+}
+
+
+.ironstore-compras-vazio-rodape svg {
+    width:
+        15px;
+
+    height:
+        15px;
+
+    flex-shrink:
+        0;
+
+    color:
+        #667085;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO
+========================================================= */
+
+@keyframes ironstoreComprasVazioEntrada {
+
+    from {
+        opacity:
+            0;
+
+        transform:
+            translateY(14px)
+            scale(0.985);
+    }
+
+    to {
+        opacity:
+            1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (
+    max-width: 768px
+) {
+
+    .ironstore-compras-vazio {
+        width:
+            min(
+                calc(100% - 24px),
+                560px
+            );
+
+        min-height:
+            440px;
+
+        margin:
+            42px auto;
+
+        padding:
+            48px 30px 34px;
+
+        border-radius:
+            25px;
+    }
+
+
+    .ironstore-compras-vazio-icone {
+        width:
+            84px;
+
+        height:
+            84px;
+
+        border-radius:
+            25px;
+
+        margin-bottom:
+            25px;
+    }
+
+
+    .ironstore-compras-vazio-icone svg {
+        width:
+            36px;
+
+        height:
+            36px;
+    }
+
+
+    .ironstore-compras-vazio-titulo {
+        font-size:
+            23px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (
+    max-width: 480px
+) {
+
+    .ironstore-compras-vazio {
+        width:
+            100%;
+
+        min-height:
+            420px;
+
+        margin:
+            22px auto;
+
+        padding:
+            40px 20px 30px;
+
+        border-radius:
+            22px;
+    }
+
+
+    .ironstore-compras-vazio-icone {
+        width:
+            76px;
+
+        height:
+            76px;
+
+        margin-bottom:
+            22px;
+
+        border-radius:
+            22px;
+    }
+
+
+    .ironstore-compras-vazio-icone svg {
+        width:
+            33px;
+
+        height:
+            33px;
+    }
+
+
+    .ironstore-compras-vazio-etiqueta {
+        font-size:
+            9px;
+    }
+
+
+    .ironstore-compras-vazio-titulo {
+        max-width:
+            290px;
+
+        font-size:
+            21px;
+    }
+
+
+    .ironstore-compras-vazio-descricao {
+        max-width:
+            300px;
+
+        font-size:
+            12px;
+    }
+
+
+    .ironstore-compras-vazio-botao {
+        width:
+            100%;
+
+        max-width:
+            290px;
+
+        min-height:
+            52px;
+
+        margin-top:
+            27px;
+    }
+
+
+    .ironstore-compras-vazio-rodape {
+        margin-top:
+            27px;
+
+        padding-top:
+            19px;
+    }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (
+    prefers-reduced-motion: reduce
+) {
+
+    .ironstore-compras-vazio {
+        animation:
+            none;
+    }
+
+
+    .ironstore-compras-vazio-botao,
+    .ironstore-compras-vazio-botao::before,
+    .ironstore-compras-vazio-botao svg {
+        transition:
+            none;
+    }
+
+}
+
+
 `;
 
 export default classicoCompras;

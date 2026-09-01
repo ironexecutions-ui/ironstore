@@ -1784,6 +1784,16 @@ export default function Compraslog() {
         }
 
     }
+
+    /* =========================================================
+   ESTILO DO MODELO
+========================================================= */
+
+    const estilo =
+        modelosCompras[
+        modelo || "classico"
+        ] ||
+        modelosCompras.classico;
     /* =====================================================
        LOADING
     ===================================================== */
@@ -1844,33 +1854,141 @@ export default function Compraslog() {
     ) {
 
         return (
+            <>
+                <style>
+                    {estilo}
+                </style>
 
-            <section className="ironstore-compras">
+                <section className="ironstore-compras">
 
-                <div className="ironstore-compras-vazio">
+                    <div className="ironstore-compras-vazio">
 
-                    <h2>
-                        Nenhum produto para comprar
-                    </h2>
+                        {/* ÍCONE */}
+                        <div
+                            className="ironstore-compras-vazio-icone"
+                            aria-hidden="true"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M3.5 4.5H5.3C5.72 4.5 6.08 4.79 6.17 5.2L6.55 7M6.55 7L7.65 12.1C7.82 12.88 8.51 13.44 9.31 13.44H17.2C17.98 13.44 18.66 12.91 18.85 12.15L20.05 7.35C20.1 7.17 19.96 7 19.77 7H6.55Z"
+                                    stroke="currentColor"
+                                    strokeWidth="1.6"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
 
-                    <p>
-                        Seu carrinho está vazio.
-                    </p>
+                                <path
+                                    d="M9.2 17.2H17.5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.6"
+                                    strokeLinecap="round"
+                                />
 
-                    <button
-                        type="button"
-                        onClick={
-                            () =>
-                                navigate("/")
-                        }
-                    >
-                        Continuar comprando
-                    </button>
+                                <circle
+                                    cx="9.2"
+                                    cy="19.2"
+                                    r="1.1"
+                                    fill="currentColor"
+                                />
 
-                </div>
+                                <circle
+                                    cx="17.5"
+                                    cy="19.2"
+                                    r="1.1"
+                                    fill="currentColor"
+                                />
+                            </svg>
+                        </div>
 
-            </section>
 
+                        {/* CONTEÚDO */}
+                        <div className="ironstore-compras-vazio-conteudo">
+
+                            <span className="ironstore-compras-vazio-etiqueta">
+                                Seu carrinho
+                            </span>
+
+                            <h2 className="ironstore-compras-vazio-titulo">
+                                Seu carrinho está vazio
+                            </h2>
+
+                            <p className="ironstore-compras-vazio-descricao">
+                                Explore nossos produtos e encontre algo
+                                especial para você.
+                            </p>
+
+                        </div>
+
+
+                        {/* AÇÃO */}
+                        <button
+                            className="ironstore-compras-vazio-botao"
+                            type="button"
+                            onClick={
+                                () =>
+                                    navigate("/")
+                            }
+                        >
+                            <span>
+                                Continuar comprando
+                            </span>
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M5 12H19M19 12L13.5 6.5M19 12L13.5 17.5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.8"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </button>
+
+
+                        {/* SEGURANÇA / INFORMAÇÃO */}
+                        <div className="ironstore-compras-vazio-rodape">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M12 3L19 6V11C19 15.4 16.1 19.2 12 21C7.9 19.2 5 15.4 5 11V6L12 3Z"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinejoin="round"
+                                />
+
+                                <path
+                                    d="M9 12L11 14L15.5 9.5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+
+                            <span>
+                                Compra segura e protegida
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+            </>
         );
 
     }
@@ -1879,11 +1997,7 @@ export default function Compraslog() {
        ESTILO DO MODELO
     ========================================================= */
 
-    const estilo =
-        modelosCompras[
-        modelo
-        ] ||
-        modelosCompras.classico;
+
     /* =====================================================
        RENDER
     ===================================================== */
