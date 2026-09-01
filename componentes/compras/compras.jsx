@@ -207,6 +207,10 @@ export default function Compraslog() {
         setFrete
     ] = useState(0);
     const [
+        freteSelecionado,
+        setFreteSelecionado
+    ] = useState(null);
+    const [
         cepOrigem,
         setCepOrigem
     ] = useState("");
@@ -1174,8 +1178,17 @@ export default function Compraslog() {
                     produto => Number(produto.seguimento_id)
                 );
 
+            if (!freteSelecionado) {
+                throw new Error(
+                    "Selecione uma opção de frete."
+                );
+            }
+
             const resultado =
-                await prepararCompra(seguimentosIds);
+                await prepararCompra(
+                    seguimentosIds,
+                    freteSelecionado
+                );
 
             setCheckout({
                 ...resultado,
@@ -1230,7 +1243,8 @@ export default function Compraslog() {
 
             const resultado =
                 await criarPagamentoPix(
-                    checkout.seguimentos_ids
+                    checkout.seguimentos_ids,
+                    freteSelecionado
                 );
 
             setPix(resultado);
@@ -1702,10 +1716,12 @@ export default function Compraslog() {
 
                     paymentMethodId,
 
-                    email
+                    email,
+
+                    frete:
+                        freteSelecionado
 
                 });
-
 
             setResultadoCartao(
                 resultado
@@ -2268,6 +2284,10 @@ export default function Compraslog() {
 
                             onValorFrete={
                                 setFrete
+                            }
+
+                            onFreteSelecionado={
+                                setFreteSelecionado
                             }
                         />
 

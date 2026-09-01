@@ -237,7 +237,8 @@ export async function buscarCarrinhoCompra() {
 ========================================================= */
 
 export async function prepararCompra(
-    seguimentosIds
+    seguimentosIds,
+    frete
 ) {
 
     if (
@@ -249,6 +250,17 @@ export async function prepararCompra(
 
         throw new Error(
             "Nenhum produto selecionado."
+        );
+    }
+
+
+    if (
+        !frete ||
+        !frete.servico_id
+    ) {
+
+        throw new Error(
+            "Selecione uma opção de frete."
         );
     }
 
@@ -290,8 +302,13 @@ export async function prepararCompra(
 
                 body:
                     JSON.stringify({
+
                         seguimentos_ids:
-                            ids
+                            ids,
+
+                        frete:
+                            frete
+
                     })
             }
         );
@@ -302,14 +319,13 @@ export async function prepararCompra(
     );
 }
 
-
 /* =========================================================
    POST
    CRIAR PAGAMENTO PIX
 ========================================================= */
-
 export async function criarPagamentoPix(
-    seguimentosIds
+    seguimentosIds,
+    frete
 ) {
 
     if (
@@ -321,6 +337,17 @@ export async function criarPagamentoPix(
 
         throw new Error(
             "Nenhum produto selecionado."
+        );
+    }
+
+
+    if (
+        !frete ||
+        !frete.servico_id
+    ) {
+
+        throw new Error(
+            "Frete não selecionado."
         );
     }
 
@@ -362,8 +389,13 @@ export async function criarPagamentoPix(
 
                 body:
                     JSON.stringify({
+
                         seguimentos_ids:
-                            ids
+                            ids,
+
+                        frete:
+                            frete
+
                     })
             }
         );
@@ -375,23 +407,10 @@ export async function criarPagamentoPix(
 }
 
 
-/* =========================================================
-   POST
-   CRIAR PAGAMENTO CARTÃO
-
-   IMPORTANTE:
-
-   token = token do cartão gerado pelo Mercado Pago.
-
-   NÃO É:
-   ironstore_cliente_token.
-
-   Número do cartão e CVV não são enviados
-   diretamente ao nosso backend.
-========================================================= */
 
 export async function criarPagamentoCartao({
     seguimentosIds,
+    frete,
     tokenCartao,
     parcelas = 1,
     paymentMethodId,
@@ -474,7 +493,15 @@ export async function criarPagamentoCartao({
             )
         );
 
+    if (
+        !frete ||
+        !frete.servico_id
+    ) {
 
+        throw new Error(
+            "Frete não selecionado."
+        );
+    }
     const resposta =
         await fetch(
             `${API_URL}/ironstore/compras/cartao`,
@@ -492,6 +519,9 @@ export async function criarPagamentoCartao({
 
                         seguimentos_ids:
                             ids,
+
+                        frete:
+                            frete,
 
                         token:
                             tokenCartao,

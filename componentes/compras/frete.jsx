@@ -58,19 +58,13 @@ function formatarPreco(valor) {
 ========================================================= */
 
 export default function Frete({
-
     temProdutos = false,
-
     produtos = [],
-
     cepOrigem = "",
-
     cepDestino = "",
-
-    onValorFrete
-
+    onValorFrete,
+    onFreteSelecionado
 }) {
-
     /* =====================================================
        ESTADOS
     ===================================================== */
@@ -104,7 +98,16 @@ export default function Frete({
     ===================================================== */
 
     function zerarFrete() {
+        console.group("🚚 [FRETE] ZERANDO FRETE");
 
+        console.log("Motivo: estado do frete será limpo");
+
+        console.log("Estado antes de limpar:", {
+            opcoes,
+            opcaoSelecionada
+        });
+
+        console.groupEnd();
         setOpcoes([]);
 
         setOpcaoSelecionada(
@@ -117,6 +120,13 @@ export default function Frete({
         ) {
 
             onValorFrete(0);
+        }
+        if (
+            typeof onFreteSelecionado ===
+            "function"
+        ) {
+
+            onFreteSelecionado(null);
         }
     }
 
@@ -181,7 +191,15 @@ export default function Frete({
                     /\D/g,
                     ""
                 );
+            console.group("📍 [FRETE] CEPs NORMALIZADOS");
 
+            console.log("CEP origem recebido:", cepOrigem);
+            console.log("CEP origem enviado:", origem);
+
+            console.log("CEP destino recebido:", cepDestino);
+            console.log("CEP destino enviado:", destino);
+
+            console.groupEnd();
 
             if (
                 origem.length !== 8 ||
@@ -286,7 +304,33 @@ export default function Frete({
 
                     }
                 );
+            console.group("📦 [FRETE] PRODUTOS PREPARADOS");
 
+            console.log(
+                "Produtos originais:",
+                produtos
+            );
+
+            console.log(
+                "Produtos enviados para cálculo:",
+                produtosFrete
+            );
+
+            console.table(
+                produtosFrete.map(
+                    produto => ({
+                        id: produto.id,
+                        largura: produto.largura,
+                        altura: produto.altura,
+                        comprimento: produto.comprimento,
+                        peso_kg: produto.peso,
+                        valor: produto.valor,
+                        quantidade: produto.quantidade
+                    })
+                )
+            );
+
+            console.groupEnd();
 
             /* =============================================
                CARREGANDO
@@ -443,7 +487,57 @@ export default function Frete({
                         )
                     );
                 }
+                if (
+                    typeof onFreteSelecionado ===
+                    "function"
+                ) {
 
+                    onFreteSelecionado({
+
+                        servico_id:
+                            String(
+                                maisBarato.id
+                            ),
+
+                        transportadora:
+                            String(
+                                maisBarato.empresa ||
+                                ""
+                            ),
+
+                        servico:
+                            String(
+                                maisBarato.nome ||
+                                ""
+                            ),
+
+                        valor_frete:
+                            Number(
+                                maisBarato.preco ||
+                                0
+                            ),
+
+                        prazo_dias:
+                            maisBarato.prazo != null
+                                ? Number(
+                                    maisBarato.prazo
+                                )
+                                : null,
+
+                        cep_origem:
+                            String(
+                                cepOrigem ||
+                                ""
+                            ).replace(/\D/g, ""),
+
+                        cep_destino:
+                            String(
+                                cepDestino ||
+                                ""
+                            ).replace(/\D/g, "")
+
+                    });
+                }
 
             } catch (
             erroCalculo
@@ -473,6 +567,15 @@ export default function Frete({
                 ) {
 
                     onValorFrete(0);
+                }
+
+
+                if (
+                    typeof onFreteSelecionado ===
+                    "function"
+                ) {
+
+                    onFreteSelecionado(null);
                 }
 
 
@@ -534,6 +637,66 @@ export default function Frete({
                     0
                 )
             );
+        }
+
+
+        if (
+            typeof onFreteSelecionado ===
+            "function"
+        ) {
+
+            onFreteSelecionado({
+
+                servico_id:
+                    String(
+                        opcao?.id ||
+                        ""
+                    ),
+
+                transportadora:
+                    String(
+                        opcao?.empresa ||
+                        ""
+                    ),
+
+                servico:
+                    String(
+                        opcao?.nome ||
+                        ""
+                    ),
+
+                valor_frete:
+                    Number(
+                        opcao?.preco ||
+                        0
+                    ),
+
+                prazo_dias:
+                    opcao?.prazo != null
+                        ? Number(
+                            opcao.prazo
+                        )
+                        : null,
+
+                cep_origem:
+                    String(
+                        cepOrigem ||
+                        ""
+                    ).replace(
+                        /\D/g,
+                        ""
+                    ),
+
+                cep_destino:
+                    String(
+                        cepDestino ||
+                        ""
+                    ).replace(
+                        /\D/g,
+                        ""
+                    )
+
+            });
         }
     }
 
