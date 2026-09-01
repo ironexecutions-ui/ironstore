@@ -1754,7 +1754,7 @@ export default function Header() {
                                     </button>
 
 
-                                    <button
+                                    {/*     <button
                                         type="button"
                                         onClick={() =>
                                             navegarMenu(
@@ -1767,7 +1767,7 @@ export default function Header() {
                                     </button>
 
 
-                                    <button
+                                   <button
                                         type="button"
                                         onClick={() =>
                                             navegarMenu(
@@ -1777,7 +1777,7 @@ export default function Header() {
                                         }
                                     >
                                         Nossas redes sociais
-                                    </button>
+                                    </button>*/}
 
                                 </div>
 
