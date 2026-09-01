@@ -361,6 +361,11 @@ export async function prepararCompra(
    POST
    CRIAR PAGAMENTO PIX
 ========================================================= */
+/* =========================================================
+   POST
+   CRIAR PAGAMENTO PIX
+========================================================= */
+
 export async function criarPagamentoPix(
     seguimentosIds,
     frete
@@ -413,6 +418,60 @@ export async function criarPagamentoPix(
     }
 
 
+    /* =====================================================
+       PAYLOAD
+    ===================================================== */
+
+    const payload = {
+
+        seguimentos_ids:
+            ids,
+
+        frete:
+            frete
+
+    };
+
+
+    /* =====================================================
+       DEBUG
+    ===================================================== */
+
+    console.group(
+        "💳 [IRONSTORE PIX] CRIAR PAGAMENTO"
+    );
+
+    console.log(
+        "Seguimentos:",
+        ids
+    );
+
+    console.log(
+        "Frete:",
+        frete
+    );
+
+    console.log(
+        "Payload:",
+        payload
+    );
+
+    console.log(
+        "JSON enviado:",
+        JSON.stringify(
+            payload,
+            null,
+            2
+        )
+    );
+
+    console.groupEnd();
+
+
+    /* =====================================================
+       REQUISIÇÃO
+    ===================================================== */
+
     const resposta =
         await fetch(
             `${API_URL}/ironstore/compras/pix`,
@@ -424,18 +483,23 @@ export async function criarPagamentoPix(
                     criarHeadersPrivados(
                         true
                     ),
-                body: JSON.stringify(
-                    payload
-                )
+
+                body:
+                    JSON.stringify(
+                        payload
+                    )
             }
         );
 
+
+    /* =====================================================
+       RESPOSTA
+    ===================================================== */
 
     return await tratarResposta(
         resposta
     );
 }
-
 
 
 export async function criarPagamentoCartao({
