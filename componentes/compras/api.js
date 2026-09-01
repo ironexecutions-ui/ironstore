@@ -287,7 +287,45 @@ export async function prepararCompra(
         );
     }
 
+    const payload = {
+        seguimentos_ids: ids,
+        frete: frete
+    };
 
+    console.group(
+        "🚨 [CHECKOUT PREPARAR] BODY ENVIADO"
+    );
+
+    console.log(
+        "seguimentosIds recebido:",
+        seguimentosIds
+    );
+
+    console.log(
+        "IDs normalizados:",
+        ids
+    );
+
+    console.log(
+        "frete recebido:",
+        frete
+    );
+
+    console.log(
+        "PAYLOAD COMPLETO:",
+        payload
+    );
+
+    console.log(
+        "JSON REAL:",
+        JSON.stringify(
+            payload,
+            null,
+            2
+        )
+    );
+
+    console.groupEnd();
     const resposta =
         await fetch(
             `${API_URL}/ironstore/compras/preparar`,
@@ -386,17 +424,9 @@ export async function criarPagamentoPix(
                     criarHeadersPrivados(
                         true
                     ),
-
-                body:
-                    JSON.stringify({
-
-                        seguimentos_ids:
-                            ids,
-
-                        frete:
-                            frete
-
-                    })
+                body: JSON.stringify(
+                    payload
+                )
             }
         );
 
