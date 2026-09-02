@@ -1248,23 +1248,126 @@ export default function Categorias() {
 
                     {temMaisProdutos && (
 
-                        <div className="ironstore-loadmore-premium-wrapper">
+                        <div
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginTop: "40px",
+                                marginBottom: "10px",
+                                padding: "8px 0",
+                                boxSizing: "border-box"
+                            }}
+                        >
 
                             <button
                                 type="button"
-                                className="ironstore-loadmore-premium-btn"
                                 onClick={carregarMaisProdutos}
+                                style={{
+                                    appearance: "none",
+                                    WebkitAppearance: "none",
+
+                                    minWidth: "215px",
+                                    height: "48px",
+
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+
+                                    gap: "10px",
+
+                                    padding: "0 10px 0 18px",
+                                    margin: "0",
+
+                                    border: "1px solid #e2e8f0",
+                                    borderRadius: "12px",
+
+                                    background: "#ffffff",
+                                    color: "#0f172a",
+
+                                    fontFamily: "inherit",
+                                    fontSize: "12px",
+                                    fontWeight: "700",
+
+                                    cursor: "pointer",
+
+                                    boxSizing: "border-box",
+
+                                    boxShadow:
+                                        "0 2px 5px rgba(15, 23, 42, 0.05), 0 8px 20px rgba(15, 23, 42, 0.06)"
+                                }}
                             >
 
-                                <span className="ironstore-loadmore-premium-texto">
+                                {/* TEXTO */}
+                                <span
+                                    style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+
+                                        color: "#0f172a",
+
+                                        fontSize: "12px",
+                                        fontWeight: "700",
+                                        lineHeight: "1",
+
+                                        whiteSpace: "nowrap"
+                                    }}
+                                >
                                     Carregar mais
                                 </span>
 
-                                <span className="ironstore-loadmore-premium-quantidade">
+
+                                {/* QUANTIDADE */}
+                                <span
+                                    style={{
+                                        minWidth: "32px",
+                                        height: "24px",
+
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+
+                                        padding: "0 7px",
+
+                                        borderRadius: "7px",
+
+                                        background: "#f1f5f9",
+                                        color: "#64748b",
+
+                                        fontSize: "9px",
+                                        fontWeight: "700",
+                                        lineHeight: "1",
+
+                                        boxSizing: "border-box"
+                                    }}
+                                >
                                     +{quantidadeProximaCarga}
                                 </span>
 
-                                <span className="ironstore-loadmore-premium-seta">
+
+                                {/* SETA */}
+                                <span
+                                    style={{
+                                        width: "28px",
+                                        height: "28px",
+
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+
+                                        flexShrink: "0",
+
+                                        borderRadius: "8px",
+
+                                        background: "#0f172a",
+                                        color: "#ffffff",
+
+                                        fontSize: "15px",
+                                        fontWeight: "600",
+                                        lineHeight: "1"
+                                    }}
+                                >
                                     ↓
                                 </span>
 
