@@ -5890,6 +5890,187 @@ border-radius: 40px;
     }
 
 }
+
+/* =========================================================
+   BOTÃO CARREGAR MAIS
+========================================================= */
+
+.ironstore-categorias-classico-carregar {
+    width: fit-content !important;
+    min-width: 205px !important;
+    height: 46px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 10px !important;
+
+    padding: 0 10px 0 18px !important;
+
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+
+    background: #ffffff !important;
+    color: #0f172a !important;
+
+    font-family: inherit !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 2px 4px rgba(15, 23, 42, 0.04),
+        0 6px 16px rgba(15, 23, 42, 0.05) !important;
+
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease !important;
+}
+
+
+/* TEXTO */
+
+.ironstore-categorias-classico-carregar > span:first-child {
+    color: #0f172a !important;
+
+    font-size: 12px !important;
+    font-weight: 750 !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* QUANTIDADE +20 */
+
+.ironstore-categorias-classico-carregar small {
+    min-width: 30px !important;
+    height: 23px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 7px !important;
+
+    border-radius: 7px !important;
+
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+
+    font-size: 9px !important;
+    font-weight: 750 !important;
+    line-height: 1 !important;
+}
+
+
+/* ÍCONE ↓ */
+
+.ironstore-categorias-classico-carregar-icone {
+    width: 27px !important;
+    height: 27px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 8px !important;
+
+    background: #f8fafc !important;
+    color: #64748b !important;
+
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+
+    transition:
+        background 180ms ease,
+        color 180ms ease,
+        transform 180ms ease !important;
+}
+
+
+/* HOVER */
+
+.ironstore-categorias-classico-carregar:hover {
+    border-color: #cbd5e1 !important;
+
+    background: #f8fafc !important;
+
+    box-shadow:
+        0 4px 8px rgba(15, 23, 42, 0.05),
+        0 10px 24px rgba(15, 23, 42, 0.07) !important;
+
+    transform: translateY(-2px) !important;
+}
+
+.ironstore-categorias-classico-carregar:hover
+.ironstore-categorias-classico-carregar-icone {
+    background: #0f172a !important;
+    color: #ffffff !important;
+
+    transform: translateY(2px) !important;
+}
+
+
+/* CLIQUE */
+
+.ironstore-categorias-classico-carregar:active {
+    transform: translateY(0) scale(0.98) !important;
+}
+
+
+/* FOCO */
+
+.ironstore-categorias-classico-carregar:focus-visible {
+    outline: 2px solid rgba(15, 23, 42, 0.18) !important;
+    outline-offset: 3px !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-categorias-classico-carregar {
+        min-width: 190px !important;
+        height: 44px !important;
+
+        padding: 0 9px 0 16px !important;
+
+        gap: 9px !important;
+
+        border-radius: 11px !important;
+
+        font-size: 11px !important;
+    }
+
+    .ironstore-categorias-classico-carregar > span:first-child {
+        font-size: 11px !important;
+    }
+
+    .ironstore-categorias-classico-carregar small {
+        min-width: 28px !important;
+        height: 22px !important;
+
+        font-size: 8px !important;
+    }
+
+    .ironstore-categorias-classico-carregar-icone {
+        width: 25px !important;
+        height: 25px !important;
+
+        font-size: 14px !important;
+    }
+
+}
 `;
 
 export default classicoCategorias;
