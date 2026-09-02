@@ -133,6 +133,255 @@ function ordenarReelsPeloProdutoInicial(
         ]
     };
 }
+
+/* =========================================================
+   EMBARALHAR ARRAY
+========================================================= */
+
+function embaralharArray(
+    lista
+) {
+
+    const novaLista =
+        Array.isArray(
+            lista
+        )
+            ? [...lista]
+            : [];
+
+
+    for (
+        let indice =
+            novaLista.length - 1;
+
+        indice > 0;
+
+        indice--
+    ) {
+
+        const indiceAleatorio =
+            Math.floor(
+                Math.random() *
+                (
+                    indice + 1
+                )
+            );
+
+
+        [
+            novaLista[indice],
+            novaLista[indiceAleatorio]
+        ] = [
+                novaLista[indiceAleatorio],
+                novaLista[indice]
+            ];
+
+    }
+
+
+    return novaLista;
+
+}
+
+
+/* =========================================================
+   GERAR ORDEM ALEATÓRIA DOS REELS
+
+   O PRODUTO ABERTO PELA URL CONTINUA PRIMEIRO.
+
+   TODOS OS OUTROS FICAM EM ORDEM ALEATÓRIA.
+========================================================= */
+
+function gerarReelsAleatorios(
+    dados,
+    produtoInicialId
+) {
+
+    if (
+        !dados ||
+        !Array.isArray(
+            dados.reels
+        ) ||
+        !dados.reels.length
+    ) {
+
+        return dados;
+
+    }
+
+
+    const idInicial =
+        String(
+            produtoInicialId ||
+            dados.reels[0]?.id ||
+            ""
+        );
+
+
+    const produtoInicial =
+        dados.reels.find(
+            produto =>
+                String(
+                    produto?.id
+                ) === idInicial
+        );
+
+
+    const restantes =
+        dados.reels.filter(
+            produto =>
+                String(
+                    produto?.id
+                ) !== idInicial
+        );
+
+
+    const aleatorios =
+        embaralharArray(
+            restantes
+        );
+
+
+    return {
+
+        ...dados,
+
+        produto_inicial_id:
+            produtoInicial?.id
+                ? Number(
+                    produtoInicial.id
+                )
+                : null,
+
+        reels:
+            produtoInicial
+                ? [
+                    produtoInicial,
+                    ...aleatorios
+                ]
+                : embaralharArray(
+                    dados.reels
+                )
+
+    };
+
+}
+
+
+/* =========================================================
+   MESCLAR REELS
+
+   NÃO DEIXA UMA RESPOSTA MENOR DA API APAGAR
+   PRODUTOS QUE JÁ EXISTIAM NO CACHE / ESTADO.
+========================================================= */
+
+function mesclarDadosReels(
+    dadosAtuais,
+    novosDados
+) {
+
+    if (
+        !novosDados
+    ) {
+
+        return dadosAtuais;
+
+    }
+
+
+    if (
+        !dadosAtuais?.reels?.length
+    ) {
+
+        return novosDados;
+
+    }
+
+
+    if (
+        !novosDados?.reels?.length
+    ) {
+
+        return dadosAtuais;
+
+    }
+
+
+    const mapa =
+        new Map();
+
+
+    dadosAtuais.reels.forEach(
+        produto => {
+
+            if (
+                !produto?.id
+            ) {
+
+                return;
+
+            }
+
+            mapa.set(
+                String(
+                    produto.id
+                ),
+                produto
+            );
+
+        }
+    );
+
+
+    novosDados.reels.forEach(
+        produto => {
+
+            if (
+                !produto?.id
+            ) {
+
+                return;
+
+            }
+
+
+            const id =
+                String(
+                    produto.id
+                );
+
+
+            const anterior =
+                mapa.get(
+                    id
+                );
+
+
+            mapa.set(
+                id,
+                {
+                    ...(anterior || {}),
+                    ...produto
+                }
+            );
+
+        }
+    );
+
+
+    return {
+
+        ...dadosAtuais,
+        ...novosDados,
+
+        reels:
+            Array.from(
+                mapa.values()
+            )
+
+    };
+
+}
 /* =========================================================
    COMPONENTE
 ========================================================= */
@@ -148,11 +397,23 @@ export default function Reelslog() {
 
     const containerRef =
         useRef(null);
+    /* =========================================================
+       CONTROLE DA ORDEM DOS REELS
+    ========================================================= */
 
+    const ordemInicialCriadaRef =
+        useRef(false);
+
+
+    const carregamentoInicialRef =
+        useRef(true);
+
+
+    const ultimaQuantidadeReelsRef =
+        useRef(0);
 
     const dominio =
         pegarDominioAtualReels();
-
 
     const [
         dados,
@@ -165,13 +426,27 @@ export default function Reelslog() {
                     dominio
                 );
 
-            return ordenarReelsPeloProdutoInicial(
+
+            if (
+                !cache?.reels?.length
+            ) {
+
+                return cache;
+
+            }
+
+
+            ordemInicialCriadaRef.current =
+                true;
+
+
+            return gerarReelsAleatorios(
                 cache,
                 produtoid
             );
+
         }
     );
-
 
     const [
         carregando,
@@ -310,35 +585,94 @@ export default function Reelslog() {
                     );
 
 
+                /* =====================================================
+                   MESCLAR COM CACHE
+                
+                   SE A API DEVOLVER MENOS PRODUTOS POR ALGUMA RAZÃO,
+                   NÃO DEIXAMOS ELA DESTRUIR UMA LISTA MAIOR.
+                ===================================================== */
+
+                const dadosMesclados =
+                    mesclarDadosReels(
+                        cache,
+                        normalizadoApi
+                    );
+
+
+                /* =====================================================
+                   GERAR ORDEM ALEATÓRIA
+                ===================================================== */
+
                 const normalizado =
-                    ordenarReelsPeloProdutoInicial(
-                        normalizadoApi,
+                    gerarReelsAleatorios(
+                        dadosMesclados,
                         produtoid
                     );
 
 
+                /* =====================================================
+                   SALVAR CACHE
+                ===================================================== */
+
                 if (
                     !reelsSaoIguais(
                         cache,
-                        normalizado
+                        dadosMesclados
                     )
                 ) {
 
                     salvarCacheReels(
                         dominio,
-                        normalizado
+                        dadosMesclados
                     );
 
                 }
 
 
-                if (ativo) {
+                /* =====================================================
+                   ATUALIZAR ESTADO
+                ===================================================== */
+
+                if (
+                    ativo
+                ) {
 
                     setDados(
-                        normalizado
+                        dadosAtuais => {
+
+                            /*
+                             * Proteção adicional.
+                             *
+                             * Mesclamos também com o estado atual,
+                             * porque ele pode estar mais completo
+                             * que o cache lido no começo da requisição.
+                             */
+
+                            const completo =
+                                mesclarDadosReels(
+                                    dadosAtuais,
+                                    normalizado
+                                );
+
+
+                            /*
+                             * Mantemos o produto atualmente aberto
+                             * como primeiro somente no carregamento.
+                             */
+
+                            return gerarReelsAleatorios(
+                                completo,
+                                produtoVisivelRef.current ||
+                                produtoid
+                            );
+
+                        }
                     );
 
+
                     setErro("");
+
+
 
                 }
 
@@ -1095,6 +1429,203 @@ export default function Reelslog() {
     }, [
         dados?.reels
     ]);
+
+
+    /* =========================================================
+   FEED CONTÍNUO
+
+   QUANDO CHEGAR PERTO DO FINAL,
+   ADICIONA UMA NOVA RODADA ALEATÓRIA.
+
+   NÃO REPETE IMEDIATAMENTE O ÚLTIMO PRODUTO.
+========================================================= */
+
+    useEffect(() => {
+
+        const container =
+            containerRef.current;
+
+
+        if (
+            !container ||
+            !dados?.reels?.length ||
+            dados.reels.length <= 1
+        ) {
+
+            return;
+
+        }
+
+
+        function verificarFinalFeed() {
+
+            const distanciaFinal =
+                container.scrollHeight -
+                (
+                    container.scrollTop +
+                    container.clientHeight
+                );
+
+
+            /*
+             * Quando faltar aproximadamente
+             * duas telas para acabar.
+             */
+
+            if (
+                distanciaFinal >
+                container.clientHeight * 2
+            ) {
+
+                return;
+
+            }
+
+
+            setDados(
+                anterior => {
+
+                    if (
+                        !anterior?.reels?.length
+                    ) {
+
+                        return anterior;
+
+                    }
+
+
+                    /*
+                     * Pegamos somente produtos únicos.
+                     *
+                     * Isso evita usar as cópias que nós
+                     * mesmos adicionamos anteriormente.
+                     */
+
+                    const mapaProdutos =
+                        new Map();
+
+
+                    anterior.reels.forEach(
+                        produto => {
+
+                            if (
+                                !produto?.id
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            mapaProdutos.set(
+                                String(
+                                    produto.id
+                                ),
+                                produto
+                            );
+
+                        }
+                    );
+
+
+                    const produtosOriginais =
+                        Array.from(
+                            mapaProdutos.values()
+                        );
+
+
+                    if (
+                        produtosOriginais.length <= 1
+                    ) {
+
+                        return anterior;
+
+                    }
+
+
+                    const ultimoProduto =
+                        anterior.reels[
+                        anterior.reels.length - 1
+                        ];
+
+
+                    let novaRodada =
+                        embaralharArray(
+                            produtosOriginais
+                        );
+
+
+                    /*
+                     * Evita:
+                     *
+                     * Produto 5
+                     * Produto 5
+                     *
+                     * na junção das rodadas.
+                     */
+
+                    if (
+                        novaRodada.length > 1 &&
+                        String(
+                            novaRodada[0]?.id
+                        ) ===
+                        String(
+                            ultimoProduto?.id
+                        )
+                    ) {
+
+                        const primeiro =
+                            novaRodada[0];
+
+
+                        novaRodada[0] =
+                            novaRodada[1];
+
+
+                        novaRodada[1] =
+                            primeiro;
+
+                    }
+
+
+                    return {
+
+                        ...anterior,
+
+                        reels: [
+                            ...anterior.reels,
+                            ...novaRodada
+                        ]
+
+                    };
+
+                }
+            );
+
+        }
+
+
+        container.addEventListener(
+            "scroll",
+            verificarFinalFeed,
+            {
+                passive: true
+            }
+        );
+
+
+        return () => {
+
+            container.removeEventListener(
+                "scroll",
+                verificarFinalFeed
+            );
+
+        };
+
+    }, [
+        dados?.reels?.length
+    ]);
     /* =====================================================
        RETURN
     ===================================================== */
@@ -1123,8 +1654,7 @@ export default function Reelslog() {
                     return (
 
                         <article
-                            key={produto.id}
-                            data-ironstore-reel-id={produto.id}
+                            key={`${produto.id}-${indice}`} data-ironstore-reel-id={produto.id}
                             className={`
         ironstore-reels-vitrine-item
         ironstore-reels-vitrine-item--${produto.modelo_reel}
@@ -1297,6 +1827,37 @@ export default function Reelslog() {
 
                                     <small>
                                         Compartilhar
+                                    </small>
+
+                                </button>
+                                {/* =============================
+    IR AO INÍCIO
+============================== */}
+
+                                <button
+                                    type="button"
+                                    className="
+        ironstore-reels-vitrine-acao
+        ironstore-reels-vitrine-acao--inicio
+    "
+                                    onClick={() =>
+                                        navigate("/")
+                                    }
+                                    aria-label="Ir ao início"
+                                    title="Ir ao início"
+                                >
+
+                                    <span
+                                        className="
+            ironstore-reels-vitrine-acao-icone
+            ironstore-reels-vitrine-acao-icone--inicio
+        "
+                                    >
+                                        🏠
+                                    </span>
+
+                                    <small>
+                                        Início
                                     </small>
 
                                 </button>

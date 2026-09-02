@@ -1187,3 +1187,210 @@
     }
 
 }
+
+/* =========================================================
+   MINI REELS
+   MOVIMENTO VERTICAL REAL
+========================================================= */
+
+
+/* =========================================================
+   VIEWPORT
+========================================================= */
+
+.ironstore-ver-reels-tela {
+    position: relative !important;
+
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   TRILHO
+
+   POSSUI ALTURA DE 200%.
+
+   PRODUTO 1
+   PRODUTO 2
+========================================================= */
+
+.ironstore-ver-reels-trilho {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    z-index: 1 !important;
+
+    display: flex !important;
+
+    flex-direction:
+        column !important;
+
+    width: 100% !important;
+    height: 200% !important;
+
+    transform:
+        translate3d(0,
+            0,
+            0) !important;
+
+    transition:
+        none !important;
+
+    will-change:
+        transform !important;
+
+    backface-visibility:
+        hidden !important;
+
+    -webkit-backface-visibility:
+        hidden !important;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO
+
+   COMO O TRILHO TEM 200% DA ALTURA,
+   -50% REPRESENTA EXATAMENTE UMA TELA.
+
+   ELE SÓ VAI PARA CIMA.
+========================================================= */
+
+.ironstore-ver-reels-trilho-subindo {
+    transform:
+        translate3d(0,
+            -50%,
+            0) !important;
+
+    transition:
+        transform 700ms cubic-bezier(.22,
+            .72,
+            .18,
+            1) !important;
+}
+
+
+/* =========================================================
+   CADA PRODUTO
+========================================================= */
+
+.ironstore-ver-reels-item {
+    position: relative !important;
+
+    display: block !important;
+
+    flex:
+        0 0 50% !important;
+
+    width: 100% !important;
+    height: 50% !important;
+
+    overflow: hidden !important;
+
+    border-radius:
+        inherit !important;
+
+    background:
+        #020617 !important;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+========================================================= */
+
+.ironstore-ver-reels-slide-conteudo {
+    position: relative !important;
+
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    overflow: hidden !important;
+
+    border-radius:
+        inherit !important;
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+.ironstore-ver-reels-item .ironstore-ver-reels-imagem {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit:
+        cover !important;
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.ironstore-ver-reels-item .ironstore-ver-reels-overlay {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    z-index: 2 !important;
+}
+
+
+/* =========================================================
+   SELO
+========================================================= */
+
+.ironstore-ver-reels-item .ironstore-ver-reels-selo {
+    z-index: 4 !important;
+}
+
+
+/* =========================================================
+   PLAY
+========================================================= */
+
+.ironstore-ver-reels-item .ironstore-ver-reels-play {
+    z-index: 5 !important;
+}
+
+
+/* =========================================================
+   INFORMAÇÕES
+========================================================= */
+
+.ironstore-ver-reels-item .ironstore-ver-reels-info {
+    z-index: 5 !important;
+}
+
+
+/* =========================================================
+   BARRA
+========================================================= */
+
+.ironstore-ver-reels-item .ironstore-ver-reels-barra {
+    z-index: 6 !important;
+}
+
+
+/* =========================================================
+   REDUZIR MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-ver-reels-trilho-subindo {
+        transition:
+            transform 1ms linear !important;
+    }
+
+}

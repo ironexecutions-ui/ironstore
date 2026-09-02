@@ -27,6 +27,22 @@
     display: none;
 }
 
+.ironstore-reels-vitrine-acao--inicio {
+    position: relative !important;
+}
+
+.ironstore-reels-vitrine-acao-icone--inicio {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition:
+        transform 180ms ease !important;
+}
+
+.ironstore-reels-vitrine-acao--inicio:hover .ironstore-reels-vitrine-acao-icone--inicio {
+    transform:
+        translateY(-2px) scale(1.08) !important;
+}
 
 /* =========================================================
    REEL
