@@ -1248,29 +1248,23 @@ export default function Categorias() {
 
                     {temMaisProdutos && (
 
-                        <div
-                            className="ironstore-categorias-classico-carregar-area"
-                        >
+                        <div className="ironstore-loadmore-premium-wrapper">
 
                             <button
                                 type="button"
-                                className="ironstore-categorias-classico-carregar"
-                                onClick={
-                                    carregarMaisProdutos
-                                }
+                                className="ironstore-loadmore-premium-btn"
+                                onClick={carregarMaisProdutos}
                             >
 
-                                <span>
+                                <span className="ironstore-loadmore-premium-texto">
                                     Carregar mais
                                 </span>
 
-                                <small>
+                                <span className="ironstore-loadmore-premium-quantidade">
                                     +{quantidadeProximaCarga}
-                                </small>
+                                </span>
 
-                                <span
-                                    className="ironstore-categorias-classico-carregar-icone"
-                                >
+                                <span className="ironstore-loadmore-premium-seta">
                                     ↓
                                 </span>
 

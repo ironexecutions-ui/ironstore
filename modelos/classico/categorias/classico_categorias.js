@@ -5892,13 +5892,35 @@ border-radius: 40px;
 }
 
 /* =========================================================
-   BOTÃO CARREGAR MAIS
+   IRONSTORE
+   CARREGAR MAIS
+   CLASSES EXCLUSIVAS
 ========================================================= */
 
-.ironstore-categorias-classico-carregar {
-    width: fit-content !important;
-    min-width: 205px !important;
-    height: 46px !important;
+.ironstore-loadmore-premium-wrapper {
+    width: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin-top: 42px !important;
+    padding: 6px 0 10px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+.ironstore-loadmore-premium-btn {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    min-width: 210px !important;
+    height: 48px !important;
 
     display: inline-flex !important;
     align-items: center !important;
@@ -5906,55 +5928,71 @@ border-radius: 40px;
 
     gap: 10px !important;
 
-    padding: 0 10px 0 18px !important;
+    padding: 0 10px 0 19px !important;
+
+    margin: 0 !important;
 
     border: 1px solid #e2e8f0 !important;
     border-radius: 12px !important;
+
+    outline: none !important;
 
     background: #ffffff !important;
     color: #0f172a !important;
 
     font-family: inherit !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
 
     cursor: pointer !important;
 
+    box-sizing: border-box !important;
+
     box-shadow:
-        0 2px 4px rgba(15, 23, 42, 0.04),
-        0 6px 16px rgba(15, 23, 42, 0.05) !important;
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 5px 14px rgba(15, 23, 42, 0.06) !important;
 
     transition:
-        background 180ms ease,
+        transform 180ms ease,
         border-color 180ms ease,
-        box-shadow 180ms ease,
-        transform 180ms ease !important;
+        background-color 180ms ease,
+        box-shadow 180ms ease !important;
 }
 
 
-/* TEXTO */
+/* =========================================================
+   TEXTO
+========================================================= */
 
-.ironstore-categorias-classico-carregar > span:first-child {
+.ironstore-loadmore-premium-texto {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
     color: #0f172a !important;
 
     font-size: 12px !important;
     font-weight: 750 !important;
+    line-height: 1 !important;
 
     white-space: nowrap !important;
 }
 
 
-/* QUANTIDADE +20 */
+/* =========================================================
+   QUANTIDADE
+========================================================= */
 
-.ironstore-categorias-classico-carregar small {
-    min-width: 30px !important;
-    height: 23px !important;
+.ironstore-loadmore-premium-quantidade {
+    min-width: 32px !important;
+    height: 24px !important;
 
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
 
     padding: 0 7px !important;
+    margin: 0 !important;
 
     border-radius: 7px !important;
 
@@ -5964,53 +6002,65 @@ border-radius: 40px;
     font-size: 9px !important;
     font-weight: 750 !important;
     line-height: 1 !important;
+
+    box-sizing: border-box !important;
 }
 
 
-/* ÍCONE ↓ */
+/* =========================================================
+   SETA
+========================================================= */
 
-.ironstore-categorias-classico-carregar-icone {
-    width: 27px !important;
-    height: 27px !important;
+.ironstore-loadmore-premium-seta {
+    width: 28px !important;
+    height: 28px !important;
 
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
 
-    flex-shrink: 0 !important;
+    flex: 0 0 28px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
 
     border-radius: 8px !important;
 
     background: #f8fafc !important;
     color: #64748b !important;
 
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 600 !important;
     line-height: 1 !important;
 
+    box-sizing: border-box !important;
+
     transition:
-        background 180ms ease,
-        color 180ms ease,
-        transform 180ms ease !important;
+        transform 180ms ease,
+        background-color 180ms ease,
+        color 180ms ease !important;
 }
 
 
-/* HOVER */
+/* =========================================================
+   HOVER
+========================================================= */
 
-.ironstore-categorias-classico-carregar:hover {
+.ironstore-loadmore-premium-btn:hover {
     border-color: #cbd5e1 !important;
 
     background: #f8fafc !important;
 
-    box-shadow:
-        0 4px 8px rgba(15, 23, 42, 0.05),
-        0 10px 24px rgba(15, 23, 42, 0.07) !important;
-
     transform: translateY(-2px) !important;
+
+    box-shadow:
+        0 2px 4px rgba(15, 23, 42, 0.04),
+        0 10px 24px rgba(15, 23, 42, 0.09) !important;
 }
 
-.ironstore-categorias-classico-carregar:hover
-.ironstore-categorias-classico-carregar-icone {
+
+.ironstore-loadmore-premium-btn:hover
+.ironstore-loadmore-premium-seta {
     background: #0f172a !important;
     color: #ffffff !important;
 
@@ -6018,18 +6068,27 @@ border-radius: 40px;
 }
 
 
-/* CLIQUE */
+/* =========================================================
+   ACTIVE
+========================================================= */
 
-.ironstore-categorias-classico-carregar:active {
-    transform: translateY(0) scale(0.98) !important;
+.ironstore-loadmore-premium-btn:active {
+    transform:
+        translateY(0)
+        scale(0.98) !important;
 }
 
 
-/* FOCO */
+/* =========================================================
+   FOCO
+========================================================= */
 
-.ironstore-categorias-classico-carregar:focus-visible {
-    outline: 2px solid rgba(15, 23, 42, 0.18) !important;
-    outline-offset: 3px !important;
+.ironstore-loadmore-premium-btn:focus-visible {
+    border-color: #94a3b8 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(15, 23, 42, 0.08),
+        0 5px 14px rgba(15, 23, 42, 0.06) !important;
 }
 
 
@@ -6039,33 +6098,51 @@ border-radius: 40px;
 
 @media (max-width: 600px) {
 
-    .ironstore-categorias-classico-carregar {
-        min-width: 190px !important;
-        height: 44px !important;
+    .ironstore-loadmore-premium-wrapper {
+        margin-top: 30px !important;
 
-        padding: 0 9px 0 16px !important;
+        padding:
+            4px
+            8px
+            8px !important;
+    }
+
+
+    .ironstore-loadmore-premium-btn {
+        width: 100% !important;
+        max-width: 300px !important;
+        min-width: 0 !important;
+
+        height: 46px !important;
+
+        padding:
+            0
+            9px
+            0
+            17px !important;
 
         gap: 9px !important;
+    }
 
-        border-radius: 11px !important;
 
+    .ironstore-loadmore-premium-texto {
         font-size: 11px !important;
     }
 
-    .ironstore-categorias-classico-carregar > span:first-child {
-        font-size: 11px !important;
-    }
 
-    .ironstore-categorias-classico-carregar small {
-        min-width: 28px !important;
-        height: 22px !important;
+    .ironstore-loadmore-premium-quantidade {
+        min-width: 30px !important;
+        height: 23px !important;
 
         font-size: 8px !important;
     }
 
-    .ironstore-categorias-classico-carregar-icone {
-        width: 25px !important;
-        height: 25px !important;
+
+    .ironstore-loadmore-premium-seta {
+        width: 26px !important;
+        height: 26px !important;
+
+        flex-basis: 26px !important;
 
         font-size: 14px !important;
     }
