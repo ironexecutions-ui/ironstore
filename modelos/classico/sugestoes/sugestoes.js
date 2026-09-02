@@ -3178,7 +3178,801 @@ const classicoSugestoes = `
 
 
 
+/* =========================================================
+   IRONSTORE
+   ACABAMENTO PREMIUM FINAL
+   SUGESTÕES
+========================================================= */
 
+
+/* =========================================================
+   SEÇÃO
+========================================================= */
+
+.ironstore-explorar-produtos-v1 {
+    isolation: isolate;
+}
+
+.ironstore-explorar-produtos-v1::after {
+    content: "";
+
+    position: absolute;
+    z-index: -1;
+
+    top: -180px;
+    left: 50%;
+
+    width: 900px;
+    height: 420px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(15, 23, 42, 0.025) 0%,
+            rgba(15, 23, 42, 0.012) 35%,
+            transparent 72%
+        );
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   CABEÇALHO MAIS PREMIUM
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-header {
+    position: relative;
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-header-conteudo {
+    position: relative;
+}
+
+
+/* =========================================================
+   LINHA DO LABEL
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-linha {
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 0 1px
+        rgba(15, 23, 42, 0.02);
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-linha::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.55),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-titulo {
+    text-rendering:
+        optimizeLegibility;
+
+    -webkit-font-smoothing:
+        antialiased;
+}
+
+
+/* =========================================================
+   CONTADOR PREMIUM
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-contador {
+    position: relative;
+
+    overflow: hidden;
+
+    border-color:
+        #e5e9ef;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f8fafc 100%
+        );
+
+    box-shadow:
+        0 1px 2px
+        rgba(15, 23, 42, 0.025),
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.9);
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-contador:hover {
+    border-color:
+        #d8dee7;
+
+    box-shadow:
+        0 5px 15px
+        rgba(15, 23, 42, 0.055);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   ÁREA DOS FILTROS
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-filtros {
+    position: relative;
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-filtros::after {
+    content: "";
+
+    position: absolute;
+    z-index: 3;
+
+    top: 0;
+    right: 0;
+    bottom: 8px;
+
+    width: 28px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #ffffff
+        );
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   FILTROS
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-filtro {
+    position: relative;
+
+    overflow: hidden;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+    user-select:
+        none;
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-filtro::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.55),
+            transparent
+        );
+
+    transition:
+        opacity 160ms ease;
+
+    pointer-events:
+        none;
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-filtro:hover::before {
+    opacity: 1;
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-filtro-ativo::before {
+    opacity: 0.08;
+}
+
+
+/* =========================================================
+   DIVISOR
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-divisor {
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            #e8edf2 4%,
+            #e8edf2 96%,
+            transparent 100%
+        );
+}
+
+
+/* =========================================================
+   ITEM
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-item {
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico {
+    will-change:
+        transform;
+
+    backface-visibility:
+        hidden;
+
+    -webkit-font-smoothing:
+        antialiased;
+}
+
+
+/* =========================================================
+   BRILHO SUTIL DO CARD
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico::before {
+    content: "";
+
+    position: absolute;
+    z-index: 4;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.9),
+            transparent
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 180ms ease;
+
+    pointer-events:
+        none;
+}
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico:hover::before {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-imagem-area::after {
+    content: "";
+
+    position: absolute;
+    z-index: 2;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 72%,
+            rgba(15, 23, 42, 0.025) 100%
+        );
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   IMAGEM MAIS NATURAL NO HOVER
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-imagem {
+    transform-origin:
+        center center;
+
+    will-change:
+        transform;
+}
+
+@media (hover: hover) {
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico:hover
+    .ironstore-produto-classico-imagem {
+        transform:
+            scale(1.045);
+    }
+
+}
+
+
+/* =========================================================
+   INDICADORES DAS IMAGENS
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-indicadores {
+    padding:
+        5px
+        7px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(255, 255, 255, 0.78);
+
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
+
+    box-shadow:
+        0 2px 8px
+        rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================================
+   INFORMAÇÕES
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-informacoes {
+    position: relative;
+
+    background:
+        #ffffff;
+}
+
+
+/* =========================================================
+   NOME DO PRODUTO
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-informacoes h3 {
+    transition:
+        color 160ms ease;
+
+    text-rendering:
+        optimizeLegibility;
+}
+
+@media (hover: hover) {
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico:hover
+    .ironstore-produto-classico-informacoes h3 {
+        color:
+            #020617;
+    }
+
+}
+
+
+/* =========================================================
+   VARIEDADES
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-variedade {
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 1px 2px
+        rgba(15, 23, 42, 0.025);
+
+    -webkit-tap-highlight-color:
+        transparent;
+}
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-variedade:active {
+    transform:
+        scale(0.94);
+}
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-variedade.selecionada {
+    box-shadow:
+        0 4px 10px
+        rgba(15, 23, 42, 0.13);
+}
+
+
+/* =========================================================
+   PREÇO
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-preco strong,
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-promocao strong {
+    text-rendering:
+        optimizeLegibility;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+/* =========================================================
+   PREÇO ANTIGO
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-preco-antigo {
+    text-decoration-thickness:
+        1px;
+
+    text-decoration-color:
+        #94a3b8;
+}
+
+
+/* =========================================================
+   BOTÃO DO CARRINHO
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-carrinho {
+    isolation: isolate;
+
+    -webkit-tap-highlight-color:
+        transparent;
+}
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-carrinho::before {
+    content: "";
+
+    position: absolute;
+    z-index: -1;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    transform:
+        skewX(-20deg);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.10),
+            transparent
+        );
+
+    transition:
+        left 450ms ease;
+
+    pointer-events:
+        none;
+}
+
+@media (hover: hover) {
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico-carrinho:hover::before {
+        left:
+            150%;
+    }
+
+}
+
+
+/* =========================================================
+   CLIQUE DO BOTÃO
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-carrinho:active:not(:disabled) {
+    transform:
+        translateY(0)
+        scale(0.985);
+
+    box-shadow:
+        0 2px 7px
+        rgba(15, 23, 42, 0.12);
+}
+
+
+/* =========================================================
+   ESTADO NO CARRINHO
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-carrinho.no-carrinho {
+    background:
+        linear-gradient(
+            180deg,
+            #f8fafc,
+            #f1f5f9
+        );
+
+    border-color:
+        #e2e8f0;
+}
+
+
+/* =========================================================
+   CHECK
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-carrinho-check {
+    box-shadow:
+        0 2px 6px
+        rgba(15, 23, 42, 0.16);
+}
+
+
+/* =========================================================
+   ESTADO VAZIO
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-vazio-icone {
+    position: relative;
+
+    box-shadow:
+        0 2px 7px
+        rgba(15, 23, 42, 0.04),
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.9);
+}
+
+
+/* =========================================================
+   BOTÃO ESTADO VAZIO
+========================================================= */
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-vazio-botao {
+    position: relative;
+
+    overflow: hidden;
+
+    -webkit-tap-highlight-color:
+        transparent;
+}
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-vazio-botao:active {
+    transform:
+        scale(0.97);
+}
+
+
+/* =========================================================
+   DESKTOP GRANDE
+========================================================= */
+
+@media (min-width: 1400px) {
+
+    .ironstore-explorar-produtos-v1
+    .ironstore-explorar-produtos-v1-grid {
+        gap:
+            30px
+            20px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-explorar-produtos-v1::after {
+        top:
+            -100px;
+
+        width:
+            100%;
+
+        height:
+            280px;
+    }
+
+
+    .ironstore-explorar-produtos-v1
+    .ironstore-explorar-produtos-v1-filtros::after {
+        width:
+            18px;
+    }
+
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico {
+        will-change:
+            auto;
+    }
+
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico::before {
+        display:
+            none;
+    }
+
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico-imagem-area::after {
+        opacity:
+            0.6;
+    }
+
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico-indicadores {
+        bottom:
+            7px;
+
+        padding:
+            4px
+            6px;
+    }
+
+}
+
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+@media (hover: none) {
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico:hover {
+        transform:
+            none;
+    }
+
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico:hover
+    .ironstore-produto-classico-imagem {
+        transform:
+            none;
+    }
+
+
+    .ironstore-explorar-produtos-v1
+    .ironstore-explorar-produtos-v1-contador:hover {
+        transform:
+            none;
+    }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-variedade:focus-visible,
+
+.ironstore-explorar-produtos-v1-item
+.ironstore-produto-classico-carrinho:focus-visible,
+
+.ironstore-explorar-produtos-v1
+.ironstore-explorar-produtos-v1-vazio-botao:focus-visible {
+    outline:
+        2px
+        solid
+        #64748b;
+
+    outline-offset:
+        3px;
+}
+
+
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico,
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico-imagem,
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico-carrinho,
+
+    .ironstore-explorar-produtos-v1-item
+    .ironstore-produto-classico-variedade,
+
+    .ironstore-explorar-produtos-v1
+    .ironstore-explorar-produtos-v1-contador {
+        transition:
+            none !important;
+
+        animation:
+            none !important;
+    }
+
+}
 
 `;
 
