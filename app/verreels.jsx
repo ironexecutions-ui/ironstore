@@ -409,7 +409,14 @@ export default function VerReels() {
         location.pathname.startsWith(
             "/reels/"
         );
+    /* =====================================================
+       VER REELS SÓ PODE APARECER EM /produtos/:id
+    ===================================================== */
 
+    const estaEmPaginaProduto =
+        /^\/produtos\/[^/]+\/?$/.test(
+            location.pathname
+        );
 
     /* =====================================================
        FECHAMENTO
@@ -1050,13 +1057,16 @@ export default function VerReels() {
 
     }
 
-
     /* =====================================================
        NÃO EXIBIR
+    
+       O MINI VER REELS APARECE SOMENTE EM:
+    
+       /produtos/:id
     ===================================================== */
 
     if (
-        estaNosReels ||
+        !estaEmPaginaProduto ||
         fechado ||
         !produto?.id ||
         !imagemPrincipal

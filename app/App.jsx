@@ -22,7 +22,7 @@ import Compras from "../areas/compras";
 import Perfil from "../areas/perfil";
 import Reels from "../areas/reels";
 import Produtos from "../areas/produtos";
-
+import Path from "../areas/path";
 
 /* =========================================================
    COMPONENTES GLOBAIS
@@ -282,7 +282,10 @@ export default function App() {
       <main className="app-pagina-principal-iron">
 
         <Routes>
-
+          <Route
+            path="/path"
+            element={<Path />}
+          />
           <Route
             path="/"
             element={<Home />}

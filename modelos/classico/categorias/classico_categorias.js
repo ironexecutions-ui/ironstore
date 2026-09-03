@@ -6148,6 +6148,322 @@ border-radius: 40px;
     }
 
 }
+
+/* =========================================================
+   IRONSTORE
+   CARD DE CATEGORIA COM MOVIMENTO VERTICAL TIPO REELS
+========================================================= */
+
+.ironstore-produto-categoria-reels-viewport-unico {
+    position: relative !important;
+
+    overflow: hidden !important;
+
+    isolation: isolate !important;
+}
+
+
+/* =========================================================
+   TRILHO
+
+   Possui exatamente duas telas:
+   1. imagem atual
+   2. próxima imagem
+========================================================= */
+
+.ironstore-produto-categoria-reels-trilho-unico {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 100% !important;
+    height: 200% !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    transform:
+        translate3d(
+            0,
+            0,
+            0
+        ) !important;
+
+    transition:
+        transform
+        650ms
+        cubic-bezier(
+            0.76,
+            0,
+            0.24,
+            1
+        ) !important;
+
+    will-change:
+        transform !important;
+
+    backface-visibility:
+        hidden !important;
+}
+
+
+/* =========================================================
+   ESTADO EM MOVIMENTO
+
+   Move exatamente uma tela para cima.
+========================================================= */
+
+.ironstore-produto-categoria-reels-trilho-animando-unico {
+    transform:
+        translate3d(
+            0,
+            -50%,
+            0
+        ) !important;
+}
+/* =========================================================
+   RESET DO REELS SEM DESCER
+========================================================= */
+
+.ironstore-produto-categoria-reels-trilho-resetando-unico {
+    transition: none !important;
+}
+
+/* =========================================================
+   CADA SLIDE
+========================================================= */
+
+.ironstore-produto-categoria-reels-slide-unico {
+    position: relative !important;
+
+    width: 100% !important;
+    height: 50% !important;
+
+    flex:
+        0
+        0
+        50% !important;
+
+    overflow: hidden !important;
+
+    background:
+        #f8fafc !important;
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+.ironstore-produto-categoria-reels-imagem-unica {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    object-position:
+        center !important;
+
+    user-select:
+        none !important;
+
+    pointer-events:
+        none !important;
+
+    -webkit-user-drag:
+        none !important;
+
+    transform:
+        translateZ(0) !important;
+
+    backface-visibility:
+        hidden !important;
+}
+
+
+/* =========================================================
+   GARANTIR INDICADORES ACIMA DO REELS
+========================================================= */
+
+.ironstore-produto-categoria-reels-viewport-unico
+.ironstore-produto-classico-indicadores {
+    position: absolute !important;
+
+    z-index: 8 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-produto-categoria-reels-trilho-unico {
+        transition-duration:
+            600ms !important;
+    }
+
+}
+/* =========================================================
+   BOTÃO PLAY — CARD REELS
+   PREMIUM / MODERNO
+========================================================= */
+
+.ironstore-produto-reels-play {
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 50% !important;
+
+    z-index: 50 !important;
+
+    width: 58px !important;
+    height: 58px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 50% !important;
+
+    /* Fundo elegante e translúcido */
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 20, 20, 0.68),
+            rgba(0, 0, 0, 0.48)
+        ) !important;
+
+    /* Contorno claro discreto */
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.65) !important;
+
+    /* Profundidade */
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.30),
+        0 3px 10px rgba(0, 0, 0, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+
+    backdrop-filter:
+        blur(9px)
+        saturate(130%) !important;
+
+    -webkit-backdrop-filter:
+        blur(9px)
+        saturate(130%) !important;
+
+    transform:
+        translate(-50%, -50%) !important;
+
+    pointer-events: none !important;
+
+    user-select: none !important;
+
+    overflow: hidden !important;
+
+    /* Não deixa o botão piscar durante a troca */
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+}
+
+
+/* =========================================================
+   BRILHO INTERNO
+========================================================= */
+
+.ironstore-produto-reels-play::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    top: 3px !important;
+    left: 8px !important;
+    right: 8px !important;
+
+    height: 45% !important;
+
+    border-radius: 50% !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.20),
+            rgba(255, 255, 255, 0)
+        ) !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   ÍCONE PLAY
+========================================================= */
+
+.ironstore-produto-reels-play span {
+    position: relative !important;
+
+    z-index: 2 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    /*
+     * O símbolo ▶ parece deslocado para esquerda
+     * geometricamente. Esses 3px centralizam visualmente.
+     */
+    transform:
+        translateX(3px) !important;
+
+    margin: 0 !important;
+
+    color: #ffffff !important;
+
+    font-size: 23px !important;
+    font-weight: 700 !important;
+
+    line-height: 1 !important;
+
+    text-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.35) !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-produto-reels-play {
+        width: 50px !important;
+        height: 50px !important;
+
+        backdrop-filter:
+            blur(7px)
+            saturate(125%) !important;
+
+        -webkit-backdrop-filter:
+            blur(7px)
+            saturate(125%) !important;
+    }
+
+    .ironstore-produto-reels-play span {
+        font-size: 20px !important;
+
+        transform:
+            translateX(2px) !important;
+    }
+}
+
 `;
 
 export default classicoCategorias;

@@ -3187,6 +3187,1419 @@ span + span::before {
         max-height: calc(100dvh - 140px) !important;
     }
 }
+
+/* =========================================================
+   MENU FLUTUANTE FIXO
+   ALINHADO AO HEADER CLÁSSICO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-area {
+    position: fixed !important;
+
+    top: 18px !important;
+    right: 20px !important;
+
+    z-index: 9999999 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+
+    gap: 10px !important;
+
+    font-family: inherit !important;
+}
+
+
+/* =========================================================
+   BOTÃO FLUTUANTE
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao {
+    position: relative !important;
+
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+
+    border:
+        1px solid
+        #dce3ea !important;
+
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f8fafc 100%
+        ) !important;
+
+    color: #344054 !important;
+
+    font-family: inherit !important;
+
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 2px 5px rgba(15, 35, 60, 0.05),
+        0 8px 22px rgba(15, 35, 60, 0.10) !important;
+
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease,
+        transform 150ms ease !important;
+
+    animation:
+        ironstoreMenuFixoBotaoEntrada
+        220ms
+        cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+
+/* =========================================================
+   HOVER BOTÃO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao:hover {
+    border-color:
+        #c8d3df !important;
+
+    background:
+        #ffffff !important;
+
+    color:
+        #142a4a !important;
+
+    box-shadow:
+        0 3px 7px rgba(15, 35, 60, 0.07),
+        0 10px 28px rgba(15, 35, 60, 0.13) !important;
+
+    transform:
+        translateY(-1px) !important;
+}
+
+
+.ironstore-header-menu-flutuante-fixo-botao:active {
+    transform:
+        scale(0.95) !important;
+}
+
+
+/* =========================================================
+   BOTÃO QUANDO MENU ESTÁ ABERTO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao.ativo {
+    border-color:
+        #d7e0e9 !important;
+
+    background:
+        #f2f5f8 !important;
+
+    color:
+        #173d66 !important;
+
+    box-shadow:
+        0 2px 5px rgba(15, 35, 60, 0.06),
+        0 7px 20px rgba(15, 35, 60, 0.09) !important;
+}
+
+
+/* =========================================================
+   FOCO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao:focus-visible {
+    outline: none !important;
+
+    box-shadow:
+        0 0 0 4px rgba(20, 42, 74, 0.09),
+        0 8px 22px rgba(15, 35, 60, 0.10) !important;
+}
+
+
+/* =========================================================
+   PAINEL DO MENU
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-conteudo {
+    position: relative !important;
+
+    width: 300px !important;
+    max-width:
+        calc(100vw - 32px) !important;
+
+    box-sizing: border-box !important;
+
+    padding: 8px !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    max-height:
+        calc(100dvh - 90px) !important;
+
+    border:
+        1px solid
+        #e4e9ef !important;
+
+    border-radius:
+        14px !important;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.985
+        ) !important;
+
+    backdrop-filter:
+        blur(18px)
+        saturate(130%) !important;
+
+    -webkit-backdrop-filter:
+        blur(18px)
+        saturate(130%) !important;
+
+    box-shadow:
+        0 18px 45px rgba(15, 35, 60, 0.12),
+        0 3px 10px rgba(15, 35, 60, 0.05) !important;
+
+    transform-origin:
+        top right !important;
+
+    animation:
+        ironstoreMenuFixoEntrada
+        180ms
+        cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+
+/* =========================================================
+   SETINHA ENTRE BOTÃO E MENU
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-conteudo::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    top: -6px !important;
+    right: 18px !important;
+
+    width: 10px !important;
+    height: 10px !important;
+
+    border-top:
+        1px solid
+        #e4e9ef !important;
+
+    border-left:
+        1px solid
+        #e4e9ef !important;
+
+    background:
+        #ffffff !important;
+
+    transform:
+        rotate(45deg) !important;
+}
+
+
+/* =========================================================
+   GRUPOS
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo {
+    position: relative !important;
+
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 1px !important;
+
+    padding:
+        6px 0 !important;
+
+    box-sizing:
+        border-box !important;
+}
+
+
+/* DIVISÃO ENTRE OS GRUPOS */
+
+.ironstore-header-menu-flutuante-fixo-grupo
++
+.ironstore-header-menu-flutuante-fixo-grupo {
+    margin-top:
+        4px !important;
+
+    padding-top:
+        11px !important;
+
+    border-top:
+        1px solid
+        #edf0f4 !important;
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-titulo {
+    display: block !important;
+
+    padding:
+        5px
+        12px
+        8px !important;
+
+    color:
+        #8a97a6 !important;
+
+    font-family:
+        inherit !important;
+
+    font-size:
+        10px !important;
+
+    font-weight:
+        700 !important;
+
+    line-height:
+        1 !important;
+
+    letter-spacing:
+        0.07em !important;
+
+    text-transform:
+        uppercase !important;
+
+    user-select:
+        none !important;
+}
+
+
+/* =========================================================
+   BOTÕES DAS OPÇÕES
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button {
+    position: relative !important;
+
+    width: 100% !important;
+    min-height: 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    box-sizing:
+        border-box !important;
+
+    margin: 0 !important;
+
+    padding:
+        0
+        12px !important;
+
+    border:
+        0 !important;
+
+    border-radius:
+        8px !important;
+
+    outline:
+        none !important;
+
+    background:
+        transparent !important;
+
+    color:
+        #263b53 !important;
+
+    font-family:
+        inherit !important;
+
+    font-size:
+        13px !important;
+
+    font-weight:
+        550 !important;
+
+    line-height:
+        1.3 !important;
+
+    text-align:
+        left !important;
+
+    cursor:
+        pointer !important;
+
+    transition:
+        background-color 140ms ease,
+        color 140ms ease,
+        padding-left 140ms ease !important;
+}
+
+
+/* =========================================================
+   BARRA LATERAL
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 0 !important;
+
+    width: 3px !important;
+    height: 0 !important;
+
+    border-radius:
+        0
+        4px
+        4px
+        0 !important;
+
+    background:
+        #244f7d !important;
+
+    opacity:
+        0 !important;
+
+    transition:
+        height 140ms ease,
+        opacity 140ms ease !important;
+}
+
+
+/* =========================================================
+   HOVER DAS OPÇÕES
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button:hover {
+    padding-left:
+        16px !important;
+
+    background:
+        #f5f7fa !important;
+
+    color:
+        #153d69 !important;
+}
+
+
+.ironstore-header-menu-flutuante-fixo-grupo button:hover::before {
+    height:
+        20px !important;
+
+    opacity:
+        1 !important;
+}
+
+
+/* =========================================================
+   FOCO DAS OPÇÕES
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button:focus-visible {
+    background:
+        #f5f7fa !important;
+
+    color:
+        #153d69 !important;
+
+    box-shadow:
+        inset
+        0
+        0
+        0
+        2px
+        rgba(36, 79, 125, 0.22) !important;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO DO BOTÃO AO APARECER
+========================================================= */
+
+@keyframes ironstoreMenuFixoBotaoEntrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-8px)
+            scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   ANIMAÇÃO DO MENU
+========================================================= */
+
+@keyframes ironstoreMenuFixoEntrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-5px)
+            scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-header-menu-flutuante-fixo-area {
+        top:
+            max(
+                12px,
+                env(safe-area-inset-top)
+            ) !important;
+
+        right:
+            12px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-botao {
+        width:
+            46px !important;
+
+        min-width:
+            46px !important;
+
+        height:
+            46px !important;
+
+        border-radius:
+            13px !important;
+
+        font-size:
+            20px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-conteudo {
+        width:
+            min(
+                300px,
+                calc(100vw - 24px)
+            ) !important;
+
+        max-height:
+            calc(
+                100dvh -
+                78px -
+                env(safe-area-inset-top)
+            ) !important;
+
+        border-radius:
+            14px !important;
+
+        padding:
+            8px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-grupo {
+        padding:
+            7px 0 !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-titulo {
+        padding:
+            7px
+            12px
+            9px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-grupo button {
+        min-height:
+            46px !important;
+
+        padding:
+            0
+            13px !important;
+
+        border-radius:
+            9px !important;
+
+        font-size:
+            14px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-grupo button:hover {
+        padding-left:
+            17px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR PEQUENO
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .ironstore-header-menu-flutuante-fixo-area {
+        right:
+            8px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-conteudo {
+        width:
+            calc(100vw - 16px) !important;
+    }
+
+}
+/* =========================================================
+   MENU FLUTUANTE FIXO — DESIGN FINAL
+   IRONSTORE CLASSIC
+========================================================= */
+
+
+/* =========================================================
+   ÁREA FIXA
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-area {
+    position: fixed !important;
+
+    top: 20px !important;
+    right: 22px !important;
+
+    z-index: 99999999 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+
+    gap: 11px !important;
+
+    font-family: inherit !important;
+
+    pointer-events: none !important;
+}
+
+
+/* libera clique somente nos elementos necessários */
+
+.ironstore-header-menu-flutuante-fixo-area
+.ironstore-header-menu-flutuante-fixo-botao,
+.ironstore-header-menu-flutuante-fixo-area
+.ironstore-header-menu-flutuante-fixo-conteudo {
+    pointer-events: auto !important;
+}
+
+
+/* =========================================================
+   BOTÃO ☰ / X
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao {
+    position: relative !important;
+
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+
+    overflow: hidden !important;
+
+    border:
+        1px solid
+        rgba(20, 42, 74, 0.14) !important;
+
+    border-radius: 16px !important;
+
+    background:
+        rgba(255, 255, 255, 0.96) !important;
+
+    color: #142a4a !important;
+
+    font-family: inherit !important;
+
+    font-size: 22px !important;
+    font-weight: 500 !important;
+
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+
+    backdrop-filter:
+        blur(18px)
+        saturate(150%) !important;
+
+    -webkit-backdrop-filter:
+        blur(18px)
+        saturate(150%) !important;
+
+    box-shadow:
+        0 2px 5px rgba(15, 35, 60, 0.05),
+        0 8px 20px rgba(15, 35, 60, 0.09),
+        0 18px 40px rgba(15, 35, 60, 0.08) !important;
+
+    transition:
+        transform 160ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease,
+        color 180ms ease !important;
+
+    animation:
+        ironstoreMenuBotaoPremiumEntrada
+        260ms
+        cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+
+/* brilho superior */
+
+.ironstore-header-menu-flutuante-fixo-botao::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 8px !important;
+    right: 8px !important;
+
+    height: 1px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.95),
+            transparent
+        ) !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   HOVER DO BOTÃO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao:hover {
+    border-color:
+        rgba(20, 42, 74, 0.28) !important;
+
+    background:
+        #ffffff !important;
+
+    color:
+        #0b1f3a !important;
+
+    transform:
+        translateY(-2px) !important;
+
+    box-shadow:
+        0 3px 7px rgba(15, 35, 60, 0.07),
+        0 10px 25px rgba(15, 35, 60, 0.12),
+        0 22px 50px rgba(15, 35, 60, 0.09) !important;
+}
+
+
+.ironstore-header-menu-flutuante-fixo-botao:active {
+    transform:
+        translateY(0)
+        scale(0.94) !important;
+}
+
+
+/* =========================================================
+   BOTÃO QUANDO MENU ABERTO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao.ativo {
+    border-color:
+        rgba(20, 42, 74, 0.30) !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #142a4a,
+            #1d3d68
+        ) !important;
+
+    color:
+        #ffffff !important;
+
+    box-shadow:
+        0 3px 8px rgba(20, 42, 74, 0.16),
+        0 12px 30px rgba(20, 42, 74, 0.18) !important;
+}
+
+
+/* =========================================================
+   FOCO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-botao:focus-visible {
+    outline: none !important;
+
+    box-shadow:
+        0 0 0 4px rgba(20, 42, 74, 0.10),
+        0 10px 28px rgba(15, 35, 60, 0.14) !important;
+}
+
+
+/* =========================================================
+   PAINEL
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-conteudo {
+    position: relative !important;
+
+    width: 320px !important;
+
+    max-width:
+        calc(100vw - 32px) !important;
+
+    max-height:
+        calc(100dvh - 100px) !important;
+
+    box-sizing: border-box !important;
+
+    padding: 10px !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    overscroll-behavior: contain !important;
+
+    border:
+        1px solid
+        rgba(20, 42, 74, 0.10) !important;
+
+    border-radius: 19px !important;
+
+    background:
+        rgba(255, 255, 255, 0.985) !important;
+
+    backdrop-filter:
+        blur(24px)
+        saturate(145%) !important;
+
+    -webkit-backdrop-filter:
+        blur(24px)
+        saturate(145%) !important;
+
+    box-shadow:
+        0 4px 10px rgba(15, 35, 60, 0.04),
+        0 18px 45px rgba(15, 35, 60, 0.12),
+        0 35px 80px rgba(15, 35, 60, 0.09) !important;
+
+    transform-origin:
+        top right !important;
+
+    animation:
+        ironstoreMenuPainelPremiumEntrada
+        220ms
+        cubic-bezier(0.22, 1, 0.36, 1) !important;
+
+    scrollbar-width:
+        thin !important;
+
+    scrollbar-color:
+        #cfd5dc
+        transparent !important;
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-conteudo::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+
+.ironstore-header-menu-flutuante-fixo-conteudo::-webkit-scrollbar-track {
+    background:
+        transparent !important;
+}
+
+
+.ironstore-header-menu-flutuante-fixo-conteudo::-webkit-scrollbar-thumb {
+    border-radius:
+        999px !important;
+
+    background:
+        #cfd5dc !important;
+}
+
+
+/* =========================================================
+   SETA SUPERIOR
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-conteudo::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    top: -6px !important;
+    right: 20px !important;
+
+    width: 11px !important;
+    height: 11px !important;
+
+    box-sizing: border-box !important;
+
+    border-top:
+        1px solid
+        rgba(20, 42, 74, 0.10) !important;
+
+    border-left:
+        1px solid
+        rgba(20, 42, 74, 0.10) !important;
+
+    background:
+        #ffffff !important;
+
+    transform:
+        rotate(45deg) !important;
+}
+
+
+/* =========================================================
+   GRUPOS
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo {
+    position: relative !important;
+
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 3px !important;
+
+    padding:
+        7px 0 !important;
+
+    box-sizing:
+        border-box !important;
+}
+
+
+/* segundo grupo */
+
+.ironstore-header-menu-flutuante-fixo-grupo
++
+.ironstore-header-menu-flutuante-fixo-grupo {
+    margin-top:
+        5px !important;
+
+    padding-top:
+        14px !important;
+
+    border-top:
+        1px solid
+        #edf0f4 !important;
+}
+
+
+/* =========================================================
+   TÍTULOS
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-titulo {
+    display: flex !important;
+    align-items: center !important;
+
+    min-height: 27px !important;
+
+    padding:
+        2px
+        13px
+        7px !important;
+
+    color:
+        #8a97a6 !important;
+
+    font-family:
+        inherit !important;
+
+    font-size:
+        9px !important;
+
+    font-weight:
+        800 !important;
+
+    line-height:
+        1 !important;
+
+    letter-spacing:
+        0.09em !important;
+
+    text-transform:
+        uppercase !important;
+
+    user-select:
+        none !important;
+}
+
+
+/* =========================================================
+   BOTÕES DO MENU
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button {
+    position: relative !important;
+
+    width: 100% !important;
+    min-height: 44px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    margin: 0 !important;
+
+    padding:
+        0
+        13px !important;
+
+    box-sizing:
+        border-box !important;
+
+    overflow:
+        hidden !important;
+
+    border:
+        1px solid
+        transparent !important;
+
+    border-radius:
+        11px !important;
+
+    outline:
+        none !important;
+
+    background:
+        transparent !important;
+
+    color:
+        #263b53 !important;
+
+    font-family:
+        inherit !important;
+
+    font-size:
+        13px !important;
+
+    font-weight:
+        600 !important;
+
+    line-height:
+        1.3 !important;
+
+    letter-spacing:
+        -0.08px !important;
+
+    text-align:
+        left !important;
+
+    cursor:
+        pointer !important;
+
+    transition:
+        background 150ms ease,
+        border-color 150ms ease,
+        color 150ms ease,
+        box-shadow 150ms ease,
+        transform 150ms ease,
+        padding-left 150ms ease !important;
+}
+
+
+/* =========================================================
+   INDICADOR LATERAL
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 0 !important;
+
+    width:
+        3px !important;
+
+    height:
+        18px !important;
+
+    border-radius:
+        0
+        999px
+        999px
+        0 !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #142a4a,
+            #315f91
+        ) !important;
+
+    opacity:
+        0 !important;
+
+    transform:
+        translateY(-50%)
+        scaleY(0.45) !important;
+
+    transition:
+        opacity 150ms ease,
+        transform 150ms ease !important;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button:hover {
+    padding-left:
+        17px !important;
+
+    border-color:
+        #e7ebf0 !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f5f7fa 100%
+        ) !important;
+
+    color:
+        #153d69 !important;
+
+    box-shadow:
+        0 2px 5px rgba(15, 35, 60, 0.025),
+        0 5px 12px rgba(15, 35, 60, 0.035) !important;
+
+    transform:
+        translateX(1px) !important;
+}
+
+
+.ironstore-header-menu-flutuante-fixo-grupo button:hover::before {
+    opacity:
+        1 !important;
+
+    transform:
+        translateY(-50%)
+        scaleY(1) !important;
+}
+
+
+/* =========================================================
+   CLIQUE
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button:active {
+    transform:
+        scale(0.985) !important;
+
+    background:
+        #eef2f6 !important;
+}
+
+
+/* =========================================================
+   FOCO
+========================================================= */
+
+.ironstore-header-menu-flutuante-fixo-grupo button:focus-visible {
+    border-color:
+        rgba(36, 79, 125, 0.20) !important;
+
+    background:
+        #f5f7fa !important;
+
+    color:
+        #153d69 !important;
+
+    box-shadow:
+        inset
+        0
+        0
+        0
+        2px
+        rgba(36, 79, 125, 0.10) !important;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO — BOTÃO
+========================================================= */
+
+@keyframes ironstoreMenuBotaoPremiumEntrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-10px)
+            scale(0.88);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   ANIMAÇÃO — PAINEL
+========================================================= */
+
+@keyframes ironstoreMenuPainelPremiumEntrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-8px)
+            scale(0.975);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-header-menu-flutuante-fixo-area {
+        top:
+            max(
+                12px,
+                env(safe-area-inset-top)
+            ) !important;
+
+        right:
+            12px !important;
+
+        gap:
+            9px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-botao {
+        width:
+            48px !important;
+
+        min-width:
+            48px !important;
+
+        height:
+            48px !important;
+
+        border-radius:
+            14px !important;
+
+        font-size:
+            21px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-conteudo {
+        width:
+            min(
+                310px,
+                calc(100vw - 24px)
+            ) !important;
+
+        max-width:
+            calc(100vw - 24px) !important;
+
+        max-height:
+            calc(
+                100dvh -
+                76px -
+                env(safe-area-inset-top)
+            ) !important;
+
+        padding:
+            8px !important;
+
+        border-radius:
+            17px !important;
+
+        -webkit-overflow-scrolling:
+            touch !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-grupo {
+        gap:
+            2px !important;
+
+        padding:
+            6px 0 !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-titulo {
+        min-height:
+            25px !important;
+
+        padding:
+            3px
+            12px
+            7px !important;
+
+        font-size:
+            9px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-grupo button {
+        min-height:
+            46px !important;
+
+        padding:
+            0
+            13px !important;
+
+        border-radius:
+            10px !important;
+
+        font-size:
+            14px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-grupo button:hover {
+        padding-left:
+            16px !important;
+
+        transform:
+            none !important;
+    }
+}
+
+
+/* =========================================================
+   CELULAR PEQUENO
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .ironstore-header-menu-flutuante-fixo-area {
+        right:
+            8px !important;
+    }
+
+
+    .ironstore-header-menu-flutuante-fixo-conteudo {
+        width:
+            calc(100vw - 16px) !important;
+
+        max-width:
+            calc(100vw - 16px) !important;
+    }
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE — REDUZIR ANIMAÇÕES
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-header-menu-flutuante-fixo-botao,
+    .ironstore-header-menu-flutuante-fixo-conteudo,
+    .ironstore-header-menu-flutuante-fixo-grupo button {
+        animation:
+            none !important;
+
+        transition:
+            none !important;
+    }
+}
+
 `;
 
 export default classicoHeader;

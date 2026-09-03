@@ -398,6 +398,61 @@ export default function Reelslog() {
     const containerRef =
         useRef(null);
     /* =========================================================
+ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
+========================================================= */
+
+    useEffect(() => {
+
+        function pressionarTecla(
+            evento
+        ) {
+
+            /* =============================================
+               SOMENTE TECLA ESC
+            ============================================= */
+
+            if (
+                evento.key !== "Escape"
+            ) {
+                return;
+            }
+
+
+            /* =============================================
+               EVITA COMPORTAMENTO DUPLICADO
+            ============================================= */
+
+            evento.preventDefault();
+
+
+            /* =============================================
+               VOLTAR PARA PÁGINA ANTERIOR
+            ============================================= */
+
+            navigate(-1);
+
+        }
+
+
+        window.addEventListener(
+            "keydown",
+            pressionarTecla
+        );
+
+
+        return () => {
+
+            window.removeEventListener(
+                "keydown",
+                pressionarTecla
+            );
+
+        };
+
+    }, [
+        navigate
+    ]);
+    /* =========================================================
        CONTROLE DA ORDEM DOS REELS
     ========================================================= */
 

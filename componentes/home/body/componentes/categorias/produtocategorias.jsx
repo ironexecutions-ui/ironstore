@@ -20,7 +20,15 @@ const TEMPO_TROCA_AUTOMATICA =
 const TEMPO_TRANSICAO =
     450;
 
+/* =========================================================
+   CONFIGURAÇÕES DO CARD ESTILO REELS
+========================================================= */
 
+const TEMPO_TROCA_REELS =
+    3000;
+
+const TEMPO_TRANSICAO_REELS =
+    650;
 /* =========================================================
    FORMATAR PREÇO
 ========================================================= */
@@ -155,7 +163,8 @@ export default function ProdutoCategoria({
     onAbrir,
     clienteLogado,
     produtosCarrinho,
-    onAdicionarCarrinho
+    onAdicionarCarrinho,
+    modoReels = false
 }) {
 
     /* =====================================================
@@ -190,7 +199,25 @@ export default function ProdutoCategoria({
         trocandoImagem,
         setTrocandoImagem
     ] = useState(false);
+    /* =====================================================
+       ANIMAÇÃO VERTICAL DO MODO REELS
+    ===================================================== */
 
+    const [
+        animandoReels,
+        setAnimandoReels
+    ] = useState(false);
+
+    const [
+        resetandoReels,
+        setResetandoReels
+    ] = useState(false);
+    const animandoReelsRef =
+        useRef(false);
+
+
+    const timeoutReelsRef =
+        useRef(null);
 
     /* =====================================================
        CONTROLE
@@ -542,6 +569,19 @@ export default function ProdutoCategoria({
 
     useEffect(() => {
 
+        /* =============================================
+           CARD REELS TEM SEU PRÓPRIO TIMER
+        ============================================= */
+
+        if (
+            modoReels
+        ) {
+
+            return;
+
+        }
+
+
         if (
             imagens.length <= 1
         ) {
@@ -568,43 +608,31 @@ export default function ProdutoCategoria({
         };
 
     }, [
+        modoReels,
         imagens.length,
         trocarImagem
     ]);
-
-
     /* =====================================================
        HOVER
-
-       Entrou:
-       troca imediatamente.
-
-       Depois continua com o ciclo normal de 10 segundos.
+    
+       NORMAL:
+       continua trocando imediatamente.
+    
+       REELS:
+       não interfere na animação.
+       O Reels sobe somente pelo timer de 3 segundos.
     ===================================================== */
 
     function mouseEntrou() {
 
         if (
-            imagens.length <= 1
+            modoReels
         ) {
 
             return;
 
         }
 
-
-        trocarImagem();
-
-    }
-
-
-    /* =====================================================
-       SAIU DO HOVER
-
-       Troca novamente imediatamente.
-    ===================================================== */
-
-    function mouseSaiu() {
 
         if (
             imagens.length <= 1
@@ -616,10 +644,35 @@ export default function ProdutoCategoria({
 
 
         trocarImagem();
-
     }
 
 
+    /* =====================================================
+       SAÍDA DO HOVER
+    ===================================================== */
+
+    function mouseSaiu() {
+
+        if (
+            modoReels
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            imagens.length <= 1
+        ) {
+
+            return;
+
+        }
+
+
+        trocarImagem();
+    }
     /* =====================================================
        LIMPEZA
     ===================================================== */
@@ -637,6 +690,21 @@ export default function ProdutoCategoria({
                 );
 
             }
+
+
+            if (
+                timeoutReelsRef.current
+            ) {
+
+                clearTimeout(
+                    timeoutReelsRef.current
+                );
+
+            }
+
+
+            animandoReelsRef.current =
+                false;
 
         };
 
@@ -675,10 +743,189 @@ export default function ProdutoCategoria({
         indiceImagem
         ] || "";
 
-
     /* =====================================================
-       CLIQUE
+       PRÓXIMA IMAGEM DO REELS
+    
+       3 imagens:
+       0 -> 1 -> 2 -> 0
+    
+       2 imagens:
+       0 -> 1 -> 0
+    
+       1 imagem:
+       0 -> 0 -> 0
+    
+       Portanto nunca precisa descer.
     ===================================================== */
+
+    const proximoIndiceImagem =
+        imagens.length > 0
+            ? (
+                indiceImagem + 1
+            ) % imagens.length
+            : 0;
+
+
+    const proximaImagem =
+        imagens.length > 0
+            ? (
+                imagens[
+                proximoIndiceImagem
+                ] ||
+                imagemAtual
+            )
+            : "";
+    /* =====================================================
+       TROCAR IMAGEM NO MODO REELS
+    
+       IMPORTANTE:
+    
+       - sempre sobe
+       - nunca faz animação inversa
+       - última volta para primeira
+       - uma única imagem também é repetida
+    ===================================================== */
+
+    const trocarImagemReels =
+        useCallback(() => {
+
+            if (
+                !modoReels ||
+                imagens.length === 0 ||
+                animandoReelsRef.current
+            ) {
+                return;
+            }
+
+            /* =============================================
+               1. COMEÇA A SUBIR
+            ============================================= */
+
+            animandoReelsRef.current = true;
+
+            setResetandoReels(false);
+            setAnimandoReels(true);
+
+
+            if (timeoutReelsRef.current) {
+                clearTimeout(
+                    timeoutReelsRef.current
+                );
+            }
+
+
+            /* =============================================
+               2. ESPERA TERMINAR A SUBIDA
+            ============================================= */
+
+            timeoutReelsRef.current =
+                setTimeout(() => {
+
+                    const novoIndice =
+                        (
+                            indiceImagemRef.current + 1
+                        ) % imagens.length;
+
+
+                    /* =====================================
+                       3. DESLIGA A TRANSIÇÃO
+                    ===================================== */
+
+                    setResetandoReels(true);
+
+
+                    /* =====================================
+                       4. NOVA IMAGEM VIRA A PRIMEIRA
+                    ===================================== */
+
+                    indiceImagemRef.current =
+                        novoIndice;
+
+                    setIndiceImagem(
+                        novoIndice
+                    );
+
+
+                    /* =====================================
+                       5. VOLTA O TRILHO PARA ZERO
+                          SEM ANIMAÇÃO
+                    ===================================== */
+
+                    requestAnimationFrame(() => {
+
+                        setAnimandoReels(false);
+
+
+                        requestAnimationFrame(() => {
+
+                            requestAnimationFrame(() => {
+
+                                /* =========================
+                                   6. REATIVA A TRANSIÇÃO
+                                ========================= */
+
+                                setResetandoReels(false);
+
+                                animandoReelsRef.current =
+                                    false;
+
+                                timeoutReelsRef.current =
+                                    null;
+
+                            });
+
+                        });
+
+                    });
+
+                }, TEMPO_TRANSICAO_REELS);
+
+        }, [
+            modoReels,
+            imagens.length
+        ]);
+    /* =====================================================
+       TIMER DO REELS
+    
+       EXATAMENTE A CADA 3 SEGUNDOS.
+    
+       Funciona também quando existe somente uma imagem.
+    ===================================================== */
+
+    useEffect(() => {
+
+        if (
+            !modoReels ||
+            imagens.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        const intervaloReels =
+            setInterval(() => {
+
+                trocarImagemReels();
+
+            }, TEMPO_TROCA_REELS);
+
+
+        return () => {
+
+            clearInterval(
+                intervaloReels
+            );
+
+        };
+
+    }, [
+        modoReels,
+        imagens.length,
+        trocarImagemReels
+    ]);
+
 
     function clicarProduto() {
 
@@ -774,31 +1021,116 @@ export default function ProdutoCategoria({
                 ========================================= */}
 
                 <div
-                    className="ironstore-produto-classico-imagem-area"
+                    className={
+                        `
+            ironstore-produto-classico-imagem-area
+
+            ${modoReels
+                            ? "ironstore-produto-categoria-reels-viewport-unico"
+                            : ""
+                        }
+        `
+                    }
                 >
 
                     {imagemAtual ? (
 
-                        <img
-                            className={
-                                `
-                                ironstore-produto-classico-imagem
-                                ${trocandoImagem
-                                    ? "trocando"
-                                    : ""
+                        modoReels ? (
+
+                            <>
+                                {/* =============================================
+                MODO REELS
+            ============================================= */}
+
+                                <div
+                                    className={
+                                        `
+        ironstore-produto-categoria-reels-trilho-unico
+
+        ${animandoReels
+                                            ? "ironstore-produto-categoria-reels-trilho-animando-unico"
+                                            : ""
+                                        }
+
+        ${resetandoReels
+                                            ? "ironstore-produto-categoria-reels-trilho-resetando-unico"
+                                            : ""
+                                        }
+        `
+                                    }
+                                >
+
+                                    {/* IMAGEM ATUAL */}
+
+                                    <div
+                                        className="ironstore-produto-categoria-reels-slide-unico"
+                                    >
+                                        <img
+                                            className="ironstore-produto-categoria-reels-imagem-unica"
+                                            src={imagemAtual}
+                                            alt={produto?.nome || "Produto"}
+                                            loading="lazy"
+                                            draggable="false"
+                                        />
+                                    </div>
+
+
+                                    {/* PRÓXIMA IMAGEM */}
+
+                                    <div
+                                        className="ironstore-produto-categoria-reels-slide-unico"
+                                    >
+                                        <img
+                                            className="ironstore-produto-categoria-reels-imagem-unica"
+                                            src={proximaImagem || imagemAtual}
+                                            alt={produto?.nome || "Produto"}
+                                            loading="lazy"
+                                            draggable="false"
+                                        />
+                                    </div>
+
+                                </div>
+
+
+                                {/* =============================================
+                SÍMBOLO DE REPRODUZIR
+            ============================================= */}
+
+                                <div
+                                    className="ironstore-produto-reels-play"
+                                    aria-hidden="true"
+                                >
+                                    <span>
+                                        ▶
+                                    </span>
+                                </div>
+
+                            </>
+
+                        ) : (
+
+                            /* =============================================
+                                MODO NORMAL
+                            ============================================= */
+
+                            <img
+                                className={
+                                    `
+                ironstore-produto-classico-imagem
+
+                ${trocandoImagem
+                                        ? "trocando"
+                                        : ""
+                                    }
+                `
                                 }
-                                `
-                            }
-                            src={
-                                imagemAtual
-                            }
-                            alt={
-                                produto?.nome ||
-                                "Produto"
-                            }
-                            loading="lazy"
-                            draggable="false"
-                        />
+                                src={imagemAtual}
+                                alt={produto?.nome || "Produto"}
+                                loading="lazy"
+                                draggable="false"
+                            />
+
+                        )
 
                     ) : (
 

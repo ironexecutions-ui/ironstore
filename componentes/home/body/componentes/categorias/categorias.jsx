@@ -959,7 +959,40 @@ export default function Categorias() {
         );
 
     }
+    /* =====================================================
+       ABRIR PRODUTO NO REELS
+    ===================================================== */
 
+    function abrirProdutoReels(
+        produto
+    ) {
+
+        if (!produto) {
+            return;
+        }
+
+
+        const produtoVariedadeId =
+            Number(
+                produto?.produto_variedade_id ?? 0
+            );
+
+
+        const produtoPrincipalId =
+            produtoVariedadeId > 0
+                ? produtoVariedadeId
+                : produto.id;
+
+
+        if (!produtoPrincipalId) {
+            return;
+        }
+
+
+        navigate(
+            `/reels/${produtoPrincipalId}`
+        );
+    }
 
     /* =====================================================
        SEM CACHE
@@ -1206,37 +1239,61 @@ export default function Categorias() {
                         className="ironstore-categorias-classico-grid"
                     >
 
-                        {produtosVisiveis.map(produto => (
+                        {produtosVisiveis.map(
+                            (
+                                produto,
+                                indiceProduto
+                            ) => {
 
-                            <ProdutoCategoria
-                                key={produto.id}
+                                /* =============================================
+                                   ALTERNÂNCIA DOS CARDS
+                        
+                                   0 = REELS
+                                   1 = NORMAL
+                                   2 = REELS
+                                   3 = NORMAL
+                                   ...
+                                ============================================= */
 
-                                produto={produto}
+                                const usarModoReels =
+                                    indiceProduto % 2 === 0;
 
-                                onAbrir={
-                                    produtoSelecionado =>
-                                        abrirProduto(
-                                            produtoSelecionado
-                                        )
-                                }
 
-                                clienteLogado={
-                                    clienteLogado
-                                }
+                                return (
 
-                                produtosCarrinho={
-                                    produtosCarrinho
-                                }
+                                    <ProdutoCategoria
+                                        key={produto.id}
 
-                                onAdicionarCarrinho={
-                                    produtoSelecionado =>
-                                        adicionarAoCarrinho(
-                                            produtoSelecionado
-                                        )
-                                }
-                            />
+                                        produto={
+                                            produto
+                                        }
 
-                        )
+                                        modoReels={
+                                            usarModoReels
+                                        }
+
+                                        onAbrir={
+                                            usarModoReels
+                                                ? abrirProdutoReels
+                                                : abrirProduto
+                                        }
+
+                                        clienteLogado={
+                                            clienteLogado
+                                        }
+
+                                        produtosCarrinho={
+                                            produtosCarrinho
+                                        }
+
+                                        onAdicionarCarrinho={
+                                            adicionarAoCarrinho
+                                        }
+                                    />
+
+                                );
+
+                            }
                         )}
 
                     </div>

@@ -130,6 +130,10 @@ export default function Header() {
         setMenuAberto
     ] = useState(false);
     const [
+        headerForaDaTela,
+        setHeaderForaDaTela
+    ] = useState(false);
+    const [
         busca,
         setBusca
     ] = useState("");
@@ -148,12 +152,79 @@ export default function Header() {
         useRef(null);
     const menuRef =
         useRef(null);
+    const menuFlutuanteRef =
+        useRef(null);
     /* =====================================================
        ESTADO
 
        A PRIMEIRA TENTATIVA SEMPRE É O CACHE.
     ===================================================== */
+    /* =========================================================
+       DETECTAR QUANDO O HEADER SAIU DA TELA
+    ========================================================= */
 
+    useEffect(() => {
+
+        function verificarScroll() {
+
+            const header =
+                document.querySelector(
+                    ".ironstore-header-principal-vitrine"
+                );
+
+            if (!header) {
+                return;
+            }
+
+
+            const posicao =
+                header.getBoundingClientRect();
+
+
+            /*
+             * Só mostra o botão flutuante quando
+             * o header inteiro já saiu da tela.
+             */
+            setHeaderForaDaTela(
+                posicao.bottom <= 0
+            );
+
+        }
+
+
+        verificarScroll();
+
+
+        window.addEventListener(
+            "scroll",
+            verificarScroll,
+            {
+                passive: true
+            }
+        );
+
+
+        window.addEventListener(
+            "resize",
+            verificarScroll
+        );
+
+
+        return () => {
+
+            window.removeEventListener(
+                "scroll",
+                verificarScroll
+            );
+
+            window.removeEventListener(
+                "resize",
+                verificarScroll
+            );
+
+        };
+
+    }, []);
     const [dadosHeader, setDadosHeader] = useState(() => {
         return pegarCacheHeader();
     });
@@ -604,23 +675,29 @@ export default function Header() {
 
         function clicarFora(evento) {
 
-            if (
-                menuRef.current &&
-                !menuRef.current.contains(
+            const clicouMenuNormal =
+                menuRef.current?.contains(
                     evento.target
-                )
+                );
+
+            const clicouMenuFlutuante =
+                menuFlutuanteRef.current?.contains(
+                    evento.target
+                );
+
+            if (
+                !clicouMenuNormal &&
+                !clicouMenuFlutuante
             ) {
 
                 setMenuAberto(false);
             }
         }
 
-
         document.addEventListener(
             "mousedown",
             clicarFora
         );
-
 
         return () => {
 
@@ -1670,8 +1747,7 @@ export default function Header() {
                         </button>
 
 
-                        {menuAberto && (
-
+                        {menuAberto && !headerForaDaTela && (
                             <div className="ironstore-header-menu-flutuante">
 
                                 {/* =========================================
@@ -1864,6 +1940,246 @@ export default function Header() {
                 </nav>
 
             </header>
+            {/* =================================================
+    MENU FLUTUANTE QUANDO HEADER SAI DA TELA
+================================================= */}
+
+            {/* =================================================
+    MENU FLUTUANTE FIXO
+
+    APARECE SOMENTE QUANDO O HEADER
+    SAI COMPLETAMENTE DA TELA
+================================================= */}
+
+            {headerForaDaTela && (
+
+                <div
+                    ref={menuFlutuanteRef}
+                    className="
+            ironstore-header-menu-flutuante-fixo-area
+        "
+                >
+
+                    {/* =========================================
+            BOTÃO MENU
+        ========================================= */}
+
+                    <button
+                        type="button"
+                        className={`
+                ironstore-header-menu-flutuante-fixo-botao
+
+                ${menuAberto
+                                ? "ativo"
+                                : ""
+                            }
+            `}
+                        onClick={
+                            abrirMenu
+                        }
+                        aria-label={
+                            menuAberto
+                                ? "Fechar menu"
+                                : "Abrir menu"
+                        }
+                        aria-expanded={
+                            menuAberto
+                        }
+                        title="Menu"
+                    >
+
+                        {menuAberto
+                            ? "×"
+                            : "☰"
+                        }
+
+                    </button>
+
+
+                    {/* =========================================
+            CONTEÚDO DO MENU
+        ========================================= */}
+
+                    {menuAberto && (
+
+                        <div className="ironstore-header-menu-flutuante-fixo-conteudo">
+
+                            {/* =================================
+                    EXPLORAR
+                ================================= */}
+
+                            <div
+                                className="
+                        ironstore-header-menu-flutuante-fixo-grupo
+                    "
+                            >
+
+                                <span
+                                    className="
+                            ironstore-header-menu-flutuante-fixo-titulo
+                        "
+                                >
+                                    Explorar
+                                </span>
+
+
+                                <button
+                                    type="button"
+                                    onClick={
+                                        abrirComprasMenu
+                                    }
+                                >
+                                    Comprar
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    onClick={
+                                        abrirReelsMenu
+                                    }
+                                >
+                                    Ver Reels
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        navegarMenu(
+                                            "/",
+                                            "categorias"
+                                        )
+                                    }
+                                >
+                                    Categorias
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        navegarMenu(
+                                            "/",
+                                            "mais-comprados"
+                                        )
+                                    }
+                                >
+                                    Mais comprados
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        navegarMenu(
+                                            "/",
+                                            "promocoes"
+                                        )
+                                    }
+                                >
+                                    Promoções
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        navegarMenu(
+                                            "/",
+                                            "meios-de-envio"
+                                        )
+                                    }
+                                >
+                                    Meios de envio
+                                </button>
+
+                            </div>
+
+
+                            {/* =================================
+                    MINHA CONTA
+                ================================= */}
+
+                            {clienteLogado && (
+
+                                <div
+                                    className="
+                            ironstore-header-menu-flutuante-fixo-grupo
+                        "
+                                >
+
+                                    <span
+                                        className="
+                                ironstore-header-menu-flutuante-fixo-titulo
+                            "
+                                    >
+                                        Minha conta
+                                    </span>
+
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            navegarMenu(
+                                                "/perfil",
+                                                "dados"
+                                            )
+                                        }
+                                    >
+                                        Meus dados
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            navegarMenu(
+                                                "/perfil",
+                                                "compras"
+                                            )
+                                        }
+                                    >
+                                        Minhas compras
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            navegarMenu(
+                                                "/perfil",
+                                                "mais-vistos"
+                                            )
+                                        }
+                                    >
+                                        Mais vistos
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            navegarMenu(
+                                                "/perfil",
+                                                "carrinho"
+                                            )
+                                        }
+                                    >
+                                        Carrinho
+                                    </button>
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+                    )}
+
+                </div>
+
+            )}
         </>
     );
 }
