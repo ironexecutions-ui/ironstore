@@ -593,7 +593,6 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
 
             }
 
-
             try {
 
                 const resposta =
@@ -602,20 +601,15 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                             produtoid
                         )}`,
                         {
-
-                            method:
-                                "GET",
+                            method: "GET",
 
                             headers: {
-
                                 "X-IronStore-Key":
                                     IRONSTORE_APP_KEY_GERAL,
 
                                 "X-IronStore-Domain":
                                     dominio
-
                             }
-
                         }
                     );
 
@@ -640,13 +634,6 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                     );
 
 
-                /* =====================================================
-                   MESCLAR COM CACHE
-                
-                   SE A API DEVOLVER MENOS PRODUTOS POR ALGUMA RAZÃO,
-                   NÃO DEIXAMOS ELA DESTRUIR UMA LISTA MAIOR.
-                ===================================================== */
-
                 const dadosMesclados =
                     mesclarDadosReels(
                         cache,
@@ -654,20 +641,12 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                     );
 
 
-                /* =====================================================
-                   GERAR ORDEM ALEATÓRIA
-                ===================================================== */
-
                 const normalizado =
                     gerarReelsAleatorios(
                         dadosMesclados,
                         produtoid
                     );
 
-
-                /* =====================================================
-                   SALVAR CACHE
-                ===================================================== */
 
                 if (
                     !reelsSaoIguais(
@@ -684,24 +663,10 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                 }
 
 
-                /* =====================================================
-                   ATUALIZAR ESTADO
-                ===================================================== */
-
-                if (
-                    ativo
-                ) {
+                if (ativo) {
 
                     setDados(
                         dadosAtuais => {
-
-                            /*
-                             * Proteção adicional.
-                             *
-                             * Mesclamos também com o estado atual,
-                             * porque ele pode estar mais completo
-                             * que o cache lido no começo da requisição.
-                             */
 
                             const completo =
                                 mesclarDadosReels(
@@ -709,11 +674,6 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     normalizado
                                 );
 
-
-                            /*
-                             * Mantemos o produto atualmente aberto
-                             * como primeiro somente no carregamento.
-                             */
 
                             return gerarReelsAleatorios(
                                 completo,
@@ -727,9 +687,21 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
 
                     setErro("");
 
-
-
                 }
+
+
+                /*
+                 * O carregamento funcionou.
+                 *
+                 * Liberamos novamente a proteção para que,
+                 * em uma futura entrada nos Reels,
+                 * seja possível fazer uma nova tentativa
+                 * automática caso ocorra outro erro.
+                 */
+                sessionStorage.removeItem(
+                    "ironstore_reels_reload_erro"
+                );
+
 
             } catch (
             erroCarregar
@@ -741,10 +713,57 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                 );
 
 
+                /*
+                 * =====================================================
+                 * RECARREGAR AUTOMATICAMENTE UMA ÚNICA VEZ
+                 * =====================================================
+                 *
+                 * Só fazemos isso quando:
+                 *
+                 * 1. Ainda estamos neste componente.
+                 * 2. Não existe cache para salvar a tela.
+                 * 3. Ainda não tentamos um reload automático.
+                 */
+
                 if (
                     ativo &&
                     !cache
                 ) {
+
+                    const jaRecarregou =
+                        sessionStorage.getItem(
+                            "ironstore_reels_reload_erro"
+                        );
+
+
+                    if (!jaRecarregou) {
+
+                        console.warn(
+                            "[REELS] Primeiro carregamento falhou. Recarregando uma vez..."
+                        );
+
+
+                        sessionStorage.setItem(
+                            "ironstore_reels_reload_erro",
+                            "1"
+                        );
+
+
+                        window.location.reload();
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Se chegou aqui, significa que:
+                     *
+                     * primeira tentativa = erro
+                     * reload automático = erro novamente
+                     *
+                     * Então não recarrega mais.
+                     */
 
                     setErro(
                         erroCarregar?.message ||
@@ -752,6 +771,7 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                     );
 
                 }
+
 
             } finally {
 
