@@ -353,7 +353,98 @@ function pegarProdutosReels() {
 
 }
 
+/* =========================================================
+   COLOCAR PRODUTO DA URL PRIMEIRO
 
+   Exemplo:
+
+   URL:
+   /produtos/25
+
+   Antes:
+   [8, 14, 25, 30]
+
+   Depois:
+   [25, 8, 14, 30]
+========================================================= */
+
+function colocarProdutoPrimeiro(
+    lista,
+    produtoId
+) {
+
+    if (
+        !Array.isArray(lista) ||
+        !lista.length ||
+        !produtoId
+    ) {
+
+        return lista || [];
+    }
+
+
+    const idProcurado =
+        String(
+            produtoId
+        );
+
+
+    const indice =
+        lista.findIndex(
+            item =>
+                String(
+                    item?.id
+                ) === idProcurado
+        );
+
+
+    /* =====================================================
+       PRODUTO NÃO ESTÁ NA LISTA DE REELS
+    ===================================================== */
+
+    if (indice < 0) {
+
+        return lista;
+    }
+
+
+    /* =====================================================
+       JÁ É O PRIMEIRO
+    ===================================================== */
+
+    if (indice === 0) {
+
+        return lista;
+    }
+
+
+    /* =====================================================
+       RETIRAR DA POSIÇÃO ORIGINAL
+    ===================================================== */
+
+    const produtoSelecionado =
+        lista[indice];
+
+
+    const restantes =
+        lista.filter(
+            (
+                item,
+                indiceItem
+            ) =>
+                indiceItem !== indice
+        );
+
+
+    /* =====================================================
+       COLOCAR PRIMEIRO
+    ===================================================== */
+
+    return [
+        produtoSelecionado,
+        ...restantes
+    ];
+}
 /* =========================================================
    PREÇO
 ========================================================= */
@@ -413,11 +504,56 @@ export default function VerReels() {
        VER REELS SÓ PODE APARECER EM /produtos/:id
     ===================================================== */
 
+    /* =====================================================
+       ROTAS ONDE O MINI REELS PODE APARECER
+    ===================================================== */
+
     const estaEmPaginaProduto =
         /^\/produtos\/[^/]+\/?$/.test(
             location.pathname
         );
 
+
+    const estaEmPath =
+        /^\/path\/?$/.test(
+            location.pathname
+        );
+
+
+    const podeExibirMiniReels =
+        estaEmPaginaProduto ||
+        estaEmPath;
+    /* =====================================================
+   ID DO PRODUTO PRESENTE NA URL
+
+   /produtos/25 -> "25"
+   /path        -> null
+===================================================== */
+
+    const produtoIdDaUrl =
+        useMemo(
+            () => {
+
+                const resultado =
+                    location.pathname.match(
+                        /^\/produtos\/([^/]+)\/?$/
+                    );
+
+
+                if (!resultado?.[1]) {
+                    return null;
+                }
+
+
+                return decodeURIComponent(
+                    resultado[1]
+                );
+
+            },
+            [
+                location.pathname
+            ]
+        );
     /* =====================================================
        FECHAMENTO
     ===================================================== */
@@ -429,22 +565,23 @@ export default function VerReels() {
         () => foiFechado()
     );
 
-
-    /* =====================================================
-       PRODUTOS
-    ===================================================== */
-
     const [
         produtos,
         setProdutos
     ] = useState(
-        () => pegarProdutosReels()
+        () => {
+
+            const lista =
+                pegarProdutosReels();
+
+
+            return colocarProdutoPrimeiro(
+                lista,
+                produtoIdDaUrl
+            );
+        }
     );
 
-
-    /* =====================================================
-       ÍNDICE ATUAL
-    ===================================================== */
 
     const [
         indiceAtual,
@@ -533,42 +670,56 @@ export default function VerReels() {
         ) {
 
             return;
-
         }
+
 
         const timer =
             setTimeout(
                 () => {
 
-                    const atualizados =
+                    const listaAtualizada =
                         pegarProdutosReels();
 
+
                     if (
-                        atualizados.length
+                        listaAtualizada.length
                     ) {
+
+                        /* =========================================
+                           SE ESTIVER EM /produtos/:id
+    
+                           COLOCA O PRODUTO DA URL PRIMEIRO
+                        ========================================= */
+
+                        const atualizados =
+                            colocarProdutoPrimeiro(
+                                listaAtualizada,
+                                produtoIdDaUrl
+                            );
+
+
+                        setAnimando(
+                            false
+                        );
+
 
                         setProdutos(
                             atualizados
                         );
 
+
+                        /* =========================================
+                           SEMPRE COMEÇA PELO PRIMEIRO.
+    
+                           Como o produto da URL foi colocado
+                           na posição 0, ele será exibido primeiro.
+                        ========================================= */
+
                         setIndiceAtual(
-                            indice => {
-
-                                if (
-                                    indice >=
-                                    atualizados.length
-                                ) {
-
-                                    return 0;
-
-                                }
-
-                                return indice;
-
-                            }
+                            0
                         );
-
                     }
+
 
                     setFechado(
                         foiFechado()
@@ -587,9 +738,11 @@ export default function VerReels() {
 
         };
 
+
     }, [
         location.pathname,
-        estaNosReels
+        estaNosReels,
+        produtoIdDaUrl
     ]);
 
 
@@ -626,15 +779,19 @@ export default function VerReels() {
 
 
     /* =====================================================
-       TROCA AUTOMÁTICA
-
-       A CADA 8 SEGUNDOS O PRODUTO ATUAL SOBE
-       E O PRÓXIMO ENTRA POR BAIXO.
+       TROCA AUTOMÁTICA DOS MINI REELS
+    
+       REGRAS:
+    
+       1. Produto inicial fica 8 segundos completos.
+       2. Depois sobe.
+       3. Aguarda a animação terminar.
+       4. Próximo produto fica mais 8 segundos.
+       5. Repete o processo.
+    
+       NÃO usamos setInterval porque ele continua contando
+       enquanto a animação acontece.
     ===================================================== */
-
-    /* =====================================================
-    TROCA AUTOMÁTICA DOS MINI REELS
- ===================================================== */
 
     useEffect(() => {
 
@@ -643,87 +800,129 @@ export default function VerReels() {
             fechado ||
             produtos.length <= 1
         ) {
+
             return;
         }
 
 
-        let timeoutTroca =
+        let timeoutEspera =
             null;
 
 
-        const executarTroca = () => {
-
-            /* =============================================
-               INICIAR MOVIMENTO PARA CIMA
-            ============================================= */
-
-            setAnimando(
-                true
-            );
+        let timeoutAnimacao =
+            null;
 
 
-            /* =============================================
-               ESPERAR A ANIMAÇÃO TERMINAR
-            ============================================= */
+        let cancelado =
+            false;
 
-            timeoutTroca =
+
+        /* =================================================
+           PROGRAMAR PRÓXIMA TROCA
+    
+           Sempre espera TEMPO_REEL completo antes
+           de começar qualquer movimento.
+        ================================================= */
+
+        const programarProximaTroca = () => {
+
+            timeoutEspera =
                 setTimeout(
                     () => {
 
-                        /* =================================
-                           AVANÇAR PRODUTO
-                        ================================= */
+                        if (cancelado) {
+                            return;
+                        }
 
-                        setIndiceAtual(
-                            indiceAtualAnterior => {
 
-                                return (
-                                    indiceAtualAnterior + 1
-                                ) % produtos.length;
+                        /* =====================================
+                           COMEÇAR SUBIDA
+                        ===================================== */
 
-                            }
+                        setAnimando(
+                            true
                         );
 
 
-                        /* =================================
-                           REMOVER ANIMAÇÃO
-    
-                           DOIS FRAMES GARANTEM QUE O NOVO
-                           PRODUTO JÁ FOI RENDERIZADO.
-                        ================================= */
+                        /* =====================================
+                           AGUARDAR ANIMAÇÃO TERMINAR
+                        ===================================== */
 
-                        requestAnimationFrame(
-                            () => {
+                        timeoutAnimacao =
+                            setTimeout(
+                                () => {
 
-                                requestAnimationFrame(
-                                    () => {
-
-                                        setAnimando(
-                                            false
-                                        );
-
+                                    if (cancelado) {
+                                        return;
                                     }
-                                );
 
-                            }
-                        );
+
+                                    /* =============================
+                                       AVANÇAR PRODUTO
+                                    ============================= */
+
+                                    setIndiceAtual(
+                                        indiceAnterior => {
+
+                                            return (
+                                                indiceAnterior + 1
+                                            ) % produtos.length;
+                                        }
+                                    );
+
+
+                                    /* =============================
+                                       RESETAR TRILHO SEM ANIMAÇÃO
+                                    ============================= */
+
+                                    requestAnimationFrame(
+                                        () => {
+
+                                            requestAnimationFrame(
+                                                () => {
+
+                                                    if (cancelado) {
+                                                        return;
+                                                    }
+
+
+                                                    setAnimando(
+                                                        false
+                                                    );
+
+
+                                                    /* =================
+                                                       SOMENTE AGORA
+                                                       COMEÇA A CONTAR
+                                                       OS PRÓXIMOS
+                                                       8 SEGUNDOS
+                                                    ================= */
+
+                                                    programarProximaTroca();
+
+                                                }
+                                            );
+
+                                        }
+                                    );
+
+                                },
+                                TEMPO_ANIMACAO
+                            );
 
                     },
-                    TEMPO_ANIMACAO
+                    TEMPO_REEL
                 );
-
         };
 
 
         /* =================================================
-           PRIMEIRA TROCA EM 8 SEGUNDOS
+           PRIMEIRA CONTAGEM
+    
+           Começa do zero quando o produto inicial aparece.
         ================================================= */
 
-        const intervalo =
-            setInterval(
-                executarTroca,
-                TEMPO_REEL
-            );
+        programarProximaTroca();
 
 
         /* =================================================
@@ -732,28 +931,33 @@ export default function VerReels() {
 
         return () => {
 
-            clearInterval(
-                intervalo
-            );
+            cancelado =
+                true;
 
-            if (
-                timeoutTroca
-            ) {
+
+            if (timeoutEspera) {
 
                 clearTimeout(
-                    timeoutTroca
+                    timeoutEspera
                 );
-
             }
 
+
+            if (timeoutAnimacao) {
+
+                clearTimeout(
+                    timeoutAnimacao
+                );
+            }
         };
+
 
     }, [
         estaNosReels,
         fechado,
-        produtos.length
+        produtos.length,
+        location.pathname
     ]);
-
     /* =====================================================
        ESCUTAR ALTERAÇÕES DO STORAGE
     ===================================================== */
@@ -1064,18 +1268,22 @@ export default function VerReels() {
     
        /produtos/:id
     ===================================================== */
+    /* =====================================================
+       EXIBIR MINI REELS SOMENTE EM:
+    
+       /produtos/:id
+       /path
+    ===================================================== */
 
     if (
-        !estaEmPaginaProduto ||
+        !podeExibirMiniReels ||
         fechado ||
         !produto?.id ||
         !imagemPrincipal
     ) {
 
         return null;
-
     }
-
 
     /* =====================================================
        RETURN
