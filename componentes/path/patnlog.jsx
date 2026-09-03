@@ -9,7 +9,11 @@ import classicoPath from "../../modelos/classico/path/classico_path";
 import {
     API_URL
 } from "../../config";
-
+import {
+    lerCachePath,
+    montarDadosPath,
+    sincronizarCachePath
+} from "./cache";
 
 /* =========================================================
    LOGOS DAS REDES SOCIAIS
@@ -139,28 +143,113 @@ export default function Pathlog() {
             () => window.location.origin,
             []
         );
-
+    const cacheInicial =
+        useMemo(
+            () =>
+                lerCachePath(
+                    dominio
+                ),
+            [
+                dominio
+            ]
+        );
 
     /* =====================================================
-       CARREGAR DADOS
+       CARREGAR / SINCRONIZAR DADOS
+    
+       FLUXO:
+    
+       CACHE EXISTE
+       ↓
+       mostra imediatamente
+       ↓
+       consulta servidor
+       ↓
+       compara
+       ↓
+       mudou?
+       ↓
+       atualiza cache + tela
+    
+       CACHE NÃO EXISTE
+       ↓
+       loading
+       ↓
+       consulta servidor
+       ↓
+       salva cache
+       ↓
+       mostra na tela
     ===================================================== */
 
     useEffect(() => {
 
-        let ativo = true;
+        let ativo =
+            true;
+
+
+        /* =====================================================
+           CACHE ATUAL
+        ===================================================== */
+
+        const cache =
+            lerCachePath(
+                dominio
+            );
+
+
+        /* =====================================================
+           MOSTRAR CACHE IMEDIATAMENTE
+        ===================================================== */
+
+        if (cache) {
+
+            setComercio(
+                cache.comercio ||
+                null
+            );
+
+
+            setFooter(
+                cache.footer ||
+                {}
+            );
+
+
+            setModelo(
+                cache.modelo ||
+                "classico"
+            );
+
+
+            setCarregando(
+                false
+            );
+        }
 
 
         async function carregar() {
 
             try {
 
-                setCarregando(true);
                 setErro("");
 
 
-                /* =========================================
-                   IDENTIDADE
-                ========================================= */
+                /* =================================================
+                   SOMENTE MOSTRA LOADING SE NÃO EXISTE CACHE
+                ================================================= */
+
+                if (!cache) {
+
+                    setCarregando(
+                        true
+                    );
+                }
+
+
+                /* =================================================
+                   URLs
+                ================================================= */
 
                 const urlDominio =
                     `${API_URL}/ironstore/dominio?dominio=${encodeURIComponent(
@@ -168,25 +257,73 @@ export default function Pathlog() {
                     )}`;
 
 
-                const respostaDominio =
-                    await fetch(
-                        urlDominio,
-                        {
-                            method: "GET",
+                const urlFooter =
+                    `${API_URL}/ironstore/footer?dominio=${encodeURIComponent(
+                        dominio
+                    )}`;
 
-                            headers: {
 
-                                Accept:
-                                    "application/json",
+                /* =================================================
+                   BUSCAR AS DUAS APIS AO MESMO TEMPO
+    
+                   Mais rápido do que esperar uma e depois outra.
+                ================================================= */
 
-                                "X-IronStore-Key":
-                                    CHAVE_ABA
-                            }
-                        }
+                const [
+                    respostaDominio,
+                    respostaFooter
+                ] =
+                    await Promise.all(
+                        [
+
+                            fetch(
+                                urlDominio,
+                                {
+                                    method:
+                                        "GET",
+
+                                    headers: {
+
+                                        Accept:
+                                            "application/json",
+
+                                        "X-IronStore-Key":
+                                            CHAVE_ABA
+
+                                    }
+                                }
+                            ),
+
+
+                            fetch(
+                                urlFooter,
+                                {
+                                    method:
+                                        "GET",
+
+                                    headers: {
+
+                                        Accept:
+                                            "application/json",
+
+                                        "X-IronStore-Key":
+                                            CHAVE_FOOTER
+
+                                    }
+                                }
+                            )
+
+                        ]
                     );
 
 
-                if (!respostaDominio.ok) {
+                /* =================================================
+                   VALIDAR /DOMINIO
+                ================================================= */
+
+                if (
+                    !respostaDominio.ok
+                ) {
 
                     const textoErro =
                         await respostaDominio.text();
@@ -205,57 +342,13 @@ export default function Pathlog() {
                 }
 
 
-                const contentTypeDominio =
-                    respostaDominio.headers.get(
-                        "content-type"
-                    ) || "";
-
+                /* =================================================
+                   VALIDAR /FOOTER
+                ================================================= */
 
                 if (
-                    !contentTypeDominio.includes(
-                        "application/json"
-                    )
+                    !respostaFooter.ok
                 ) {
-
-                    throw new Error(
-                        "A API da loja não retornou JSON."
-                    );
-                }
-
-
-                const dadosDominio =
-                    await respostaDominio.json();
-
-
-                /* =========================================
-                   FOOTER / REDES / MODELO
-                ========================================= */
-
-                const urlFooter =
-                    `${API_URL}/ironstore/footer?dominio=${encodeURIComponent(
-                        dominio
-                    )}`;
-
-
-                const respostaFooter =
-                    await fetch(
-                        urlFooter,
-                        {
-                            method: "GET",
-
-                            headers: {
-
-                                Accept:
-                                    "application/json",
-
-                                "X-IronStore-Key":
-                                    CHAVE_FOOTER
-                            }
-                        }
-                    );
-
-
-                if (!respostaFooter.ok) {
 
                     const textoErro =
                         await respostaFooter.text();
@@ -274,10 +367,32 @@ export default function Pathlog() {
                 }
 
 
+                /* =================================================
+                   VALIDAR JSON
+                ================================================= */
+
+                const contentTypeDominio =
+                    respostaDominio.headers.get(
+                        "content-type"
+                    ) || "";
+
+
                 const contentTypeFooter =
                     respostaFooter.headers.get(
                         "content-type"
                     ) || "";
+
+
+                if (
+                    !contentTypeDominio.includes(
+                        "application/json"
+                    )
+                ) {
+
+                    throw new Error(
+                        "A API da loja não retornou JSON."
+                    );
+                }
 
 
                 if (
@@ -292,64 +407,118 @@ export default function Pathlog() {
                 }
 
 
-                const dadosFooter =
-                    await respostaFooter.json();
+                /* =================================================
+                   CONVERTER JSON
+                ================================================= */
+
+                const [
+                    dadosDominio,
+                    dadosFooter
+                ] =
+                    await Promise.all(
+                        [
+                            respostaDominio.json(),
+                            respostaFooter.json()
+                        ]
+                    );
 
 
                 if (!ativo) {
+
                     return;
                 }
 
 
-                /* =========================================
-                   COMÉRCIO
-                ========================================= */
+                /* =================================================
+                   MONTAR OBJETO FINAL DO SERVIDOR
+                ================================================= */
 
-                const comercioFinal = {
+                const dadosServidor =
+                    montarDadosPath(
+                        dadosDominio,
+                        dadosFooter
+                    );
 
-                    ...(
-                        dadosDominio?.comercio ||
-                        {}
-                    ),
 
-                    ...(
-                        dadosFooter?.comercio ||
-                        {}
-                    )
+                /* =================================================
+                   COMPARAR SERVIDOR X CACHE
+    
+                   Se diferente:
+                   - salva cache novo
+                   - retorna dados novos
+    
+                   Se igual:
+                   - mantém cache
+                ================================================= */
 
-                };
+                const sincronizacao =
+                    sincronizarCachePath(
+                        dominio,
+                        dadosServidor
+                    );
 
+
+                const dadosFinais =
+                    sincronizacao.dados;
+
+
+                if (
+                    !dadosFinais ||
+                    !ativo
+                ) {
+
+                    return;
+                }
+
+
+                /* =================================================
+                   ATUALIZAR SITE
+    
+                   Mesmo se for igual, esses dados representam
+                   o estado final confirmado.
+                ================================================= */
 
                 setComercio(
-                    comercioFinal
+                    dadosFinais.comercio ||
+                    null
                 );
 
 
-                /* =========================================
-                   FOOTER
-                ========================================= */
-
                 setFooter(
-                    dadosFooter?.footer ||
+                    dadosFinais.footer ||
                     {}
                 );
 
 
-                /* =========================================
-                   MODELO
-                ========================================= */
-
                 setModelo(
-                    String(
-                        dadosFooter?.modelo ||
-                        "classico"
-                    )
-                        .trim()
-                        .toLowerCase()
+                    dadosFinais.modelo ||
+                    "classico"
                 );
 
 
-            } catch (erroCarregamento) {
+                /* =================================================
+                   LOG APENAS PARA DESENVOLVIMENTO
+                ================================================= */
+
+                if (
+                    sincronizacao.atualizado
+                ) {
+
+                    console.log(
+                        "[PATH CACHE] Cache atualizado com dados do servidor."
+                    );
+
+                } else {
+
+                    console.log(
+                        "[PATH CACHE] Cache já estava atualizado."
+                    );
+                }
+
+
+            } catch (
+            erroCarregamento
+            ) {
 
                 console.error(
                     "Erro Pathlog:",
@@ -357,13 +526,43 @@ export default function Pathlog() {
                 );
 
 
-                if (ativo) {
+                if (!ativo) {
 
-                    setErro(
-                        erroCarregamento?.message ||
-                        "Não foi possível carregar esta página."
-                    );
+                    return;
                 }
+
+
+                /* =================================================
+                   IMPORTANTE
+    
+                   SE TEM CACHE:
+                   continua mostrando cache.
+    
+                   Uma queda momentânea da API NÃO derruba
+                   a página que já possui dados.
+                ================================================= */
+
+                if (cache) {
+
+                    console.warn(
+                        "[PATH CACHE] Servidor indisponível. Mantendo dados do cache."
+                    );
+
+
+                    return;
+                }
+
+
+                /* =================================================
+                   SEM CACHE + API FALHOU
+    
+                   Aí sim mostramos erro.
+                ================================================= */
+
+                setErro(
+                    erroCarregamento?.message ||
+                    "Não foi possível carregar esta página."
+                );
 
 
             } finally {
@@ -383,14 +582,14 @@ export default function Pathlog() {
 
         return () => {
 
-            ativo = false;
+            ativo =
+                false;
         };
 
 
     }, [
         dominio
     ]);
-
 
     /* =====================================================
        CSS DO MODELO
