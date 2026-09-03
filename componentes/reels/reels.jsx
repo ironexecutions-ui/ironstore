@@ -1294,55 +1294,6 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
        LOADING
     ===================================================== */
 
-    if (
-        carregando &&
-        !dados
-    ) {
-
-        return (
-
-            <div className="ironstore-reels-vitrine-loading">
-
-                <span className="ironstore-reels-vitrine-loading-spinner" />
-
-                <strong>
-                    Preparando produtos
-                </strong>
-
-            </div>
-
-        );
-
-    }
-
-
-    /* =====================================================
-       ERRO
-    ===================================================== */
-
-    if (
-        erro &&
-        !dados
-    ) {
-
-        return (
-
-            <div className="ironstore-reels-vitrine-erro">
-
-                <strong>
-                    Reels indisponíveis
-                </strong>
-
-                <p>
-                    {erro}
-                </p>
-
-            </div>
-
-        );
-
-    }
-
 
     const reels =
         dados?.reels ||
@@ -1701,6 +1652,62 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
     }, [
         dados?.reels?.length
     ]);
+
+
+    /* =====================================================
+       LOADING
+    ===================================================== */
+
+    if (
+        carregando &&
+        !dados
+    ) {
+
+        return (
+
+            <div className="ironstore-reels-vitrine-loading">
+
+                <span className="ironstore-reels-vitrine-loading-spinner" />
+
+                <strong>
+                    Preparando produtos
+                </strong>
+
+            </div>
+
+        );
+
+    }
+
+
+    /* =====================================================
+       ERRO
+    ===================================================== */
+
+    if (
+        erro &&
+        !dados
+    ) {
+
+        return (
+
+            <div className="ironstore-reels-vitrine-erro">
+
+                <strong>
+                    Reels indisponíveis
+                </strong>
+
+                <p>
+                    {erro}
+                </p>
+
+            </div>
+
+        );
+
+    }
+
+
     /* =====================================================
        RETURN
     ===================================================== */
