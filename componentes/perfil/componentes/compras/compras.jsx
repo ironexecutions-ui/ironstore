@@ -794,7 +794,7 @@ export default function Compras() {
 
 
 
-    async function abrirRastreamento(evento, codigo) {
+    function abrirRastreamento(evento, codigo) {
         evento.preventDefault();
         evento.stopPropagation();
 
@@ -802,69 +802,90 @@ export default function Compras() {
             return;
         }
 
-        const codigoLimpo = String(codigo).trim();
+        const codigoLimpo =
+            String(codigo).trim();
 
         const link =
             `https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
                 codigoLimpo
             )}`;
 
-        // ==========================================
-        // MOSTRA A MODAL IMEDIATAMENTE
-        // ==========================================
+        // Mostra a modal
+        setRastreioCopiado(
+            codigoLimpo
+        );
 
-        setRastreioCopiado(codigoLimpo);
-
-        // ==========================================
-        // COPIA O CÓDIGO
-        // ==========================================
-
+        // Copia o código
         try {
             if (
                 navigator.clipboard &&
                 window.isSecureContext
             ) {
                 navigator.clipboard
-                    .writeText(codigoLimpo)
-                    .catch((erro) => {
-                        console.error(
-                            "[RASTREIO] Erro ao copiar:",
-                            erro
-                        );
-                    });
+                    .writeText(
+                        codigoLimpo
+                    )
+                    .catch(
+                        erro => {
+                            console.error(
+                                "[RASTREIO] Erro ao copiar:",
+                                erro
+                            );
+                        }
+                    );
             } else {
                 const textarea =
-                    document.createElement("textarea");
+                    document.createElement(
+                        "textarea"
+                    );
 
-                textarea.value = codigoLimpo;
+                textarea.value =
+                    codigoLimpo;
 
-                textarea.style.position = "fixed";
-                textarea.style.left = "-999999px";
-                textarea.style.top = "-999999px";
+                textarea.style.position =
+                    "fixed";
 
-                document.body.appendChild(textarea);
+                textarea.style.left =
+                    "-999999px";
+
+                document.body.appendChild(
+                    textarea
+                );
 
                 textarea.focus();
                 textarea.select();
 
-                document.execCommand("copy");
+                document.execCommand(
+                    "copy"
+                );
 
                 textarea.remove();
             }
         } catch (erro) {
             console.error(
-                "[RASTREIO] Erro ao copiar código:",
+                "[RASTREIO] Erro ao copiar:",
                 erro
             );
         }
 
-        // ==========================================
-        // AGUARDA 1 SEGUNDO E REDIRECIONA
-        // ==========================================
+        // Aguarda 1 segundo
+        setTimeout(
+            () => {
 
-        setTimeout(() => {
-            window.location.assign(link);
-        }, 2000);
+                setRastreioCopiado(
+                    null
+                );
+
+                // Abre em nova aba
+                window.open(
+                    link,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            },
+            2000
+        );
     }
     return (
         <>
@@ -1446,9 +1467,56 @@ export default function Compras() {
                                                                                                         compra.seguimento.codigo_rastreio
                                                                                                     )
                                                                                                 }
-                                                                                                className="ironstore-compras-rastreio ironstore-compras-rastreio-botao"
+                                                                                                className="ironstore-rastreio-link-premium"
+                                                                                                title="Copiar código e acompanhar entrega"
                                                                                             >
-                                                                                                {compra.seguimento.codigo_rastreio}
+                                                                                                <span className="ironstore-rastreio-link-premium-icone">
+                                                                                                    <svg
+                                                                                                        viewBox="0 0 24 24"
+                                                                                                        aria-hidden="true"
+                                                                                                    >
+                                                                                                        <path
+                                                                                                            d="M14 5h5v5"
+                                                                                                            fill="none"
+                                                                                                            stroke="currentColor"
+                                                                                                            strokeWidth="2"
+                                                                                                            strokeLinecap="round"
+                                                                                                            strokeLinejoin="round"
+                                                                                                        />
+
+                                                                                                        <path
+                                                                                                            d="M10 14L19 5"
+                                                                                                            fill="none"
+                                                                                                            stroke="currentColor"
+                                                                                                            strokeWidth="2"
+                                                                                                            strokeLinecap="round"
+                                                                                                            strokeLinejoin="round"
+                                                                                                        />
+
+                                                                                                        <path
+                                                                                                            d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"
+                                                                                                            fill="none"
+                                                                                                            stroke="currentColor"
+                                                                                                            strokeWidth="2"
+                                                                                                            strokeLinecap="round"
+                                                                                                            strokeLinejoin="round"
+                                                                                                        />
+                                                                                                    </svg>
+                                                                                                </span>
+
+                                                                                                <span className="ironstore-rastreio-link-premium-conteudo">
+                                                                                                    <small>
+                                                                                                        Rastrear pedido
+                                                                                                    </small>
+
+                                                                                                    <strong>
+                                                                                                        {compra.seguimento.codigo_rastreio}
+                                                                                                    </strong>
+                                                                                                </span>
+
+                                                                                                <span className="ironstore-rastreio-link-premium-seta">
+                                                                                                    ›
+                                                                                                </span>
                                                                                             </button>
 
                                                                                         ) : (
