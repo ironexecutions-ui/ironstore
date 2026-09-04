@@ -3895,128 +3895,154 @@ a.ironstore-compras-rastreio:hover {
 
 
 
-
-
 /* =========================================================
-   CONFIRMAÇÃO DO CÓDIGO DE RASTREIO
+   BOTÃO DE RASTREIO
+   ALINHADO AO CLÁSSICO PREMIUM
 ========================================================= */
 
-.ironstore-rastreio-copiado-overlay {
-    position: fixed;
-    inset: 0;
+.ironstore-rastreio-link-premium {
+    appearance: none;
+    -webkit-appearance: none;
 
-    z-index: 999999;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    background:
-        rgba(16, 24, 40, 0.18);
-
-    backdrop-filter:
-        blur(3px);
-
-    -webkit-backdrop-filter:
-        blur(3px);
-
-    animation:
-        ironstoreRastreioOverlayEntrada
-        0.18s
-        ease-out
-        both;
-}
-
-
-.ironstore-rastreio-copiado-modal {
     position: relative;
 
-    width: min(
-        100%,
-        390px
-    );
+    width: 100%;
+    max-width: 260px;
+    min-width: 0;
 
     display: flex;
     align-items: center;
 
-    gap: 15px;
+    gap: 10px;
+
+    margin: 2px 0 0;
 
     padding:
-        18px
-        20px;
+        8px
+        10px;
+
+    box-sizing: border-box;
 
     overflow: hidden;
 
     border:
         1px solid
-        rgba(20, 42, 74, 0.10);
+        #e1e4e8;
 
-    border-radius: 18px;
+    border-radius: 9px;
+
+    outline: none;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.98
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fafbfc 100%
         );
 
     box-shadow:
-        0 24px 70px
+        0 1px 2px
             rgba(
-                16,
-                24,
-                40,
-                0.18
+                15,
+                23,
+                42,
+                0.025
             ),
-        0 6px 20px
+        0 3px 8px
             rgba(
-                16,
-                24,
-                40,
-                0.08
+                15,
+                23,
+                42,
+                0.025
             );
 
-    animation:
-        ironstoreRastreioModalEntrada
-        0.25s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        )
-        both;
+    font-family: inherit;
+
+    color: #18181b;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        transform 150ms ease,
+        border-color 150ms ease,
+        background-color 150ms ease,
+        box-shadow 150ms ease;
 }
 
 
-.ironstore-rastreio-copiado-modal::after {
-    content: "";
+/* =========================================================
+   HOVER
+========================================================= */
 
-    position: absolute;
+.ironstore-rastreio-link-premium:hover {
+    transform:
+        translateY(-1px);
 
-    left: 0;
-    bottom: 0;
-
-    width: 100%;
-    height: 3px;
+    border-color:
+        #cfd4dc;
 
     background:
-        var(
-            --ic-navy,
-            #142a4a
+        #ffffff;
+
+    box-shadow:
+        0 2px 4px
+            rgba(
+                15,
+                23,
+                42,
+                0.035
+            ),
+        0 6px 14px
+            rgba(
+                15,
+                23,
+                42,
+                0.05
+            );
+}
+
+
+/* =========================================================
+   CLIQUE
+========================================================= */
+
+.ironstore-rastreio-link-premium:active {
+    transform:
+        translateY(0)
+        scale(0.99);
+
+    box-shadow:
+        0 1px 2px
+        rgba(
+            15,
+            23,
+            42,
+            0.03
+        );
+}
+
+
+/* =========================================================
+   FOCO
+========================================================= */
+
+.ironstore-rastreio-link-premium:focus-visible {
+    border-color:
+        #b9c2ce;
+
+    outline:
+        3px solid
+        rgba(
+            23,
+            92,
+            211,
+            0.10
         );
 
-    transform-origin:
-        left center;
-
-    animation:
-        ironstoreRastreioTempo
-        1s
-        linear
-        forwards;
+    outline-offset:
+        2px;
 }
 
 
@@ -4024,326 +4050,72 @@ a.ironstore-compras-rastreio:hover {
    ÍCONE
 ========================================================= */
 
-.ironstore-rastreio-copiado-icone {
-    width: 46px;
-    height: 46px;
+.ironstore-rastreio-link-premium-icone {
+    position: relative;
+
+    width: 34px;
+    height: 34px;
 
     flex:
         0
         0
-        46px;
+        34px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 14px;
+    border:
+        1px solid
+        #e4e7ec;
+
+    border-radius: 8px;
 
     background:
-        var(
-            --ic-navy-light,
-            #edf3f9
-        );
+        #f8f9fa;
 
     color:
-        var(
-            --ic-navy,
-            #142a4a
-        );
-}
-
-
-.ironstore-rastreio-copiado-icone svg {
-    width: 22px;
-    height: 22px;
-
-    display: block;
-}
-
-
-/* =========================================================
-   TEXTO
-========================================================= */
-
-.ironstore-rastreio-copiado-conteudo {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 2px;
-}
-
-
-.ironstore-rastreio-copiado-conteudo strong {
-    margin: 0;
-
-    color:
-        var(
-            --ic-text,
-            #101828
-        );
-
-    font-size: 15px;
-    font-weight: 750;
-
-    line-height: 1.3;
-
-    letter-spacing: -0.015em;
-}
-
-
-.ironstore-rastreio-copiado-conteudo span {
-    width: 100%;
-
-    overflow: hidden;
-
-    color:
-        var(
-            --ic-text-secondary,
-            #344054
-        );
-
-    font-size: 13px;
-    font-weight: 650;
-
-    line-height: 1.4;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-
-.ironstore-rastreio-copiado-conteudo small {
-    margin-top: 2px;
-
-    color:
-        var(
-            --ic-muted,
-            #667085
-        );
-
-    font-size: 11px;
-    font-weight: 500;
-
-    line-height: 1.4;
-}
-
-
-/* =========================================================
-   ANIMAÇÕES
-========================================================= */
-
-@keyframes ironstoreRastreioOverlayEntrada {
-
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-
-@keyframes ironstoreRastreioModalEntrada {
-
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(8px)
-            scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-
-@keyframes ironstoreRastreioTempo {
-
-    from {
-        transform:
-            scaleX(1);
-    }
-
-    to {
-        transform:
-            scaleX(0);
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (
-    max-width: 520px
-) {
-
-    .ironstore-rastreio-copiado-overlay {
-        padding:
-            16px;
-    }
-
-
-    .ironstore-rastreio-copiado-modal {
-        width: 100%;
-
-        gap: 12px;
-
-        padding:
-            16px;
-
-        border-radius:
-            16px;
-    }
-
-
-    .ironstore-rastreio-copiado-icone {
-        width: 42px;
-        height: 42px;
-
-        flex-basis:
-            42px;
-
-        border-radius:
-            12px;
-    }
-
-
-    .ironstore-rastreio-copiado-icone svg {
-        width: 20px;
-        height: 20px;
-    }
-
-
-    .ironstore-rastreio-copiado-conteudo strong {
-        font-size:
-            14px;
-    }
-
-
-    .ironstore-rastreio-copiado-conteudo span {
-        font-size:
-            12px;
-    }
-
-}
-.ironstore-compras-rastreio-botao {
-    appearance: none;
-    -webkit-appearance: none;
-
-    margin: 0;
-    padding: 0;
-
-    border: 0;
-    outline: none;
-
-    background: transparent;
-
-    color: inherit;
-    font: inherit;
-
-    cursor: pointer;
-
-    text-align: inherit;
-}
-
-.ironstore-rastreio-link-premium {
-    appearance: none;
-    -webkit-appearance: none;
-
-    width: 100%;
-    max-width: 290px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 12px;
-
-    margin: 4px 0 0;
-    padding: 11px 13px;
-
-    border: 1px solid rgba(20, 42, 74, 0.12);
-    border-radius: 14px;
-
-    background: linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #f8fafc 100%
-    );
-
-    box-shadow:
-        0 1px 2px rgba(16, 24, 40, 0.04),
-        0 4px 12px rgba(16, 24, 40, 0.04);
-
-    color: #142a4a;
-
-    cursor: pointer;
-
-    text-align: left;
+        #175cd3;
 
     transition:
-        transform 0.18s ease,
-        border-color 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.18s ease;
+        color 150ms ease,
+        border-color 150ms ease,
+        background-color 150ms ease;
 }
 
 
-.ironstore-rastreio-link-premium:hover {
-    transform: translateY(-1px);
-
-    border-color: rgba(20, 42, 74, 0.24);
-
-    background: #ffffff;
-
-    box-shadow:
-        0 2px 4px rgba(16, 24, 40, 0.05),
-        0 8px 22px rgba(16, 24, 40, 0.08);
-}
-
-
-.ironstore-rastreio-link-premium:active {
-    transform: translateY(0) scale(0.985);
-}
-
-
-.ironstore-rastreio-link-premium-icone {
-    width: 38px;
-    height: 38px;
-
-    flex: 0 0 38px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 11px;
-
-    background: #edf3f9;
-
-    color: #142a4a;
-}
-
+/* =========================================================
+   SVG
+========================================================= */
 
 .ironstore-rastreio-link-premium-icone svg {
-    width: 18px;
-    height: 18px;
-
     display: block;
+
+    width: 16px;
+    height: 16px;
 }
 
+
+/* =========================================================
+   ÍCONE NO HOVER
+========================================================= */
+
+.ironstore-rastreio-link-premium:hover
+.ironstore-rastreio-link-premium-icone {
+    color:
+        #004eeb;
+
+    border-color:
+        #d9dee6;
+
+    background:
+        #f5f7fa;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+========================================================= */
 
 .ironstore-rastreio-link-premium-conteudo {
     min-width: 0;
@@ -4353,87 +4125,294 @@ a.ironstore-compras-rastreio:hover {
     display: flex;
     flex-direction: column;
 
-    gap: 1px;
+    align-items: flex-start;
+    justify-content: center;
+
+    gap: 2px;
 }
 
+
+/* =========================================================
+   LABEL
+========================================================= */
 
 .ironstore-rastreio-link-premium-conteudo small {
-    color: #667085;
+    display: block;
 
-    font-size: 10px;
-    font-weight: 600;
+    margin: 0;
 
-    line-height: 1.3;
+    font-size: 7.5px;
+    line-height: 1.1;
+    font-weight: 800;
 
-    letter-spacing: 0.02em;
+    letter-spacing:
+        0.075em;
+
+    text-transform:
+        uppercase;
+
+    color:
+        #a0a4ac;
 }
 
+
+/* =========================================================
+   CÓDIGO
+========================================================= */
 
 .ironstore-rastreio-link-premium-conteudo strong {
+    display: block;
+
+    width: 100%;
+
+    margin: 0;
+
     overflow: hidden;
 
-    color: #142a4a;
-
-    font-size: 13px;
+    font-size: 10.5px;
+    line-height: 1.35;
     font-weight: 750;
 
-    line-height: 1.4;
+    letter-spacing:
+        0.01em;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color:
+        #27272a !important;
+
+    font-variant-numeric:
+        tabular-nums;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
 }
 
+
+/* =========================================================
+   SETA
+========================================================= */
 
 .ironstore-rastreio-link-premium-seta {
-    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
 
-    margin-left: 3px;
+    flex:
+        0
+        0
+        20px;
 
-    color: #98a2b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    font-size: 24px;
+    margin-left: 1px;
+
+    border-radius: 6px;
+
+    color:
+        #a1a1aa;
+
+    font-size: 18px;
+    line-height: 1;
     font-weight: 300;
 
-    line-height: 1;
-
     transition:
-        transform 0.18s ease,
-        color 0.18s ease;
+        transform 150ms ease,
+        color 150ms ease,
+        background-color 150ms ease;
 }
 
+
+/* =========================================================
+   SETA NO HOVER
+========================================================= */
 
 .ironstore-rastreio-link-premium:hover
 .ironstore-rastreio-link-premium-seta {
-    transform: translateX(2px);
+    transform:
+        translateX(2px);
 
-    color: #142a4a;
+    color:
+        #52525b;
+
+    background:
+        #f4f4f5;
 }
 
 
-.ironstore-rastreio-link-premium:focus-visible {
-    outline: 3px solid rgba(20, 42, 74, 0.15);
-    outline-offset: 2px;
+/* =========================================================
+   REMOVE ESTILOS ANTIGOS QUE POSSAM INTERFERIR
+========================================================= */
+
+button.ironstore-rastreio-link-premium {
+    text-decoration: none;
+
+    color:
+        #18181b !important;
+}
+
+button.ironstore-rastreio-link-premium
+strong {
+    text-decoration: none;
 }
 
 
-@media (max-width: 520px) {
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (
+    max-width: 1050px
+) {
 
     .ironstore-rastreio-link-premium {
-        max-width: 100%;
+        max-width:
+            245px;
+    }
 
-        padding: 10px 12px;
+}
 
-        border-radius: 13px;
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (
+    max-width: 700px
+) {
+
+    .ironstore-rastreio-link-premium {
+        width: 100%;
+        max-width: none;
+
+        gap: 9px;
+
+        margin-top: 3px;
+
+        padding:
+            8px
+            9px;
+
+        border-radius:
+            8px;
     }
 
     .ironstore-rastreio-link-premium-icone {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
 
-        flex-basis: 36px;
+        flex-basis:
+            32px;
+
+        border-radius:
+            7px;
     }
+
+    .ironstore-rastreio-link-premium-icone svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .ironstore-rastreio-link-premium-conteudo small {
+        font-size:
+            7px;
+    }
+
+    .ironstore-rastreio-link-premium-conteudo strong {
+        font-size:
+            10px;
+    }
+
+    .ironstore-rastreio-link-premium-seta {
+        width: 18px;
+        height: 18px;
+
+        flex-basis:
+            18px;
+
+        font-size:
+            17px;
+    }
+
 }
 
+
+/* =========================================================
+   MOBILE PEQUENO
+========================================================= */
+
+@media (
+    max-width: 480px
+) {
+
+    .ironstore-rastreio-link-premium {
+        min-height: 48px;
+
+        padding:
+            7px
+            8px;
+    }
+
+    .ironstore-rastreio-link-premium-icone {
+        width: 30px;
+        height: 30px;
+
+        flex-basis:
+            30px;
+    }
+
+    .ironstore-rastreio-link-premium-conteudo {
+        gap: 1px;
+    }
+
+    .ironstore-rastreio-link-premium-conteudo strong {
+        font-size:
+            9.5px;
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR MUITO PEQUENO
+========================================================= */
+
+@media (
+    max-width: 350px
+) {
+
+    .ironstore-rastreio-link-premium {
+        gap: 7px;
+
+        padding:
+            7px;
+    }
+
+    .ironstore-rastreio-link-premium-icone {
+        width: 28px;
+        height: 28px;
+
+        flex-basis:
+            28px;
+    }
+
+    .ironstore-rastreio-link-premium-conteudo small {
+        font-size:
+            6.5px;
+    }
+
+    .ironstore-rastreio-link-premium-conteudo strong {
+        font-size:
+            9px;
+    }
+
+    .ironstore-rastreio-link-premium-seta {
+        display: none;
+    }
+
+}
 
 `;
 
