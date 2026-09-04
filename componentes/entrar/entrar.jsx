@@ -119,7 +119,14 @@ export default function Entrar() {
         setEntrandoGoogle
     ] = useState(false);
 
+    /* =========================================================
+       ACESSO ADMINISTRATIVO
+    ========================================================= */
 
+    const [
+        entrandoAdministrativamente,
+        setEntrandoAdministrativamente
+    ] = useState(false);
     /* =====================================================
    CONSULTA DE CEP
 ===================================================== */
@@ -353,7 +360,265 @@ export default function Entrar() {
         []
     );
 
+    /* =========================================================
+       ACESSO ADMINISTRATIVO À CONTA DO CLIENTE
+    ========================================================= */
 
+    useEffect(
+        () => {
+
+            /* =====================================================
+               PEGAR TOKEN DA URL
+            ===================================================== */
+
+            const parametros =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+            const tokenTemporario =
+                String(
+                    parametros.get(
+                        "acesso_cliente"
+                    ) || ""
+                ).trim();
+
+
+            /* =====================================================
+               NÃO É ACESSO ADMINISTRATIVO
+            ===================================================== */
+
+            if (!tokenTemporario) {
+                return;
+            }
+
+
+            /* =====================================================
+               TROCAR TOKEN TEMPORÁRIO POR SESSÃO NORMAL
+            ===================================================== */
+
+            async function acessarComoCliente() {
+
+                try {
+
+                    console.log(
+                        "[ACESSO ADMIN] Token temporário encontrado."
+                    );
+
+                    setEntrandoAdministrativamente(
+                        true
+                    );
+
+                    setCarregando(
+                        true
+                    );
+
+                    setErro("");
+
+
+                    /* =================================================
+                       DOMÍNIO ATUAL
+                    ================================================= */
+
+                    const dominio =
+                        pegarDominioAtual();
+
+
+                    console.log(
+                        "[ACESSO ADMIN] Domínio:",
+                        dominio
+                    );
+
+
+                    /* =================================================
+                       CHAMAR BACKEND
+                    ================================================= */
+
+                    const resposta =
+                        await fetch(
+                            `${API_URL}/ironstore/clientes/acesso-administrativo`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "X-IronStore-Key":
+                                        IRONSTORE_APP_KEY_GERAL
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        token:
+                                            tokenTemporario,
+
+                                        dominio:
+                                            dominio
+                                    })
+                            }
+                        );
+
+
+                    /* =================================================
+                       LER RESPOSTA
+                    ================================================= */
+
+                    const texto =
+                        await resposta.text();
+
+
+                    let resultado = {};
+
+                    if (texto) {
+
+                        try {
+
+                            resultado =
+                                JSON.parse(
+                                    texto
+                                );
+
+                        } catch {
+
+                            throw new Error(
+                                `Resposta inválida do servidor: ${texto}`
+                            );
+
+                        }
+
+                    }
+
+
+                    console.log(
+                        "[ACESSO ADMIN] Status:",
+                        resposta.status
+                    );
+
+                    console.log(
+                        "[ACESSO ADMIN] Resultado:",
+                        resultado
+                    );
+
+
+                    /* =================================================
+                       ERRO
+                    ================================================= */
+
+                    if (!resposta.ok) {
+
+                        throw new Error(
+                            resultado?.detail ||
+                            `Erro HTTP ${resposta.status}`
+                        );
+
+                    }
+
+
+                    /* =================================================
+                       VALIDAR TOKEN NORMAL
+                    ================================================= */
+
+                    if (!resultado?.token) {
+
+                        throw new Error(
+                            "O servidor não retornou a sessão do cliente."
+                        );
+
+                    }
+
+
+                    if (!resultado?.cliente) {
+
+                        throw new Error(
+                            "O servidor não retornou os dados do cliente."
+                        );
+
+                    }
+
+
+                    /* =================================================
+                       SALVAR SESSÃO NORMAL
+                    ================================================= */
+
+                    salvarSessao(
+                        resultado.token,
+                        resultado.cliente
+                    );
+
+
+                    console.log(
+                        "[ACESSO ADMIN] Cliente autenticado:",
+                        resultado.cliente?.id
+                    );
+
+
+                    /* =================================================
+                       REMOVER TOKEN TEMPORÁRIO DA URL
+                    ================================================= */
+
+                    window.history.replaceState(
+                        {},
+                        document.title,
+                        "/entrar"
+                    );
+
+
+                    /* =================================================
+                       IR DIRETAMENTE PARA O PERFIL
+                    ================================================= */
+
+                    window.location.replace(
+                        "/perfil"
+                    );
+
+
+                } catch (erroAcesso) {
+
+                    console.error(
+                        "[ACESSO ADMIN ERRO]",
+                        erroAcesso
+                    );
+
+                    setErro(
+                        erroAcesso?.message ||
+                        "Não foi possível acessar a conta do cliente."
+                    );
+
+
+                    /* =================================================
+                       REMOVER TOKEN INVÁLIDO DA URL
+                    ================================================= */
+
+                    window.history.replaceState(
+                        {},
+                        document.title,
+                        "/entrar"
+                    );
+
+
+                } finally {
+
+                    setEntrandoAdministrativamente(
+                        false
+                    );
+
+                    setCarregando(
+                        false
+                    );
+
+                }
+
+            }
+
+
+            acessarComoCliente();
+
+        },
+        [
+            salvarSessao
+        ]
+    );
     /* =====================================================
        LOGIN GOOGLE CONCLUÍDO
     ===================================================== */
@@ -633,7 +898,21 @@ export default function Entrar() {
     /* =====================================================
        VERIFICAR SESSÃO EXISTENTE
     ===================================================== */
+    const parametros =
+        new URLSearchParams(
+            window.location.search
+        );
 
+    const possuiAcessoAdministrativo =
+        Boolean(
+            parametros.get(
+                "acesso_cliente"
+            )
+        );
+
+    if (possuiAcessoAdministrativo) {
+        return;
+    }
     useEffect(
         () => {
 
@@ -1357,7 +1636,60 @@ export default function Entrar() {
     /* =====================================================
        AUTENTICANDO COM GOOGLE
     ===================================================== */
+    if (entrandoAdministrativamente) {
 
+        return (
+            <>
+                <Header />
+
+                <style>
+                    {estiloModelo}
+                </style>
+
+                <section className="ironstore-entrar">
+
+                    <div className="ironstore-login-processando">
+
+                        <div className="ironstore-login-processando-icone">
+
+                            <div className="ironstore-login-spinner" />
+
+                        </div>
+
+                        <div className="ironstore-login-processando-texto">
+
+                            <span>
+                                ACESSO SEGURO
+                            </span>
+
+                            <h1>
+                                Abrindo conta do cliente
+                            </h1>
+
+                            <p>
+                                Estamos validando o acesso administrativo
+                                e preparando a sessão do cliente.
+                            </p>
+
+                        </div>
+
+                        <div className="ironstore-login-processando-status">
+
+                            <span />
+
+                            Autenticando acesso administrativo
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <Footer />
+            </>
+        );
+
+    }
     if (entrandoGoogle) {
 
         return (
