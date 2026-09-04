@@ -864,23 +864,69 @@ export default function Compras() {
 
         setTimeout(() => {
             window.location.assign(link);
-        }, 1000);
+        }, 2000);
     }
     return (
         <>
             {rastreioCopiado && (
-
                 <div
-                    className="ironstore-rastreio-copiado-overlay"
-                    role="status"
-                    aria-live="polite"
+                    style={{
+                        position: "fixed",
+                        inset: 0,
+                        zIndex: 2147483647,
+
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+
+                        padding: "20px",
+
+                        background: "rgba(15, 23, 42, 0.38)",
+                        backdropFilter: "blur(5px)",
+                        WebkitBackdropFilter: "blur(5px)"
+                    }}
                 >
+                    <div
+                        style={{
+                            width: "min(420px, calc(100vw - 32px))",
 
-                    <div className="ironstore-rastreio-copiado-modal">
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "16px",
 
-                        <div className="ironstore-rastreio-copiado-icone">
+                            padding: "20px",
 
+                            borderRadius: "20px",
+                            border: "1px solid rgba(15, 23, 42, 0.08)",
+
+                            background: "#ffffff",
+
+                            boxShadow:
+                                "0 30px 80px rgba(15, 23, 42, 0.28)",
+
+                            fontFamily: "inherit"
+                        }}
+                    >
+                        <div
+                            style={{
+                                width: "48px",
+                                height: "48px",
+
+                                flexShrink: 0,
+
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+
+                                borderRadius: "15px",
+
+                                background: "#eef4ff",
+                                color: "#142a4a"
+                            }}
+                        >
                             <svg
+                                width="24"
+                                height="24"
                                 viewBox="0 0 24 24"
                                 aria-hidden="true"
                             >
@@ -888,34 +934,62 @@ export default function Compras() {
                                     d="M20 6L9 17l-5-5"
                                     fill="none"
                                     stroke="currentColor"
-                                    strokeWidth="2.4"
+                                    strokeWidth="2.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                 />
                             </svg>
-
                         </div>
 
-                        <div className="ironstore-rastreio-copiado-conteudo">
+                        <div
+                            style={{
+                                minWidth: 0,
 
-                            <strong>
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "3px"
+                            }}
+                        >
+                            <strong
+                                style={{
+                                    color: "#101828",
+                                    fontSize: "16px",
+                                    fontWeight: "750",
+                                    lineHeight: "1.3"
+                                }}
+                            >
                                 Código copiado
                             </strong>
 
-                            <span>
+                            <span
+                                style={{
+                                    color: "#344054",
+                                    fontSize: "14px",
+                                    fontWeight: "650",
+                                    lineHeight: "1.4",
+
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap"
+                                }}
+                            >
                                 {rastreioCopiado}
                             </span>
 
-                            <small>
+                            <small
+                                style={{
+                                    marginTop: "2px",
+
+                                    color: "#667085",
+                                    fontSize: "12px",
+                                    fontWeight: "500"
+                                }}
+                            >
                                 Abrindo rastreamento...
                             </small>
-
                         </div>
-
                     </div>
-
                 </div>
-
             )}
             <style>
                 {estilo}
