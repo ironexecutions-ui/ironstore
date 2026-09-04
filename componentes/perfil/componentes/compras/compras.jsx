@@ -794,89 +794,80 @@ export default function Compras() {
 
 
 
-    async function abrirRastreamento(
-        evento,
-        codigo
-    ) {
-
+    async function abrirRastreamento(evento, codigo) {
         evento.preventDefault();
+        evento.stopPropagation();
 
         if (!codigo) {
             return;
         }
 
-        const codigoLimpo =
-            String(codigo).trim();
+        const codigoLimpo = String(codigo).trim();
 
         const link =
             `https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
                 codigoLimpo
             )}`;
 
+        // ==========================================
+        // MOSTRA A MODAL IMEDIATAMENTE
+        // ==========================================
+
+        setRastreioCopiado(codigoLimpo);
+
+        // ==========================================
+        // COPIA O CÓDIGO
+        // ==========================================
+
         try {
+            if (
+                navigator.clipboard &&
+                window.isSecureContext
+            ) {
+                navigator.clipboard
+                    .writeText(codigoLimpo)
+                    .catch((erro) => {
+                        console.error(
+                            "[RASTREIO] Erro ao copiar:",
+                            erro
+                        );
+                    });
+            } else {
+                const textarea =
+                    document.createElement("textarea");
 
-            await navigator.clipboard.writeText(
-                codigoLimpo
-            );
+                textarea.value = codigoLimpo;
 
-        } catch (erroClipboard) {
+                textarea.style.position = "fixed";
+                textarea.style.left = "-999999px";
+                textarea.style.top = "-999999px";
 
+                document.body.appendChild(textarea);
+
+                textarea.focus();
+                textarea.select();
+
+                document.execCommand("copy");
+
+                textarea.remove();
+            }
+        } catch (erro) {
             console.error(
-                "[IRONSTORE RASTREIO] Não foi possível copiar:",
-                erroClipboard
+                "[RASTREIO] Erro ao copiar código:",
+                erro
             );
-
-            const textarea =
-                document.createElement(
-                    "textarea"
-                );
-
-            textarea.value =
-                codigoLimpo;
-
-            textarea.style.position =
-                "fixed";
-
-            textarea.style.opacity =
-                "0";
-
-            document.body.appendChild(
-                textarea
-            );
-
-            textarea.select();
-
-            document.execCommand(
-                "copy"
-            );
-
-            textarea.remove();
         }
 
-        setRastreioCopiado(
-            codigoLimpo
-        );
+        // ==========================================
+        // AGUARDA 1 SEGUNDO E REDIRECIONA
+        // ==========================================
 
-        setTimeout(
-            () => {
-
-                setRastreioCopiado(
-                    null
-                );
-
-                window.location.href =
-                    link;
-
-            },
-            1000
-        );
+        setTimeout(() => {
+            window.location.assign(link);
+        }, 1000);
     }
     return (
         <>
-
-            <style>
-                {estilo}
-            </style>
             {rastreioCopiado && (
 
                 <div
@@ -926,6 +917,10 @@ export default function Compras() {
                 </div>
 
             )}
+            <style>
+                {estilo}
+            </style>
+
             <section className="ironstore-perfil-compras-area">
 
                 {/* =============================================
@@ -1369,21 +1364,18 @@ export default function Compras() {
                                                                                     {
                                                                                         compra.seguimento?.codigo_rastreio ? (
 
-                                                                                            <a
-                                                                                                href={`https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
-                                                                                                    compra.seguimento.codigo_rastreio
-                                                                                                )}`}
-                                                                                                onClick={
-                                                                                                    evento =>
-                                                                                                        abrirRastreamento(
-                                                                                                            evento,
-                                                                                                            compra.seguimento.codigo_rastreio
-                                                                                                        )
+                                                                                            <button
+                                                                                                type="button"
+                                                                                                onClick={(evento) =>
+                                                                                                    abrirRastreamento(
+                                                                                                        evento,
+                                                                                                        compra.seguimento.codigo_rastreio
+                                                                                                    )
                                                                                                 }
-                                                                                                className="ironstore-compras-rastreio"
+                                                                                                className="ironstore-compras-rastreio ironstore-compras-rastreio-botao"
                                                                                             >
                                                                                                 {compra.seguimento.codigo_rastreio}
-                                                                                            </a>
+                                                                                            </button>
 
                                                                                         ) : (
                                                                                             "Não informado"

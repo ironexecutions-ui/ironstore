@@ -5202,7 +5202,25 @@ input::-webkit-outer-spin-button {
     }
 
 }
+.ironstore-compras-rastreio-botao {
+    appearance: none;
+    -webkit-appearance: none;
 
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+
+    color: inherit;
+    font: inherit;
+
+    cursor: pointer;
+
+    text-align: inherit;
+}
 `;
 
 export default classicoCompras;
