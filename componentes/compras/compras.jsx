@@ -69,6 +69,40 @@ function obterPrecoProduto(
     produto
 ) {
 
+    /* =====================================================
+       PREÇO CALCULADO PELO BACKEND
+
+       IMPORTANTE:
+       preco_atual pode ser 0.
+
+       Isso acontece, por exemplo, quando a compra está
+       sendo realizada através de acesso administrativo.
+
+       Por isso NÃO usamos:
+           if (produto.preco_atual)
+
+       porque 0 seria interpretado como false.
+    ===================================================== */
+
+    if (
+        produto?.preco_atual !== undefined &&
+        produto?.preco_atual !== null
+    ) {
+
+        return numeroPreco(
+            produto.preco_atual
+        );
+
+    }
+
+
+    /* =====================================================
+       FALLBACK
+
+       Usado somente se o backend antigo não enviar
+       preco_atual.
+    ===================================================== */
+
     const promocao =
         numeroPreco(
             produto?.preco_promocao
@@ -77,7 +111,9 @@ function obterPrecoProduto(
     if (
         promocao > 0
     ) {
+
         return promocao;
+
     }
 
 
@@ -89,7 +125,9 @@ function obterPrecoProduto(
     if (
         ironstore > 0
     ) {
+
         return ironstore;
+
     }
 
 
@@ -97,7 +135,6 @@ function obterPrecoProduto(
         produto?.preco
     );
 }
-
 
 function formatarPreco(
     valor
