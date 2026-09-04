@@ -2705,24 +2705,48 @@ export default function Compraslog() {
                                                         <span>Produtos</span>
 
                                                         <strong>
-                                                            {formatarPreco(checkout.subtotal)}
+                                                            {formatarPreco(
+                                                                checkout?.subtotal
+                                                            )}
                                                         </strong>
                                                     </div>
+
+                                                    {checkout?.preco_admin && (
+                                                        <div>
+                                                            <span>
+                                                                Benefício administrativo
+                                                            </span>
+
+                                                            <strong>
+                                                                - {formatarPreco(
+                                                                    checkout?.desconto
+                                                                )}
+                                                            </strong>
+                                                        </div>
+                                                    )}
 
                                                     <div>
                                                         <span>Frete</span>
 
                                                         <strong>
-                                                            {formatarPreco(checkout.frete)}
+                                                            {formatarPreco(
+                                                                checkout?.frete
+                                                            )}
                                                         </strong>
                                                     </div>
 
                                                     <div className="ironstore-pagamento-total">
-                                                        <span>Total</span>
+
+                                                        <span>
+                                                            Total a pagar
+                                                        </span>
 
                                                         <strong>
-                                                            {formatarPreco(checkout.total)}
+                                                            {formatarPreco(
+                                                                checkout?.total
+                                                            )}
                                                         </strong>
+
                                                     </div>
 
                                                 </div>
