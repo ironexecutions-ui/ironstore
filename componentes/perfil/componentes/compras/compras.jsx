@@ -256,6 +256,11 @@ export default function Compras() {
     ] = useState(
         "classico"
     );
+
+    const [
+        rastreioCopiado,
+        setRastreioCopiado
+    ] = useState(null);
     /* =====================================================
        CARREGAR COMPRAS
     ===================================================== */
@@ -785,9 +790,138 @@ export default function Compras() {
             dias <= 7
         );
     }
+
+
+
+
+    async function abrirRastreamento(
+        evento,
+        codigo
+    ) {
+
+        evento.preventDefault();
+
+        if (!codigo) {
+            return;
+        }
+
+        const codigoLimpo =
+            String(codigo).trim();
+
+        const link =
+            `https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
+                codigoLimpo
+            )}`;
+
+        try {
+
+            await navigator.clipboard.writeText(
+                codigoLimpo
+            );
+
+        } catch (erroClipboard) {
+
+            console.error(
+                "[IRONSTORE RASTREIO] Não foi possível copiar:",
+                erroClipboard
+            );
+
+            const textarea =
+                document.createElement(
+                    "textarea"
+                );
+
+            textarea.value =
+                codigoLimpo;
+
+            textarea.style.position =
+                "fixed";
+
+            textarea.style.opacity =
+                "0";
+
+            document.body.appendChild(
+                textarea
+            );
+
+            textarea.select();
+
+            document.execCommand(
+                "copy"
+            );
+
+            textarea.remove();
+        }
+
+        setRastreioCopiado(
+            codigoLimpo
+        );
+
+        setTimeout(
+            () => {
+
+                setRastreioCopiado(
+                    null
+                );
+
+                window.location.href =
+                    link;
+
+            },
+            1000
+        );
+    }
     return (
         <>
+            {rastreioCopiado && (
 
+                <div
+                    className="ironstore-rastreio-copiado-overlay"
+                    role="status"
+                    aria-live="polite"
+                >
+
+                    <div className="ironstore-rastreio-copiado-modal">
+
+                        <div className="ironstore-rastreio-copiado-icone">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M20 6L9 17l-5-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2.4"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+
+                        </div>
+
+                        <div className="ironstore-rastreio-copiado-conteudo">
+
+                            <strong>
+                                Código copiado
+                            </strong>
+
+                            <span>
+                                {rastreioCopiado}
+                            </span>
+
+                            <small>
+                                Abrindo rastreamento...
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            )}
             <style>
                 {estilo}
             </style>
@@ -1239,8 +1373,13 @@ export default function Compras() {
                                                                                                 href={`https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
                                                                                                     compra.seguimento.codigo_rastreio
                                                                                                 )}`}
-                                                                                                target="_blank"
-                                                                                                rel="noopener noreferrer"
+                                                                                                onClick={
+                                                                                                    evento =>
+                                                                                                        abrirRastreamento(
+                                                                                                            evento,
+                                                                                                            compra.seguimento.codigo_rastreio
+                                                                                                        )
+                                                                                                }
                                                                                                 className="ironstore-compras-rastreio"
                                                                                             >
                                                                                                 {compra.seguimento.codigo_rastreio}

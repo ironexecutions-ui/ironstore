@@ -2714,7 +2714,7 @@ export default function Compraslog() {
                                                     {checkout?.preco_admin && (
                                                         <div>
                                                             <span>
-                                                                Benefício administrativo
+                                                                Desconto administrativo
                                                             </span>
 
                                                             <strong>
