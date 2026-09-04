@@ -24,6 +24,7 @@ import Reels from "../areas/reels";
 import Produtos from "../areas/produtos";
 import Path from "../areas/path";
 
+
 /* =========================================================
    COMPONENTES GLOBAIS
 ========================================================= */
@@ -32,11 +33,23 @@ import VerReels from "./verreels";
 
 
 /* =========================================================
+   API
+========================================================= */
+
+import {
+  API_URL
+} from "../config";
+
+
+/* =========================================================
    CHAVES DA SESSÃO
 ========================================================= */
 
-const TOKEN_KEY = "ironstore_cliente_token";
-const CLIENTE_KEY = "ironstore_cliente";
+const TOKEN_KEY =
+  "ironstore_cliente_token";
+
+const CLIENTE_KEY =
+  "ironstore_cliente";
 
 
 /* =========================================================
@@ -51,44 +64,58 @@ function decodificarJwt(token) {
       return null;
     }
 
-    const partes = token.split(".");
+
+    const partes =
+      token.split(".");
+
 
     if (partes.length !== 3) {
       return null;
     }
 
-    let payloadBase64 = partes[1]
-      .replace(/-/g, "+")
-      .replace(/_/g, "/");
+
+    let payloadBase64 =
+      partes[1]
+        .replace(/-/g, "+")
+        .replace(/_/g, "/");
+
 
     while (
       payloadBase64.length % 4
     ) {
+
       payloadBase64 += "=";
+
     }
 
-    const jsonPayload = decodeURIComponent(
-      atob(payloadBase64)
-        .split("")
-        .map((caractere) => {
 
-          return (
-            "%" +
-            (
-              "00" +
-              caractere
-                .charCodeAt(0)
-                .toString(16)
-            ).slice(-2)
-          );
+    const jsonPayload =
+      decodeURIComponent(
 
-        })
-        .join("")
-    );
+        atob(payloadBase64)
+          .split("")
+          .map((caractere) => {
+
+            return (
+              "%" +
+              (
+                "00" +
+                caractere
+                  .charCodeAt(0)
+                  .toString(16)
+              ).slice(-2)
+            );
+
+          })
+          .join("")
+
+      );
+
 
     return JSON.parse(
       jsonPayload
     );
+
 
   } catch (erro) {
 
@@ -98,7 +125,9 @@ function decodificarJwt(token) {
     );
 
     return null;
+
   }
+
 }
 
 
@@ -108,23 +137,187 @@ function decodificarJwt(token) {
 
 function tokenEstaValido(token) {
 
-  const payload = decodificarJwt(
-    token
-  );
+  const payload =
+    decodificarJwt(
+      token
+    );
+
 
   if (!payload) {
     return false;
   }
 
+
   if (!payload.exp) {
     return false;
   }
 
-  const agora = Math.floor(
-    Date.now() / 1000
+
+  const agora =
+    Math.floor(
+      Date.now() / 1000
+    );
+
+
+  return (
+    payload.exp > agora
   );
 
-  return payload.exp > agora;
+}
+
+
+/* =========================================================
+   PEGAR TOKEN DO CLIENTE
+========================================================= */
+
+function pegarTokenCliente() {
+
+  return (
+    localStorage.getItem(
+      TOKEN_KEY
+    ) ||
+    sessionStorage.getItem(
+      TOKEN_KEY
+    ) ||
+    null
+  );
+
+}
+
+
+/* =========================================================
+   PEGAR DOMÍNIO ATUAL
+
+   IMPORTANTE:
+
+   window.location.host
+   mantém a porta.
+
+   Exemplos:
+
+   localhost:5173
+   missionetwork.com
+   dassmakeup.com.br
+========================================================= */
+
+function pegarDominioAtual() {
+
+  return (
+    window.location.host ||
+    ""
+  )
+    .trim()
+    .toLowerCase()
+    .replace(/^www\./, "");
+
+}
+
+
+/* =========================================================
+   ENVIAR RASTREIO
+========================================================= */
+
+async function enviarRastreio(
+  caminho
+) {
+
+  try {
+
+    /* =====================================================
+       TOKEN
+    ===================================================== */
+
+    const token =
+      pegarTokenCliente();
+
+
+    /* =====================================================
+       DOMÍNIO
+    ===================================================== */
+
+    const dominio =
+      pegarDominioAtual();
+
+
+    /* =====================================================
+       LOG
+    ===================================================== */
+
+    console.log(
+      "Enviando rastreio:",
+      {
+        dominio,
+        caminho,
+        possuiToken: Boolean(
+          token
+        )
+      }
+    );
+
+
+    /* =====================================================
+       REQUISIÇÃO
+    ===================================================== */
+
+    const resposta =
+      await fetch(
+        `${API_URL}/ironstore/rastreio`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            dominio,
+            caminho,
+            token
+          })
+        }
+      );
+
+
+    /* =====================================================
+       ERRO HTTP
+    ===================================================== */
+
+    if (!resposta.ok) {
+
+      console.warn(
+        "Erro ao registrar rastreio:",
+        resposta.status
+      );
+
+      return;
+
+    }
+
+
+    /* =====================================================
+       RESPOSTA
+    ===================================================== */
+
+    const dados =
+      await resposta.json();
+
+
+    console.log(
+      "Rastreio registrado:",
+      dados
+    );
+
+
+  } catch (erro) {
+
+    console.warn(
+      "Falha ao registrar rastreio:",
+      erro
+    );
+
+  }
+
 }
 
 
@@ -134,8 +327,12 @@ function tokenEstaValido(token) {
 
 export default function App() {
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location =
+    useLocation();
+
+
+  const navigate =
+    useNavigate();
 
 
   /* =======================================================
@@ -144,6 +341,10 @@ export default function App() {
 
   function fazerLogout() {
 
+    /* =====================================================
+       LOCAL STORAGE
+    ===================================================== */
+
     localStorage.removeItem(
       TOKEN_KEY
     );
@@ -152,6 +353,11 @@ export default function App() {
       CLIENTE_KEY
     );
 
+
+    /* =====================================================
+       SESSION STORAGE
+    ===================================================== */
+
     sessionStorage.removeItem(
       TOKEN_KEY
     );
@@ -159,12 +365,18 @@ export default function App() {
     sessionStorage.removeItem(
       CLIENTE_KEY
     );
+
+
+    /* =====================================================
+       AVISAR COMPONENTES
+    ===================================================== */
 
     window.dispatchEvent(
       new Event(
         "ironstore-cliente-logout"
       )
     );
+
   }
 
 
@@ -177,45 +389,45 @@ export default function App() {
     const verificarToken = () => {
 
       const token =
-        localStorage.getItem(
-          TOKEN_KEY
-        ) ||
-        sessionStorage.getItem(
-          TOKEN_KEY
-        );
+        pegarTokenCliente();
 
-      /*
-       * Se não existe token, não precisa fazer nada.
-       *
-       * Isso permite visitantes normalmente no site.
-       */
+
+      /* ===================================================
+         VISITANTE
+
+         Sem token pode navegar normalmente.
+      =================================================== */
 
       if (!token) {
         return;
       }
 
-      /*
-       * Se existe token mas ele está inválido
-       * ou expirado, encerra a sessão.
-       */
+
+      /* ===================================================
+         TOKEN INVÁLIDO OU EXPIRADO
+      =================================================== */
 
       if (
-        !tokenEstaValido(token)
+        !tokenEstaValido(
+          token
+        )
       ) {
 
         console.warn(
           "Sessão IronStore expirada."
         );
 
+
         fazerLogout();
 
-        /*
-         * Se estiver em uma área que depende
-         * da autenticação, manda para entrar.
-         */
+
+        /* ===============================================
+           PERFIL EXIGE LOGIN
+        =============================================== */
 
         if (
-          location.pathname === "/perfil"
+          location.pathname ===
+          "/perfil"
         ) {
 
           navigate(
@@ -232,23 +444,27 @@ export default function App() {
     };
 
 
+    /* =====================================================
+       VERIFICAR IMEDIATAMENTE
+    ===================================================== */
+
     verificarToken();
 
 
-    /*
-     * Continua verificando enquanto o site
-     * estiver aberto.
-     *
-     * Assim, se o token expirar com o cliente
-     * dentro do site, o logout acontece sem
-     * precisar atualizar a página.
-     */
+    /* =====================================================
+       VERIFICAR PERIODICAMENTE
+    ===================================================== */
 
-    const intervalo = setInterval(
-      verificarToken,
-      1000
-    );
+    const intervalo =
+      setInterval(
+        verificarToken,
+        1000
+      );
 
+
+    /* =====================================================
+       LIMPEZA
+    ===================================================== */
 
     return () => {
 
@@ -258,11 +474,56 @@ export default function App() {
 
     };
 
+
   }, [
     location.pathname,
     navigate
   ]);
 
+
+  /* =======================================================
+     RASTREAR NAVEGAÇÃO
+
+     Toda mudança de rota registra:
+
+     usuario
+     dominio
+     caminho
+
+     O backend decide:
+
+     logado     = nome + sobrenome
+     não logado = IP
+  ======================================================= */
+
+  useEffect(() => {
+
+    /* =====================================================
+       CAMINHO COMPLETO
+    ===================================================== */
+
+    const caminhoCompleto =
+      `${location.pathname}${location.search}`;
+
+
+    /* =====================================================
+       REGISTRAR
+    ===================================================== */
+
+    enviarRastreio(
+      caminhoCompleto
+    );
+
+
+  }, [
+    location.pathname,
+    location.search
+  ]);
+
+
+  /* =======================================================
+     INTERFACE
+  ======================================================= */
 
   return (
 
@@ -279,41 +540,93 @@ export default function App() {
           ROTAS
       ============================================= */}
 
-      <main className="app-pagina-principal-iron">
+      <main
+        className="app-pagina-principal-iron"
+      >
 
         <Routes>
+
+          {/* =========================================
+              PATH
+          ========================================= */}
+
           <Route
             path="/path"
-            element={<Path />}
+            element={
+              <Path />
+            }
           />
+
+
+          {/* =========================================
+              HOME
+          ========================================= */}
+
           <Route
             path="/"
-            element={<Home />}
+            element={
+              <Home />
+            }
           />
+
+
+          {/* =========================================
+              COMPRAS
+          ========================================= */}
 
           <Route
             path="/compras"
-            element={<Compras />}
+            element={
+              <Compras />
+            }
           />
+
+
+          {/* =========================================
+              ENTRAR
+          ========================================= */}
 
           <Route
             path="/entrar"
-            element={<Entrar />}
+            element={
+              <Entrar />
+            }
           />
+
+
+          {/* =========================================
+              PERFIL
+          ========================================= */}
 
           <Route
             path="/perfil"
-            element={<Perfil />}
+            element={
+              <Perfil />
+            }
           />
+
+
+          {/* =========================================
+              PRODUTO
+          ========================================= */}
 
           <Route
             path="/produtos/:produtoId"
-            element={<Produtos />}
+            element={
+              <Produtos />
+            }
           />
+
+
+          {/* =========================================
+              REELS
+          ========================================= */}
 
           <Route
             path="/reels/:produtoid"
-            element={<Reels />}
+            element={
+              <Reels />
+            }
           />
 
         </Routes>
