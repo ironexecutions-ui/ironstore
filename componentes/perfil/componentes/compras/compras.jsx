@@ -873,6 +873,10 @@ export default function Compras() {
     }
     return (
         <>
+
+            <style>
+                {estilo}
+            </style>
             {rastreioCopiado && (
 
                 <div
@@ -922,10 +926,6 @@ export default function Compras() {
                 </div>
 
             )}
-            <style>
-                {estilo}
-            </style>
-
             <section className="ironstore-perfil-compras-area">
 
                 {/* =============================================
