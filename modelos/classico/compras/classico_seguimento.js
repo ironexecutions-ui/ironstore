@@ -3897,6 +3897,544 @@ a.ironstore-compras-rastreio:hover {
 
 
 
+/* =========================================================
+   CONFIRMAÇÃO DO CÓDIGO DE RASTREIO
+========================================================= */
+
+.ironstore-rastreio-copiado-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 999999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(16, 24, 40, 0.18);
+
+    backdrop-filter:
+        blur(3px);
+
+    -webkit-backdrop-filter:
+        blur(3px);
+
+    animation:
+        ironstoreRastreioOverlayEntrada
+        0.18s
+        ease-out
+        both;
+}
+
+
+.ironstore-rastreio-copiado-modal {
+    position: relative;
+
+    width: min(
+        100%,
+        390px
+    );
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding:
+        18px
+        20px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(20, 42, 74, 0.10);
+
+    border-radius: 18px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.98
+        );
+
+    box-shadow:
+        0 24px 70px
+            rgba(
+                16,
+                24,
+                40,
+                0.18
+            ),
+        0 6px 20px
+            rgba(
+                16,
+                24,
+                40,
+                0.08
+            );
+
+    animation:
+        ironstoreRastreioModalEntrada
+        0.25s
+        cubic-bezier(
+            0.16,
+            1,
+            0.3,
+            1
+        )
+        both;
+}
+
+
+.ironstore-rastreio-copiado-modal::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+        var(
+            --ic-navy,
+            #142a4a
+        );
+
+    transform-origin:
+        left center;
+
+    animation:
+        ironstoreRastreioTempo
+        1s
+        linear
+        forwards;
+}
+
+
+/* =========================================================
+   ÍCONE
+========================================================= */
+
+.ironstore-rastreio-copiado-icone {
+    width: 46px;
+    height: 46px;
+
+    flex:
+        0
+        0
+        46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        var(
+            --ic-navy-light,
+            #edf3f9
+        );
+
+    color:
+        var(
+            --ic-navy,
+            #142a4a
+        );
+}
+
+
+.ironstore-rastreio-copiado-icone svg {
+    width: 22px;
+    height: 22px;
+
+    display: block;
+}
+
+
+/* =========================================================
+   TEXTO
+========================================================= */
+
+.ironstore-rastreio-copiado-conteudo {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 2px;
+}
+
+
+.ironstore-rastreio-copiado-conteudo strong {
+    margin: 0;
+
+    color:
+        var(
+            --ic-text,
+            #101828
+        );
+
+    font-size: 15px;
+    font-weight: 750;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.015em;
+}
+
+
+.ironstore-rastreio-copiado-conteudo span {
+    width: 100%;
+
+    overflow: hidden;
+
+    color:
+        var(
+            --ic-text-secondary,
+            #344054
+        );
+
+    font-size: 13px;
+    font-weight: 650;
+
+    line-height: 1.4;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.ironstore-rastreio-copiado-conteudo small {
+    margin-top: 2px;
+
+    color:
+        var(
+            --ic-muted,
+            #667085
+        );
+
+    font-size: 11px;
+    font-weight: 500;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   ANIMAÇÕES
+========================================================= */
+
+@keyframes ironstoreRastreioOverlayEntrada {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes ironstoreRastreioModalEntrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(8px)
+            scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes ironstoreRastreioTempo {
+
+    from {
+        transform:
+            scaleX(1);
+    }
+
+    to {
+        transform:
+            scaleX(0);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (
+    max-width: 520px
+) {
+
+    .ironstore-rastreio-copiado-overlay {
+        padding:
+            16px;
+    }
+
+
+    .ironstore-rastreio-copiado-modal {
+        width: 100%;
+
+        gap: 12px;
+
+        padding:
+            16px;
+
+        border-radius:
+            16px;
+    }
+
+
+    .ironstore-rastreio-copiado-icone {
+        width: 42px;
+        height: 42px;
+
+        flex-basis:
+            42px;
+
+        border-radius:
+            12px;
+    }
+
+
+    .ironstore-rastreio-copiado-icone svg {
+        width: 20px;
+        height: 20px;
+    }
+
+
+    .ironstore-rastreio-copiado-conteudo strong {
+        font-size:
+            14px;
+    }
+
+
+    .ironstore-rastreio-copiado-conteudo span {
+        font-size:
+            12px;
+    }
+
+}
+.ironstore-compras-rastreio-botao {
+    appearance: none;
+    -webkit-appearance: none;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+
+    color: inherit;
+    font: inherit;
+
+    cursor: pointer;
+
+    text-align: inherit;
+}
+
+.ironstore-rastreio-link-premium {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 100%;
+    max-width: 290px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 4px 0 0;
+    padding: 11px 13px;
+
+    border: 1px solid rgba(20, 42, 74, 0.12);
+    border-radius: 14px;
+
+    background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f8fafc 100%
+    );
+
+    box-shadow:
+        0 1px 2px rgba(16, 24, 40, 0.04),
+        0 4px 12px rgba(16, 24, 40, 0.04);
+
+    color: #142a4a;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+
+.ironstore-rastreio-link-premium:hover {
+    transform: translateY(-1px);
+
+    border-color: rgba(20, 42, 74, 0.24);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 2px 4px rgba(16, 24, 40, 0.05),
+        0 8px 22px rgba(16, 24, 40, 0.08);
+}
+
+
+.ironstore-rastreio-link-premium:active {
+    transform: translateY(0) scale(0.985);
+}
+
+
+.ironstore-rastreio-link-premium-icone {
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #edf3f9;
+
+    color: #142a4a;
+}
+
+
+.ironstore-rastreio-link-premium-icone svg {
+    width: 18px;
+    height: 18px;
+
+    display: block;
+}
+
+
+.ironstore-rastreio-link-premium-conteudo {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1px;
+}
+
+
+.ironstore-rastreio-link-premium-conteudo small {
+    color: #667085;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    line-height: 1.3;
+
+    letter-spacing: 0.02em;
+}
+
+
+.ironstore-rastreio-link-premium-conteudo strong {
+    overflow: hidden;
+
+    color: #142a4a;
+
+    font-size: 13px;
+    font-weight: 750;
+
+    line-height: 1.4;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.ironstore-rastreio-link-premium-seta {
+    flex-shrink: 0;
+
+    margin-left: 3px;
+
+    color: #98a2b3;
+
+    font-size: 24px;
+    font-weight: 300;
+
+    line-height: 1;
+
+    transition:
+        transform 0.18s ease,
+        color 0.18s ease;
+}
+
+
+.ironstore-rastreio-link-premium:hover
+.ironstore-rastreio-link-premium-seta {
+    transform: translateX(2px);
+
+    color: #142a4a;
+}
+
+
+.ironstore-rastreio-link-premium:focus-visible {
+    outline: 3px solid rgba(20, 42, 74, 0.15);
+    outline-offset: 2px;
+}
+
+
+@media (max-width: 520px) {
+
+    .ironstore-rastreio-link-premium {
+        max-width: 100%;
+
+        padding: 10px 12px;
+
+        border-radius: 13px;
+    }
+
+    .ironstore-rastreio-link-premium-icone {
+        width: 36px;
+        height: 36px;
+
+        flex-basis: 36px;
+    }
+}
+
+
 `;
 
 export default classicoSeguimento;
