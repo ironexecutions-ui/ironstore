@@ -1825,3 +1825,24 @@
     }
 
 }
+
+/* =========================================================
+   TROCA MANUAL DO MODELO DO REEL
+========================================================= */
+
+.ironstore-reels-vitrine-item--clicavel-modelo {
+    cursor: pointer;
+}
+
+.ironstore-reels-vitrine-item--clicavel-modelo button,
+.ironstore-reels-vitrine-item--clicavel-modelo a,
+.ironstore-reels-vitrine-item--clicavel-modelo input,
+.ironstore-reels-vitrine-item--clicavel-modelo textarea,
+.ironstore-reels-vitrine-item--clicavel-modelo select {
+    cursor: pointer;
+}
+
+
+.ironstore-reels-vitrine-loja-logo {
+    cursor: pointer;
+}

@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 
 import { API_URL } from "../../../config";
 import {
-    lerCacheCategorias
+    lerCacheCategorias,
+    salvarCacheCategorias,
+    normalizarDadosCategorias
 } from "../../home/body/componentes/categorias/cache";
 /* =========================================================
    MODELOS VISUAIS DO HEADER
@@ -15,7 +17,8 @@ import {
    PADRÃO DOS ARQUIVOS:
    {nome_do_modelo}_Header.js
 ========================================================= */
-
+const IRONSTORE_APP_KEY_GERAL =
+    import.meta.env.VITE_IRONSTORE_APP_KEY_GERAL;
 import classicoHeader from "../../../modelos/classico/header/padrao_header";
 // import modernoHeader from "./modelos/moderno_Header";
 // import premiumHeader from "./modelos/premium_Header";
@@ -124,7 +127,227 @@ const pegarCacheHeader = () => {
 export default function Header() {
 
     const navigate = useNavigate();
+    /* =========================================================
+       PRODUTOS DISPONÍVEIS PARA BUSCA / REELS
 
+       O HEADER NÃO DEPENDE MAIS DO COMPONENTE CATEGORIAS
+    ========================================================= */
+
+    const [
+        produtosHeader,
+        setProdutosHeader
+    ] = useState(() => {
+
+        try {
+
+            const cache =
+                lerCacheCategorias();
+
+            return Array.isArray(
+                cache?.produtos
+            )
+                ? cache.produtos
+                : [];
+
+        } catch (erro) {
+
+            console.error(
+                "[HEADER PRODUTOS] Erro ao carregar cache inicial:",
+                erro
+            );
+
+            return [];
+
+        }
+
+    });
+
+    /* =========================================================
+   CARREGAR PRODUTOS INDEPENDENTEMENTE
+
+   1. Usa cache imediatamente
+   2. Consulta servidor
+   3. Atualiza cache
+   4. Atualiza produtos do Header
+
+   Assim funciona entrando diretamente em qualquer rota.
+========================================================= */
+
+    useEffect(() => {
+
+        let componenteAtivo = true;
+
+        async function carregarProdutosHeader() {
+
+            /* =============================================
+               CACHE
+            ============================================= */
+
+            try {
+
+                const cache =
+                    lerCacheCategorias();
+
+                if (
+                    componenteAtivo &&
+                    Array.isArray(
+                        cache?.produtos
+                    )
+                ) {
+
+                    setProdutosHeader(
+                        cache.produtos
+                    );
+
+                }
+
+            } catch (erro) {
+
+                console.warn(
+                    "[HEADER PRODUTOS] Não foi possível ler o cache:",
+                    erro
+                );
+
+            }
+
+
+            /* =============================================
+               CHAVE
+            ============================================= */
+
+            if (
+                !IRONSTORE_APP_KEY_GERAL
+            ) {
+
+                console.error(
+                    "[HEADER PRODUTOS] VITE_IRONSTORE_APP_KEY_GERAL não configurada."
+                );
+
+                return;
+
+            }
+
+
+            /* =============================================
+               SERVIDOR
+            ============================================= */
+
+            try {
+
+                const dominio =
+                    pegarDominioAtual();
+
+                const resposta =
+                    await fetch(
+                        `${API_URL}/ironstore/categorias?dominio=${encodeURIComponent(
+                            dominio
+                        )}`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "X-IronStore-Key":
+                                    IRONSTORE_APP_KEY_GERAL
+                            }
+                        }
+                    );
+
+
+                let resultado =
+                    null;
+
+                try {
+
+                    resultado =
+                        await resposta.json();
+
+                } catch {
+
+                    resultado =
+                        null;
+
+                }
+
+
+                if (
+                    !componenteAtivo
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    !resposta.ok
+                ) {
+
+                    console.error(
+                        "[HEADER PRODUTOS] Erro ao carregar produtos:",
+                        resultado?.detail ||
+                        `Erro HTTP ${resposta.status}`
+                    );
+
+                    return;
+
+                }
+
+
+                /* =============================================
+                   NORMALIZAR
+                ============================================= */
+
+                const dadosNormalizados =
+                    normalizarDadosCategorias(
+                        resultado
+                    );
+
+
+                /* =============================================
+                   SALVAR CACHE
+                ============================================= */
+
+                salvarCacheCategorias(
+                    dadosNormalizados
+                );
+
+
+                /* =============================================
+                   ATUALIZAR HEADER
+                ============================================= */
+
+                setProdutosHeader(
+                    Array.isArray(
+                        dadosNormalizados?.produtos
+                    )
+                        ? dadosNormalizados.produtos
+                        : []
+                );
+
+
+            } catch (erro) {
+
+                console.warn(
+                    "[HEADER PRODUTOS] Backend indisponível. Mantendo produtos do cache.",
+                    erro
+                );
+
+            }
+
+        }
+
+
+        carregarProdutosHeader();
+
+
+        return () => {
+
+            componenteAtivo =
+                false;
+
+        };
+
+    }, []);
     const [
         menuAberto,
         setMenuAberto
@@ -730,29 +953,12 @@ export default function Header() {
 
     const pegarProdutosBusca = () => {
 
-        try {
+        return Array.isArray(
+            produtosHeader
+        )
+            ? produtosHeader
+            : [];
 
-            const cache =
-                lerCacheCategorias();
-
-            if (
-                !cache ||
-                !Array.isArray(cache?.produtos)
-            ) {
-                return [];
-            }
-
-            return cache.produtos;
-
-        } catch (erro) {
-
-            console.error(
-                "[HEADER BUSCA] Erro ao ler produtos:",
-                erro
-            );
-
-            return [];
-        }
     };
 
 

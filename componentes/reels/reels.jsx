@@ -28,7 +28,16 @@ const IRONSTORE_APP_KEY_GERAL =
     import.meta.env
         .VITE_IRONSTORE_APP_KEY_GERAL;
 
+/* =========================================================
+   MODELOS DISPONÍVEIS DOS REELS
+========================================================= */
 
+const MODELOS_REEL_DISPONIVEIS = [
+    "cinematico",
+    "editorial",
+    "camadas",
+    "imersivo"
+];
 /* =========================================================
    MOEDA
 ========================================================= */
@@ -529,6 +538,17 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
     ] = useState(
         new Set()
     );
+
+    const [
+        clienteLogado,
+        setClienteLogado
+    ] = useState(
+        () => Boolean(
+            localStorage.getItem(
+                "ironstore_cliente_token"
+            )
+        )
+    );
     const produtoVisivelRef =
         useRef(
             String(
@@ -902,6 +922,10 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     "ironstore_cliente"
                                 );
 
+                                setClienteLogado(
+                                    false
+                                );
+
                                 return;
                             }
 
@@ -1149,7 +1173,134 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
         }
 
     }
+    /* =========================================================
+       TROCAR MODELO DO REEL
+    ========================================================= */
 
+    function trocarModeloReel(
+        evento,
+        produto,
+        indiceProduto
+    ) {
+
+        /*
+         * Não troca o modelo quando a pessoa clicar
+         * em alguma área que tenha uma ação própria.
+         */
+        const elementoInterativo =
+            evento.target.closest(
+                `
+                button,
+                a,
+                input,
+                textarea,
+                select,
+                option,
+                label,
+                [role="button"],
+                [data-reel-nao-trocar-modelo]
+            `
+            );
+
+
+        if (elementoInterativo) {
+            return;
+        }
+
+
+        if (!produto) {
+            return;
+        }
+
+
+        const modeloAtual =
+            String(
+                produto.modelo_reel ||
+                "cinematico"
+            );
+
+
+        /*
+         * Remove o modelo atual.
+         *
+         * Isso garante que cada clique realmente
+         * produza uma mudança visual.
+         */
+        const modelosPossiveis =
+            MODELOS_REEL_DISPONIVEIS.filter(
+                modelo =>
+                    modelo !== modeloAtual
+            );
+
+
+        if (!modelosPossiveis.length) {
+            return;
+        }
+
+
+        const novoModelo =
+            modelosPossiveis[
+            Math.floor(
+                Math.random() *
+                modelosPossiveis.length
+            )
+            ];
+
+
+        setDados(
+            anterior => {
+
+                if (
+                    !anterior ||
+                    !Array.isArray(
+                        anterior.reels
+                    )
+                ) {
+                    return anterior;
+                }
+
+
+                const novosReels =
+                    anterior.reels.map(
+                        (
+                            item,
+                            indice
+                        ) => {
+
+                            /*
+                             * Altera somente a ocorrência
+                             * clicada no feed.
+                             */
+                            if (
+                                indice !==
+                                indiceProduto
+                            ) {
+                                return item;
+                            }
+
+
+                            return {
+                                ...item,
+
+                                modelo_reel:
+                                    novoModelo
+                            };
+
+                        }
+                    );
+
+
+                return {
+                    ...anterior,
+
+                    reels:
+                        novosReels
+                };
+
+            }
+        );
+
+    }
     /* =========================================================
        COMPARTILHAR PRODUTO
     ========================================================= */
@@ -1736,10 +1887,19 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                     return (
 
                         <article
-                            key={`${produto.id}-${indice}`} data-ironstore-reel-id={produto.id}
+                            key={`${produto.id}-${indice}`}
+                            data-ironstore-reel-id={produto.id}
+                            onClick={(evento) =>
+                                trocarModeloReel(
+                                    evento,
+                                    produto,
+                                    indice
+                                )
+                            }
                             className={`
         ironstore-reels-vitrine-item
         ironstore-reels-vitrine-item--${produto.modelo_reel}
+        ironstore-reels-vitrine-item--clicavel-modelo
     `}
                         >
 
@@ -1812,39 +1972,45 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
 
                             <aside className="ironstore-reels-vitrine-acoes">
 
-                                <button
-                                    type="button"
-                                    className={`
-                                        ironstore-reels-vitrine-acao
-                                        ${adicionado
-                                            ? "ironstore-reels-vitrine-acao--ativo"
-                                            : ""
+                                {clienteLogado && (
+                                    <button
+                                        type="button"
+                                        className={`
+            ironstore-reels-vitrine-acao
+            ironstore-reels-vitrine-acao--carrinho-logado
+            ${adicionado
+                                                ? "ironstore-reels-vitrine-acao--ativo"
+                                                : ""
+                                            }
+        `}
+                                        onClick={() =>
+                                            adicionarCarrinho(
+                                                produto
+                                            )
                                         }
-                                    `}
-                                    onClick={() =>
-                                        adicionarCarrinho(
-                                            produto
-                                        )
-                                    }
-                                >
+                                    >
+                                        <span
+                                            className="
+                ironstore-reels-vitrine-acao-icone
+                ironstore-reels-vitrine-acao-icone--carrinho-logado
+            "
+                                        >
+                                            {adicionandoId === produto.id
+                                                ? "..."
+                                                : adicionado
+                                                    ? "✓"
+                                                    : "🛒"
+                                            }
+                                        </span>
 
-                                    <span className="ironstore-reels-vitrine-acao-icone">
-                                        {adicionandoId === produto.id
-                                            ? "..."
-                                            : adicionado
-                                                ? "✓"
-                                                : "🛒"
-                                        }
-                                    </span>
-
-                                    <small>
-                                        {adicionado
-                                            ? "Adicionado"
-                                            : "Carrinho"
-                                        }
-                                    </small>
-
-                                </button>
+                                        <small className="ironstore-reels-vitrine-acao-texto-carrinho-logado">
+                                            {adicionado
+                                                ? "Adicionado"
+                                                : "Carrinho"
+                                            }
+                                        </small>
+                                    </button>
+                                )}
 
 
                                 <button
@@ -1899,11 +2065,12 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                         )
                                     }
                                 >
-
-                                    <span className="
-        ironstore-reels-vitrine-acao-icone
-        ironstore-reels-vitrine-acao-icone--compartilhar
-    ">
+                                    <span
+                                        className="
+            ironstore-reels-vitrine-acao-icone
+            ironstore-reels-vitrine-acao-icone--compartilhar
+        "
+                                    >
                                         📲
                                     </span>
 
@@ -1912,37 +2079,7 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     </small>
 
                                 </button>
-                                {/* =============================
-    IR AO INÍCIO
-============================== */}
 
-                                <button
-                                    type="button"
-                                    className="
-        ironstore-reels-vitrine-acao
-        ironstore-reels-vitrine-acao--inicio
-    "
-                                    onClick={() =>
-                                        navigate("/")
-                                    }
-                                    aria-label="Ir ao início"
-                                    title="Ir ao início"
-                                >
-
-                                    <span
-                                        className="
-            ironstore-reels-vitrine-acao-icone
-            ironstore-reels-vitrine-acao-icone--inicio
-        "
-                                    >
-                                        🏠
-                                    </span>
-
-                                    <small>
-                                        Início
-                                    </small>
-
-                                </button>
                             </aside>
 
 
@@ -1959,6 +2096,23 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                             src={comercio.imagem}
                                             alt={comercio.loja}
                                             className="ironstore-reels-vitrine-loja-logo"
+                                            onClick={(evento) => {
+                                                evento.stopPropagation();
+                                                navigate("/");
+                                            }}
+                                            role="button"
+                                            tabIndex={0}
+                                            title="Ir para o início"
+                                            onKeyDown={(evento) => {
+                                                if (
+                                                    evento.key === "Enter" ||
+                                                    evento.key === " "
+                                                ) {
+                                                    evento.preventDefault();
+                                                    evento.stopPropagation();
+                                                    navigate("/");
+                                                }
+                                            }}
                                         />
                                     )}
 
