@@ -83,7 +83,12 @@ const normalizarDados = (dados) => {
             dados.cidade || "",
 
         cep:
-            dados.cep || ""
+            dados.cep || "",
+
+        tem_senha:
+            Boolean(
+                dados.tem_senha
+            )
     };
 };
 
@@ -373,6 +378,37 @@ export default function Dados() {
     const [
         erroEdicao,
         setErroEdicao
+    ] = useState("");
+
+
+    const [
+        modalSenha,
+        setModalSenha
+    ] = useState(false);
+
+    const [
+        senhaAtual,
+        setSenhaAtual
+    ] = useState("");
+
+    const [
+        novaSenha,
+        setNovaSenha
+    ] = useState("");
+
+    const [
+        confirmarNovaSenha,
+        setConfirmarNovaSenha
+    ] = useState("");
+
+    const [
+        salvandoSenha,
+        setSalvandoSenha
+    ] = useState(false);
+
+    const [
+        erroSenha,
+        setErroSenha
     ] = useState("");
     /* =====================================================
        MODELO VISUAL
@@ -1742,6 +1778,227 @@ export default function Dados() {
             setSalvandoEndereco(false);
         }
     }
+
+    function abrirModalSenha() {
+
+        setSenhaAtual("");
+        setNovaSenha("");
+        setConfirmarNovaSenha("");
+        setErroSenha("");
+
+        setModalSenha(true);
+    }
+
+
+    function fecharModalSenha() {
+
+        if (salvandoSenha) {
+            return;
+        }
+
+        setModalSenha(false);
+
+        setSenhaAtual("");
+        setNovaSenha("");
+        setConfirmarNovaSenha("");
+        setErroSenha("");
+    }
+
+
+    async function salvarSenha() {
+
+        if (salvandoSenha) {
+            return;
+        }
+
+
+        if (
+            dados.tem_senha &&
+            !senhaAtual
+        ) {
+
+            setErroSenha(
+                "Informe sua senha atual."
+            );
+
+            return;
+        }
+
+
+        if (!novaSenha) {
+
+            setErroSenha(
+                "Informe a nova senha."
+            );
+
+            return;
+        }
+
+
+        if (novaSenha.length < 6) {
+
+            setErroSenha(
+                "A nova senha deve possuir pelo menos 6 caracteres."
+            );
+
+            return;
+        }
+
+
+        if (
+            novaSenha !==
+            confirmarNovaSenha
+        ) {
+
+            setErroSenha(
+                "As novas senhas não coincidem."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            setSalvandoSenha(true);
+            setErroSenha("");
+
+
+            const token =
+                localStorage.getItem(
+                    "ironstore_cliente_token"
+                );
+
+
+            if (!token) {
+
+                window.location.replace(
+                    "/entrar"
+                );
+
+                return;
+            }
+
+
+            const resposta =
+                await fetch(
+                    `${API_URL}/ironstore/me/senha`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                `Bearer ${token}`,
+
+                            "X-IronStore-Key":
+                                IRONSTORE_APP_KEY_GERAL
+                        },
+
+                        body: JSON.stringify({
+                            senha_atual:
+                                dados.tem_senha
+                                    ? senhaAtual
+                                    : null,
+
+                            nova_senha:
+                                novaSenha,
+
+                            confirmar_senha:
+                                confirmarNovaSenha
+                        })
+                    }
+                );
+
+
+            const resultado =
+                await resposta
+                    .json()
+                    .catch(
+                        () => null
+                    );
+
+
+            if (
+                resposta.status === 401 ||
+                resposta.status === 403
+            ) {
+
+                apagarCache(
+                    "perfil_dados",
+                    true
+                );
+
+                localStorage.removeItem(
+                    "ironstore_cliente_token"
+                );
+
+                localStorage.removeItem(
+                    "ironstore_cliente"
+                );
+
+                window.location.replace(
+                    "/entrar"
+                );
+
+                return;
+            }
+
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    resultado?.detail ||
+                    "Não foi possível alterar a senha."
+                );
+            }
+
+
+            const novosDados = {
+                ...dados,
+                tem_senha: true
+            };
+
+
+            setDados(
+                novosDados
+            );
+
+
+            salvarCache(
+                "perfil_dados",
+                novosDados,
+                true
+            );
+
+
+            setModalSenha(false);
+
+            setSenhaAtual("");
+            setNovaSenha("");
+            setConfirmarNovaSenha("");
+
+
+        } catch (erroAlterarSenha) {
+
+            console.error(
+                "[IRONSTORE SENHA]",
+                erroAlterarSenha
+            );
+
+            setErroSenha(
+                erroAlterarSenha?.message ||
+                "Não foi possível alterar a senha."
+            );
+
+
+        } finally {
+
+            setSalvandoSenha(false);
+        }
+    }
     return (
 
         <section className="ironstore-perfil-dados-area">
@@ -1931,7 +2188,157 @@ export default function Dados() {
 
             <div className="ironstore-perfil-dados-informacoes">
 
+                {/* SENHA */}
 
+                <div
+                    className="ironstore-perfil-dado-card"
+                    onClick={
+                        abrirModalSenha
+                    }
+                >
+                    <strong>
+                        Senha
+                    </strong>
+
+                    <span>
+                        {dados.tem_senha
+                            ? "Alterar senha"
+                            : "Cadastrar senha"
+                        }
+                    </span>
+                </div>
+
+
+                {modalSenha && (
+
+                    <div
+                        className="ironstore-endereco-modal-fundo"
+                        onMouseDown={
+                            fecharModalSenha
+                        }
+                    >
+
+                        <div
+                            className="ironstore-endereco-modal"
+                            onMouseDown={(e) =>
+                                e.stopPropagation()
+                            }
+                        >
+
+                            <h3>
+                                {dados.tem_senha
+                                    ? "Alterar senha"
+                                    : "Cadastrar senha"
+                                }
+                            </h3>
+
+
+                            {erroSenha && (
+
+                                <div className="ironstore-perfil-dados-erro-edicao">
+                                    {erroSenha}
+                                </div>
+
+                            )}
+
+
+                            {dados.tem_senha && (
+
+                                <label>
+                                    Senha atual
+
+                                    <input
+                                        type="password"
+                                        value={senhaAtual}
+                                        autoComplete="current-password"
+                                        placeholder="Digite sua senha atual"
+                                        onChange={(e) =>
+                                            setSenhaAtual(
+                                                e.target.value
+                                            )
+                                        }
+                                        autoFocus
+                                    />
+                                </label>
+
+                            )}
+
+
+                            <label>
+                                Nova senha
+
+                                <input
+                                    type="password"
+                                    value={novaSenha}
+                                    autoComplete="new-password"
+                                    placeholder="Digite a nova senha"
+                                    onChange={(e) =>
+                                        setNovaSenha(
+                                            e.target.value
+                                        )
+                                    }
+                                    autoFocus={
+                                        !dados.tem_senha
+                                    }
+                                />
+                            </label>
+
+
+                            <label>
+                                Confirmar nova senha
+
+                                <input
+                                    type="password"
+                                    value={confirmarNovaSenha}
+                                    autoComplete="new-password"
+                                    placeholder="Digite novamente a nova senha"
+                                    onChange={(e) =>
+                                        setConfirmarNovaSenha(
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            </label>
+
+
+                            <div className="ironstore-endereco-modal-acoes">
+
+                                <button
+                                    type="button"
+                                    onClick={
+                                        fecharModalSenha
+                                    }
+                                    disabled={
+                                        salvandoSenha
+                                    }
+                                >
+                                    Cancelar
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={
+                                        salvarSenha
+                                    }
+                                    disabled={
+                                        salvandoSenha
+                                    }
+                                >
+                                    {salvandoSenha
+                                        ? "Salvando..."
+                                        : dados.tem_senha
+                                            ? "Alterar senha"
+                                            : "Cadastrar senha"
+                                    }
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                )}
                 {/* WHATSAPP */}
 
                 <div

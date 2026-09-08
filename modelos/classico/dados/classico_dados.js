@@ -1590,7 +1590,136 @@ button:disabled {
     }
 }
 
-    
+    /* =========================================================
+   MODAL DE SENHA
+========================================================= */
+
+.ironstore-endereco-modal:has(
+    input[type="password"]
+) {
+    max-width: 480px;
+}
+
+
+/* =========================================================
+   INPUTS DE SENHA
+   REMOVE O DESTAQUE ESPECIAL DO CEP
+========================================================= */
+
+.ironstore-endereco-modal
+label:has(input[type="password"]) {
+    position: relative;
+
+    margin-bottom: 17px;
+}
+
+
+.ironstore-endereco-modal
+label:has(input[type="password"])
+input {
+    width: 100%;
+    min-height: 50px;
+
+    box-sizing: border-box;
+
+    padding: 0 15px;
+
+    border:
+        1px solid #dce4ed;
+
+    border-radius: 13px;
+
+    outline: none;
+
+    background: #f7f9fc;
+
+    color: #102a49;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 550;
+
+    letter-spacing: normal;
+
+    box-shadow: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.ironstore-endereco-modal
+label:has(input[type="password"])
+input::placeholder {
+    color: #9aa8b8;
+
+    font-weight: 450;
+}
+
+
+.ironstore-endereco-modal
+label:has(input[type="password"])
+input:hover {
+    border-color: #c5d1df;
+
+    background: #ffffff;
+}
+
+
+.ironstore-endereco-modal
+label:has(input[type="password"])
+input:focus {
+    border-color: #3d6e9f;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(52, 91, 136, 0.11);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   BOTÕES DESABILITADOS
+========================================================= */
+
+.ironstore-endereco-modal-acoes
+button:disabled {
+    cursor: not-allowed;
+
+    opacity: 0.55;
+
+    transform: none !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-endereco-modal:has(
+        input[type="password"]
+    ) {
+        max-width: none;
+    }
+
+
+    .ironstore-endereco-modal
+    label:has(input[type="password"])
+    input {
+        min-height: 52px;
+
+        font-size: 16px;
+    }
+}
 `;
 
 export default classicoDados;
