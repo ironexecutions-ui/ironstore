@@ -1322,6 +1322,392 @@ const classicoEntrar = `
         margin-bottom: 12px;
     }
 }
+
+
+/* =========================================================
+   LOGIN COM EMAIL E SENHA
+========================================================= */
+
+.ironstore-credenciais-abas {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 4px;
+
+    margin-bottom: 24px;
+    padding: 4px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   ABAS ENTRAR / CADASTRE-SE
+========================================================= */
+
+.ironstore-credenciais-aba {
+    width: 100%;
+    height: 40px;
+
+    padding: 0 14px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #64748b;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.ironstore-credenciais-aba:hover {
+    color: #0f172a;
+}
+
+.ironstore-credenciais-aba:active {
+    transform: scale(0.985);
+}
+
+.ironstore-credenciais-aba.ativa {
+    background: #ffffff;
+
+    color: #0f172a;
+
+    box-shadow:
+        0 1px 3px rgba(15, 23, 42, 0.08),
+        0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.ironstore-credenciais-formulario {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.ironstore-credenciais-formulario label {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    color: #475569;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.05px;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.ironstore-credenciais-formulario input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #dfe5ec;
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #fbfcfd;
+
+    color: #0f172a;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+}
+
+.ironstore-credenciais-formulario input:hover {
+    border-color: #cbd5e1;
+
+    background: #ffffff;
+}
+
+.ironstore-credenciais-formulario input:focus {
+    border-color: #64748b;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(100, 116, 139, 0.10);
+}
+
+.ironstore-credenciais-formulario input::placeholder {
+    color: #a8b2c1;
+}
+
+
+/* =========================================================
+   AUTOFILL DO NAVEGADOR
+========================================================= */
+
+.ironstore-credenciais-formulario input:-webkit-autofill,
+.ironstore-credenciais-formulario input:-webkit-autofill:hover,
+.ironstore-credenciais-formulario input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #0f172a;
+
+    box-shadow:
+        0 0 0 1000px #ffffff inset;
+
+    transition:
+        background-color 9999s ease-out;
+}
+
+
+/* =========================================================
+   BOTÃO ENTRAR / CRIAR CONTA
+========================================================= */
+
+.ironstore-credenciais-botao {
+    width: 100%;
+    height: 46px;
+
+    margin-top: 4px;
+    padding: 0 18px;
+
+    border: 1px solid #0f172a;
+    border-radius: 11px;
+
+    background: #0f172a;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 18px rgba(15, 23, 42, 0.15);
+
+    transition:
+        background 160ms ease,
+        transform 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.ironstore-credenciais-botao:hover:not(:disabled) {
+    background: #1e293b;
+
+    box-shadow:
+        0 10px 24px rgba(15, 23, 42, 0.19);
+}
+
+.ironstore-credenciais-botao:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.ironstore-credenciais-botao:disabled {
+    cursor: not-allowed;
+
+    border-color: #e2e8f0;
+
+    background: #e2e8f0;
+
+    color: #94a3b8;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   ERRO DENTRO DO LOGIN
+========================================================= */
+
+.ironstore-entrar-login .ironstore-entrar-erro {
+    width: 100%;
+
+    margin: 18px 0 0;
+
+    padding: 12px 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+
+    background: #fff1f2;
+
+    color: #b91c1c;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    line-height: 1.45;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   DIVISOR "OU"
+========================================================= */
+
+.ironstore-credenciais-divisor {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 24px 0 19px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.ironstore-credenciais-divisor::before,
+.ironstore-credenciais-divisor::after {
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #eef2f7;
+}
+
+
+/* =========================================================
+   GOOGLE COM NOVO FORMULÁRIO
+========================================================= */
+
+.ironstore-credenciais-divisor
+    + .ironstore-login-google-area {
+
+    padding:
+        0
+        0
+        21px;
+}
+
+
+/* =========================================================
+   AJUSTE DO CARD QUANDO TEM FORMULÁRIO
+========================================================= */
+
+.ironstore-entrar-login {
+    max-width: 440px;
+}
+
+
+/* =========================================================
+   CADASTRO POSSUI MAIS CAMPOS
+========================================================= */
+
+.ironstore-credenciais-formulario
+    + .ironstore-credenciais-divisor {
+
+    margin-top: 25px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 720px) {
+
+    .ironstore-credenciais-abas {
+        margin-bottom: 20px;
+    }
+
+    .ironstore-credenciais-aba {
+        height: 39px;
+
+        font-size: 10.5px;
+    }
+
+    .ironstore-credenciais-formulario {
+        gap: 13px;
+    }
+
+    .ironstore-credenciais-formulario input {
+        height: 45px;
+
+        font-size: 13px;
+    }
+
+    .ironstore-credenciais-botao {
+        height: 45px;
+    }
+
+    .ironstore-credenciais-divisor {
+        margin:
+            21px
+            0
+            17px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 `;
 
 export default classicoEntrar;

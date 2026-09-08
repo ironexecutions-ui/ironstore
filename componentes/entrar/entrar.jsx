@@ -324,7 +324,36 @@ export default function Entrar() {
         sucesso,
         setSucesso
     ] = useState("");
+    const [modoCredenciais, setModoCredenciais] =
+        useState("login");
 
+    const [emailLogin, setEmailLogin] =
+        useState("");
+
+    const [senhaLogin, setSenhaLogin] =
+        useState("");
+
+    const [nomeCadastro, setNomeCadastro] =
+        useState("");
+
+    const [sobrenomeCadastro, setSobrenomeCadastro] =
+        useState("");
+
+    const [emailCadastro, setEmailCadastro] =
+        useState("");
+
+    const [senhaCadastro, setSenhaCadastro] =
+        useState("");
+
+    const [
+        confirmarSenhaCadastro,
+        setConfirmarSenhaCadastro
+    ] = useState("");
+
+    const [
+        processandoCredenciais,
+        setProcessandoCredenciais
+    ] = useState(false);
 
     /* =====================================================
        SALVAR LOGIN LOCALMENTE
@@ -620,9 +649,237 @@ export default function Entrar() {
         ]
     );
     /* =====================================================
-       LOGIN GOOGLE CONCLUÍDO
+       LOGIN COM EMAIL E SENHA
     ===================================================== */
 
+    async function entrarComEmail() {
+
+        if (!emailLogin.trim()) {
+            setErro("Informe seu e-mail.");
+            return;
+        }
+
+        if (!senhaLogin) {
+            setErro("Informe sua senha.");
+            return;
+        }
+
+        try {
+
+            setErro("");
+            setSucesso("");
+            setProcessandoCredenciais(true);
+
+            const resposta = await fetch(
+                `${API_URL}/ironstore/clientes/login`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-IronStore-Key":
+                            IRONSTORE_APP_KEY_GERAL
+                    },
+
+                    body: JSON.stringify({
+                        email: emailLogin.trim(),
+                        senha: senhaLogin,
+                        dominio: pegarDominioAtual()
+                    })
+                }
+            );
+
+            const resultado =
+                await resposta.json();
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    resultado?.detail ||
+                    "Não foi possível entrar."
+                );
+            }
+
+            if (!resultado?.token) {
+
+                throw new Error(
+                    "O servidor não retornou o token."
+                );
+            }
+
+            if (!resultado?.cliente) {
+
+                throw new Error(
+                    "O servidor não retornou o cliente."
+                );
+            }
+
+            salvarSessao(
+                resultado.token,
+                resultado.cliente
+            );
+
+            window.location.replace(
+                "/perfil"
+            );
+
+        } catch (erroLoginEmail) {
+
+            console.error(
+                "[LOGIN EMAIL]",
+                erroLoginEmail
+            );
+
+            setErro(
+                erroLoginEmail?.message ||
+                "Não foi possível entrar."
+            );
+
+        } finally {
+
+            setProcessandoCredenciais(false);
+        }
+    }
+
+
+    /* =====================================================
+       CADASTRAR COM EMAIL E SENHA
+    ===================================================== */
+
+    async function cadastrarComEmail() {
+
+        if (!nomeCadastro.trim()) {
+            setErro("Informe seu nome.");
+            return;
+        }
+
+        if (!sobrenomeCadastro.trim()) {
+            setErro("Informe seu sobrenome.");
+            return;
+        }
+
+        if (!emailCadastro.trim()) {
+            setErro("Informe seu e-mail.");
+            return;
+        }
+
+        if (senhaCadastro.length < 8) {
+
+            setErro(
+                "A senha precisa ter pelo menos 8 caracteres."
+            );
+
+            return;
+        }
+
+        if (
+            senhaCadastro !==
+            confirmarSenhaCadastro
+        ) {
+
+            setErro(
+                "As senhas não são iguais."
+            );
+
+            return;
+        }
+
+        try {
+
+            setErro("");
+            setSucesso("");
+            setProcessandoCredenciais(true);
+
+            const resposta = await fetch(
+                `${API_URL}/ironstore/clientes/cadastrar`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-IronStore-Key":
+                            IRONSTORE_APP_KEY_GERAL
+                    },
+
+                    body: JSON.stringify({
+                        nome:
+                            nomeCadastro.trim(),
+
+                        sobrenome:
+                            sobrenomeCadastro.trim(),
+
+                        email:
+                            emailCadastro.trim(),
+
+                        senha:
+                            senhaCadastro,
+
+                        confirmar_senha:
+                            confirmarSenhaCadastro,
+
+                        dominio:
+                            pegarDominioAtual()
+                    })
+                }
+            );
+
+            const resultado =
+                await resposta.json();
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    resultado?.detail ||
+                    "Não foi possível criar sua conta."
+                );
+            }
+
+            if (!resultado?.token) {
+
+                throw new Error(
+                    "O servidor não retornou o token."
+                );
+            }
+
+            if (!resultado?.cliente) {
+
+                throw new Error(
+                    "O servidor não retornou o cliente."
+                );
+            }
+
+            salvarSessao(
+                resultado.token,
+                resultado.cliente
+            );
+
+            /*
+                NÃO redirecionamos.
+
+                Como setLogado(true) é chamado em
+                salvarSessao(), o componente passa
+                automaticamente para a tela:
+
+                "Complete seu cadastro"
+            */
+
+        } catch (erroCadastroEmail) {
+
+            console.error(
+                "[CADASTRO EMAIL]",
+                erroCadastroEmail
+            );
+
+            setErro(
+                erroCadastroEmail?.message ||
+                "Não foi possível criar sua conta."
+            );
+
+        } finally {
+
+            setProcessandoCredenciais(false);
+        }
+    }
     /* =====================================================
        LOGIN GOOGLE CONCLUÍDO
     ===================================================== */
@@ -1758,15 +2015,274 @@ export default function Entrar() {
                     <div className="ironstore-entrar-login">
 
                         <div className="ironstore-login-topo">
+
                             <h1>
-                                Acesse sua conta
+                                {modoCredenciais === "login"
+                                    ? "Acesse sua conta"
+                                    : "Crie sua conta"
+                                }
                             </h1>
 
                             <p>
-                                Entre com sua conta Google para
-                                continuar suas compras.
+                                {modoCredenciais === "login"
+                                    ? "Entre com seu e-mail e senha ou continue com o Google."
+                                    : "Preencha seus dados para criar sua conta."
+                                }
                             </p>
+
                         </div>
+
+
+                        <div className="ironstore-credenciais-abas">
+
+                            <button
+                                type="button"
+                                className={
+                                    modoCredenciais === "login"
+                                        ? "ironstore-credenciais-aba ativa"
+                                        : "ironstore-credenciais-aba"
+                                }
+                                onClick={() => {
+                                    setModoCredenciais("login");
+                                    setErro("");
+                                }}
+                            >
+                                Entrar
+                            </button>
+
+                            <button
+                                type="button"
+                                className={
+                                    modoCredenciais === "cadastro"
+                                        ? "ironstore-credenciais-aba ativa"
+                                        : "ironstore-credenciais-aba"
+                                }
+                                onClick={() => {
+                                    setModoCredenciais("cadastro");
+                                    setErro("");
+                                }}
+                            >
+                                Cadastre-se
+                            </button>
+
+                        </div>
+
+
+                        {modoCredenciais === "login" ? (
+
+                            <div className="ironstore-credenciais-formulario">
+
+                                <label>
+                                    E-mail
+
+                                    <input
+                                        type="email"
+                                        autoComplete="email"
+                                        placeholder="seuemail@exemplo.com"
+                                        value={emailLogin}
+                                        onChange={
+                                            e =>
+                                                setEmailLogin(
+                                                    e.target.value
+                                                )
+                                        }
+                                        onKeyDown={
+                                            e => {
+                                                if (
+                                                    e.key === "Enter" &&
+                                                    !processandoCredenciais
+                                                ) {
+                                                    entrarComEmail();
+                                                }
+                                            }
+                                        }
+                                    />
+
+                                </label>
+
+
+                                <label>
+                                    Senha
+
+                                    <input
+                                        type="password"
+                                        autoComplete="current-password"
+                                        placeholder="Sua senha"
+                                        value={senhaLogin}
+                                        onChange={
+                                            e =>
+                                                setSenhaLogin(
+                                                    e.target.value
+                                                )
+                                        }
+                                        onKeyDown={
+                                            e => {
+                                                if (
+                                                    e.key === "Enter" &&
+                                                    !processandoCredenciais
+                                                ) {
+                                                    entrarComEmail();
+                                                }
+                                            }
+                                        }
+                                    />
+
+                                </label>
+
+
+                                <button
+                                    type="button"
+                                    className="ironstore-credenciais-botao"
+                                    onClick={entrarComEmail}
+                                    disabled={processandoCredenciais}
+                                >
+                                    {processandoCredenciais
+                                        ? "Entrando..."
+                                        : "Entrar"
+                                    }
+                                </button>
+
+                            </div>
+
+                        ) : (
+
+                            <div className="ironstore-credenciais-formulario">
+
+                                <label>
+                                    Nome
+
+                                    <input
+                                        type="text"
+                                        autoComplete="given-name"
+                                        placeholder="Seu nome"
+                                        value={nomeCadastro}
+                                        onChange={
+                                            e =>
+                                                setNomeCadastro(
+                                                    e.target.value
+                                                )
+                                        }
+                                    />
+
+                                </label>
+
+
+                                <label>
+                                    Sobrenome
+
+                                    <input
+                                        type="text"
+                                        autoComplete="family-name"
+                                        placeholder="Seu sobrenome"
+                                        value={sobrenomeCadastro}
+                                        onChange={
+                                            e =>
+                                                setSobrenomeCadastro(
+                                                    e.target.value
+                                                )
+                                        }
+                                    />
+
+                                </label>
+
+
+                                <label>
+                                    E-mail
+
+                                    <input
+                                        type="email"
+                                        autoComplete="email"
+                                        placeholder="seuemail@exemplo.com"
+                                        value={emailCadastro}
+                                        onChange={
+                                            e =>
+                                                setEmailCadastro(
+                                                    e.target.value
+                                                )
+                                        }
+                                    />
+
+                                </label>
+
+
+                                <label>
+                                    Senha
+
+                                    <input
+                                        type="password"
+                                        autoComplete="new-password"
+                                        placeholder="Mínimo de 8 caracteres"
+                                        value={senhaCadastro}
+                                        onChange={
+                                            e =>
+                                                setSenhaCadastro(
+                                                    e.target.value
+                                                )
+                                        }
+                                    />
+
+                                </label>
+
+
+                                <label>
+                                    Confirmar senha
+
+                                    <input
+                                        type="password"
+                                        autoComplete="new-password"
+                                        placeholder="Digite a senha novamente"
+                                        value={confirmarSenhaCadastro}
+                                        onChange={
+                                            e =>
+                                                setConfirmarSenhaCadastro(
+                                                    e.target.value
+                                                )
+                                        }
+                                        onKeyDown={
+                                            e => {
+                                                if (
+                                                    e.key === "Enter" &&
+                                                    !processandoCredenciais
+                                                ) {
+                                                    cadastrarComEmail();
+                                                }
+                                            }
+                                        }
+                                    />
+
+                                </label>
+
+
+                                <button
+                                    type="button"
+                                    className="ironstore-credenciais-botao"
+                                    onClick={cadastrarComEmail}
+                                    disabled={processandoCredenciais}
+                                >
+                                    {processandoCredenciais
+                                        ? "Criando conta..."
+                                        : "Criar conta"
+                                    }
+                                </button>
+
+                            </div>
+
+                        )}
+
+
+                        {erro && (
+                            <div className="ironstore-entrar-erro">
+                                {erro}
+                            </div>
+                        )}
+
+
+                        <div className="ironstore-credenciais-divisor">
+                            <span>
+                                ou
+                            </span>
+                        </div>
+
 
                         <div className="ironstore-login-google-area">
 
@@ -1777,17 +2293,12 @@ export default function Entrar() {
 
                         </div>
 
+
                         <div className="ironstore-login-seguranca">
                             Seus dados são utilizados apenas
                             para identificar sua conta e
                             facilitar suas compras.
                         </div>
-
-                        {erro && (
-                            <div className="ironstore-entrar-erro">
-                                {erro}
-                            </div>
-                        )}
 
                     </div>
 
