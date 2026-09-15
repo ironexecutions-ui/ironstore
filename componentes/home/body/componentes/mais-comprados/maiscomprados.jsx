@@ -138,10 +138,18 @@ export default function Maiscomprados() {
                 lerCacheMaisComprados();
 
 
+            const chavePrimeiraCarga =
+                `ironstore_mais_comprados_primeira_carga:${pegarDominioAtualMaisComprados()}`;
+
+
             if (
                 cache &&
                 ativo
             ) {
+
+                sessionStorage.removeItem(
+                    chavePrimeiraCarga
+                );
 
                 setDados(
                     cache
@@ -308,6 +316,35 @@ export default function Maiscomprados() {
                     salvarCacheMaisComprados(
                         servidor
                     );
+
+
+                /* =============================================
+                   10. PRIMEIRO ACESSO SEM CACHE
+
+                   Depois que o cache for criado corretamente,
+                   recarrega uma única vez. Na nova abertura o
+                   cache já existe e a recarga não se repete.
+                ============================================= */
+
+                if (
+                    !cacheAtual &&
+                    atualizado &&
+                    sessionStorage.getItem(
+                        chavePrimeiraCarga
+                    ) !== "1"
+                ) {
+
+                    sessionStorage.setItem(
+                        chavePrimeiraCarga,
+                        "1"
+                    );
+
+
+                    window.location.reload();
+
+                    return;
+
+                }
 
 
                 if (

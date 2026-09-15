@@ -3,7 +3,10 @@ import React, {
     useRef,
     useState
 } from "react";
-
+import IconeCompras from "./icone/compras";
+import IconeVerMais from "./icone/vermais";
+import IconeCompartilhar from "./icone/compartilhar";
+import IconeCarrinho from "./icone/carrinho";
 import {
     useNavigate,
     useParams
@@ -36,8 +39,28 @@ const MODELOS_REEL_DISPONIVEIS = [
     "cinematico",
     "editorial",
     "camadas",
-    "imersivo"
+    "imersivo",
+    "galeria",
+    "revista",
+    "foco",
+    "mosaico",
+    "diagonal",
+    "premium",
+    "vitrine",
+    "retrato",
+    "horizonte",
+    "polaroid",
+    "painel",
+    "destaque",
+    "cinema",
+    "catalogo",
+    "assimetrico",
+    "luxo"
 ];
+
+
+const filasImagensPrincipais =
+    new Map();
 /* =========================================================
    MOEDA
 ========================================================= */
@@ -194,6 +217,137 @@ function embaralharArray(
 
 
 /* =========================================================
+   ESCOLHER IMAGEM PRINCIPAL EM RODÍZIO
+========================================================= */
+
+function ordenarImagensDoProduto(
+    produto
+) {
+
+    const imagens =
+        Array.isArray(produto?.imagens)
+            ? produto.imagens.filter(Boolean)
+            : [];
+
+
+    if (
+        imagens.length <= 1
+    ) {
+
+        return imagens;
+
+    }
+
+
+    const produtoId =
+        String(produto?.id || "");
+
+
+    let fila =
+        filasImagensPrincipais.get(
+            produtoId
+        ) || [];
+
+
+    fila = fila.filter(
+        imagem =>
+            imagens.includes(imagem)
+    );
+
+
+    if (
+        !fila.length
+    ) {
+
+        fila =
+            embaralharArray(
+                imagens
+            );
+
+    }
+
+
+    const imagemPrincipal =
+        fila[0];
+
+
+    filasImagensPrincipais.set(
+        produtoId,
+        fila.slice(1)
+    );
+
+
+    return [
+        imagemPrincipal,
+        ...embaralharArray(
+            imagens.filter(
+                imagem =>
+                    imagem !== imagemPrincipal
+            )
+        )
+    ];
+
+}
+
+
+function escolherModeloReel(
+    modeloAnterior = ""
+) {
+
+    const modelosPossiveis =
+        MODELOS_REEL_DISPONIVEIS.filter(
+            modelo =>
+                modelo !== modeloAnterior
+        );
+
+
+    return modelosPossiveis[
+        Math.floor(
+            Math.random() *
+            modelosPossiveis.length
+        )
+    ] || "cinematico";
+
+}
+
+
+function prepararProdutoVisual(
+    produto,
+    modeloAnterior = "",
+    forcarNovaApresentacao = false
+) {
+
+    if (
+        produto?._apresentacao_preparada &&
+        !forcarNovaApresentacao
+    ) {
+
+        return produto;
+
+    }
+
+
+    return {
+        ...produto,
+
+        imagens:
+            ordenarImagensDoProduto(
+                produto
+            ),
+
+        modelo_reel:
+            escolherModeloReel(
+                modeloAnterior
+            ),
+
+        _apresentacao_preparada:
+            true
+    };
+
+}
+
+
+/* =========================================================
    GERAR ORDEM ALEATÓRIA DOS REELS
 
    O PRODUTO ABERTO PELA URL CONTINUA PRIMEIRO.
@@ -251,6 +405,42 @@ function gerarReelsAleatorios(
         );
 
 
+    const ordemProdutos =
+        produtoInicial
+            ? [
+                produtoInicial,
+                ...aleatorios
+            ]
+            : embaralharArray(
+                dados.reels
+            );
+
+
+    let modeloAnterior =
+        "";
+
+
+    const reelsPreparados =
+        ordemProdutos.map(
+            produto => {
+
+                const preparado =
+                    prepararProdutoVisual(
+                        produto,
+                        modeloAnterior
+                    );
+
+
+                modeloAnterior =
+                    preparado.modelo_reel;
+
+
+                return preparado;
+
+            }
+        );
+
+
     return {
 
         ...dados,
@@ -263,14 +453,7 @@ function gerarReelsAleatorios(
                 : null,
 
         reels:
-            produtoInicial
-                ? [
-                    produtoInicial,
-                    ...aleatorios
-                ]
-                : embaralharArray(
-                    dados.reels
-                )
+            reelsPreparados
 
     };
 
@@ -370,7 +553,10 @@ function mesclarDadosReels(
                 id,
                 {
                     ...(anterior || {}),
-                    ...produto
+                    ...produto,
+
+                    _apresentacao_preparada:
+                        false
                 }
             );
 
@@ -587,7 +773,10 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
             ) {
 
                 setDados(
-                    cacheOrdenado
+                    gerarReelsAleatorios(
+                        cacheOrdenado,
+                        produtoid
+                    )
                 );
 
                 setCarregando(
@@ -1726,9 +1915,32 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                         ];
 
 
+                    let modeloAnterior =
+                        ultimoProduto?.modelo_reel ||
+                        "";
+
+
                     let novaRodada =
                         embaralharArray(
                             produtosOriginais
+                        ).map(
+                            produto => {
+
+                                const preparado =
+                                    prepararProdutoVisual(
+                                        produto,
+                                        modeloAnterior,
+                                        true
+                                    );
+
+
+                                modeloAnterior =
+                                    preparado.modelo_reel;
+
+
+                                return preparado;
+
+                            }
                         );
 
 
@@ -1991,15 +2203,25 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     >
                                         <span
                                             className="
-                ironstore-reels-vitrine-acao-icone
-                ironstore-reels-vitrine-acao-icone--carrinho-logado
-            "
+        ironstore-reels-vitrine-acao-icone
+        ironstore-reels-vitrine-acao-icone--carrinho-logado
+    "
                                         >
                                             {adicionandoId === produto.id
-                                                ? "..."
+                                                ? (
+                                                    <span className="ironstore-carrinho-carregando">
+                                                        •••
+                                                    </span>
+                                                )
                                                 : adicionado
-                                                    ? "✓"
-                                                    : "🛒"
+                                                    ? (
+                                                        <span className="ironstore-carrinho-confirmado">
+                                                            ✓
+                                                        </span>
+                                                    )
+                                                    : (
+                                                        <IconeCarrinho />
+                                                    )
                                             }
                                         </span>
 
@@ -2023,8 +2245,13 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     }
                                 >
 
-                                    <span className="ironstore-reels-vitrine-acao-icone">
-                                        🛍️
+                                    <span
+                                        className="
+        ironstore-reels-vitrine-acao-icone
+        ironstore-reels-vitrine-acao-icone--compras
+    "
+                                    >
+                                        <IconeCompras />
                                     </span>
 
                                     <small>
@@ -2044,8 +2271,13 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     }
                                 >
 
-                                    <span className="ironstore-reels-vitrine-acao-icone">
-                                        👁️
+                                    <span
+                                        className="
+        ironstore-reels-vitrine-acao-icone
+        ironstore-reels-vitrine-acao-icone--ver-mais
+    "
+                                    >
+                                        <IconeVerMais />
                                     </span>
 
                                     <small>
@@ -2067,11 +2299,11 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                 >
                                     <span
                                         className="
-            ironstore-reels-vitrine-acao-icone
-            ironstore-reels-vitrine-acao-icone--compartilhar
-        "
+        ironstore-reels-vitrine-acao-icone
+        ironstore-reels-vitrine-acao-icone--compartilhar
+    "
                                     >
-                                        📲
+                                        <IconeCompartilhar />
                                     </span>
 
                                     <small>
@@ -2132,20 +2364,38 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
 
                                     <div className="ironstore-reels-vitrine-variedades">
 
-                                        {produto.variedades.map(
-                                            (
-                                                variedade,
-                                                variedadeIndice
-                                            ) => (
+                                        {produto.variedades
+                                            .slice(0, 3)
+                                            .map(
+                                                (
+                                                    variedade,
+                                                    variedadeIndice
+                                                ) => (
 
-                                                <span
-                                                    key={`${produto.id}-variedade-${variedadeIndice}`}
-                                                    className="ironstore-reels-vitrine-variedade"
-                                                >
-                                                    {variedade}
-                                                </span>
+                                                    <span
+                                                        key={`${produto.id}-variedade-${variedadeIndice}`}
+                                                        className="ironstore-reels-vitrine-variedade"
+                                                    >
+                                                        {variedade}
+                                                    </span>
 
-                                            )
+                                                )
+                                            )}
+
+
+                                        {produto.variedades.length > 3 && (
+
+                                            <span
+                                                className="
+            ironstore-reels-vitrine-variedade
+            ironstore-reels-vitrine-variedade--mais
+        "
+                                                title={`${produto.variedades.length - 3} variedades adicionais`}
+                                                aria-label={`${produto.variedades.length - 3} variedades adicionais`}
+                                            >
+                                                •••
+                                            </span>
+
                                         )}
 
                                     </div>

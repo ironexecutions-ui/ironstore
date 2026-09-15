@@ -1846,3 +1846,445 @@
 .ironstore-reels-vitrine-loja-logo {
     cursor: pointer;
 }
+
+
+/* =========================================================
+   MODELOS PROFISSIONAIS ADICIONAIS
+   REELS DA PÁGINA PRINCIPAL
+========================================================= */
+
+.ironstore-reels-vitrine-item--galeria .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--revista .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--foco .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--mosaico .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--diagonal .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--premium .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--vitrine .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--retrato .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--horizonte .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--polaroid .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--painel .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--destaque .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--cinema .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--catalogo .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--assimetrico .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4),
+.ironstore-reels-vitrine-item--luxo .ironstore-reels-vitrine-imagem-quadro:nth-child(n + 4) {
+    display: none !important;
+}
+
+
+/* GALERIA */
+
+.ironstore-reels-vitrine-item--galeria .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 4% 27% 20% 4%;
+    z-index: 3;
+    border-radius: 24px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, .42);
+}
+
+.ironstore-reels-vitrine-item--galeria .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 12% 4% 50% 70%;
+    z-index: 4;
+    border: 3px solid rgba(255, 255, 255, .82);
+    border-radius: 17px;
+    transform: rotate(3deg);
+}
+
+.ironstore-reels-vitrine-item--galeria .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 53% 4% 21% 65%;
+    z-index: 4;
+    border: 3px solid rgba(255, 255, 255, .82);
+    border-radius: 17px;
+    transform: rotate(-3deg);
+}
+
+
+/* REVISTA */
+
+.ironstore-reels-vitrine-item--revista .ironstore-reels-vitrine-midia {
+    background: linear-gradient(145deg, #f4efe7, #b7aa99);
+}
+
+.ironstore-reels-vitrine-item--revista .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 5% 8% 29% 8%;
+    z-index: 2;
+    border-radius: 2px;
+    box-shadow: 0 22px 50px rgba(20, 16, 12, .3);
+}
+
+.ironstore-reels-vitrine-item--revista .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 57% 50% 8% 9%;
+    z-index: 3;
+    border: 6px solid #fff;
+    transform: rotate(-4deg);
+}
+
+.ironstore-reels-vitrine-item--revista .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 60% 8% 6% 54%;
+    z-index: 4;
+    border: 6px solid #fff;
+    transform: rotate(4deg);
+}
+
+
+/* FOCO */
+
+.ironstore-reels-vitrine-item--foco .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 0;
+    z-index: 1;
+    filter: blur(15px) brightness(.43) saturate(1.25);
+    transform: scale(1.12);
+}
+
+.ironstore-reels-vitrine-item--foco .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 8% 12% 24% 12%;
+    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 28px;
+    box-shadow: 0 32px 90px rgba(0, 0, 0, .55);
+}
+
+.ironstore-reels-vitrine-item--foco .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 56% 6% 19% 66%;
+    z-index: 4;
+    border: 3px solid #fff;
+    border-radius: 50%;
+}
+
+
+/* MOSAICO */
+
+.ironstore-reels-vitrine-item--mosaico .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 0 38% 0 0;
+    z-index: 2;
+}
+
+.ironstore-reels-vitrine-item--mosaico .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 0 0 51% 63%;
+    z-index: 3;
+}
+
+.ironstore-reels-vitrine-item--mosaico .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 50% 0 0 63%;
+    z-index: 3;
+}
+
+.ironstore-reels-vitrine-item--mosaico .ironstore-reels-vitrine-imagem-quadro {
+    border: 2px solid #070b13;
+}
+
+
+/* DIAGONAL */
+
+.ironstore-reels-vitrine-item--diagonal .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 0;
+    z-index: 1;
+    clip-path: polygon(0 0, 78% 0, 45% 100%, 0 100%);
+}
+
+.ironstore-reels-vitrine-item--diagonal .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 0;
+    z-index: 2;
+    clip-path: polygon(79% 0, 100% 0, 100% 56%, 48% 100%);
+}
+
+.ironstore-reels-vitrine-item--diagonal .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 0;
+    z-index: 3;
+    clip-path: polygon(100% 58%, 100% 100%, 50% 100%);
+}
+
+
+/* PREMIUM */
+
+.ironstore-reels-vitrine-item--premium .ironstore-reels-vitrine-midia {
+    background: radial-gradient(circle at 50% 30%, #40362b, #080706 72%);
+}
+
+.ironstore-reels-vitrine-item--premium .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 6% 9% 20% 9%;
+    z-index: 3;
+    border: 1px solid rgba(225, 199, 143, .72);
+    border-radius: 32px 32px 8px 8px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, .62);
+}
+
+.ironstore-reels-vitrine-item--premium .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 61% 60% 12% 7%;
+    z-index: 4;
+    border: 2px solid #c7a963;
+    border-radius: 14px;
+}
+
+.ironstore-reels-vitrine-item--premium .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 61% 7% 12% 60%;
+    z-index: 4;
+    border: 2px solid #c7a963;
+    border-radius: 14px;
+}
+
+
+/* VITRINE */
+
+.ironstore-reels-vitrine-item--vitrine .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 0;
+    z-index: 1;
+}
+
+.ironstore-reels-vitrine-item--vitrine .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 7% 6% 66% 67%;
+    z-index: 4;
+    border: 2px solid rgba(255, 255, 255, .9);
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .4);
+}
+
+.ironstore-reels-vitrine-item--vitrine .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 36% 6% 39% 67%;
+    z-index: 4;
+    border: 2px solid rgba(255, 255, 255, .9);
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .4);
+}
+
+
+/* RETRATO */
+
+.ironstore-reels-vitrine-item--retrato .ironstore-reels-vitrine-midia {
+    background: linear-gradient(135deg, #161a24, #05070c);
+}
+
+.ironstore-reels-vitrine-item--retrato .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 4% 17% 18% 17%;
+    z-index: 3;
+    border-radius: 50% 50% 24px 24px;
+    box-shadow: 0 35px 85px rgba(0, 0, 0, .58);
+}
+
+.ironstore-reels-vitrine-item--retrato .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 64% 56% 10% 12%;
+    z-index: 4;
+    border: 3px solid #fff;
+    border-radius: 50%;
+}
+
+.ironstore-reels-vitrine-item--retrato .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 64% 12% 10% 56%;
+    z-index: 4;
+    border: 3px solid #fff;
+    border-radius: 50%;
+}
+
+
+/* HORIZONTE */
+
+.ironstore-reels-vitrine-item--horizonte .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 0 0 53% 0;
+    z-index: 2;
+}
+
+.ironstore-reels-vitrine-item--horizonte .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 48% 50% 0 0;
+    z-index: 3;
+}
+
+.ironstore-reels-vitrine-item--horizonte .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 48% 0 0 50%;
+    z-index: 3;
+}
+
+.ironstore-reels-vitrine-item--horizonte .ironstore-reels-vitrine-imagem-quadro {
+    border: 2px solid #05070b;
+}
+
+
+/* POLAROID */
+
+.ironstore-reels-vitrine-item--polaroid .ironstore-reels-vitrine-midia {
+    background: linear-gradient(145deg, #c9bba5, #786b5b);
+}
+
+.ironstore-reels-vitrine-item--polaroid .ironstore-reels-vitrine-imagem-quadro {
+    border: 8px solid #fff;
+    border-bottom-width: 20px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, .38);
+}
+
+.ironstore-reels-vitrine-item--polaroid .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 6% 18% 27% 13%;
+    z-index: 2;
+    transform: rotate(-3deg);
+}
+
+.ironstore-reels-vitrine-item--polaroid .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 47% 48% 8% 8%;
+    z-index: 4;
+    transform: rotate(5deg);
+}
+
+.ironstore-reels-vitrine-item--polaroid .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 53% 8% 5% 53%;
+    z-index: 3;
+    transform: rotate(-4deg);
+}
+
+
+/* PAINEL */
+
+.ironstore-reels-vitrine-item--painel .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 4% 4% 38% 4%;
+    z-index: 2;
+    border-radius: 22px;
+}
+
+.ironstore-reels-vitrine-item--painel .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 64% 52% 5% 4%;
+    z-index: 3;
+    border-radius: 18px;
+}
+
+.ironstore-reels-vitrine-item--painel .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 64% 4% 5% 52%;
+    z-index: 3;
+    border-radius: 18px;
+}
+
+
+/* DESTAQUE */
+
+.ironstore-reels-vitrine-item--destaque .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 0;
+    z-index: 1;
+}
+
+.ironstore-reels-vitrine-item--destaque .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 9% 55% 58% 7%;
+    z-index: 4;
+    border: 3px solid rgba(255, 255, 255, .9);
+    border-radius: 18px;
+    transform: rotate(-3deg);
+}
+
+.ironstore-reels-vitrine-item--destaque .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 9% 7% 58% 55%;
+    z-index: 4;
+    border: 3px solid rgba(255, 255, 255, .9);
+    border-radius: 18px;
+    transform: rotate(3deg);
+}
+
+
+/* CINEMA */
+
+.ironstore-reels-vitrine-item--cinema .ironstore-reels-vitrine-midia {
+    background: #000;
+}
+
+.ironstore-reels-vitrine-item--cinema .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 13% 0 18% 0;
+    z-index: 2;
+}
+
+.ironstore-reels-vitrine-item--cinema .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 4% 62% 76% 4%;
+    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, .55);
+}
+
+.ironstore-reels-vitrine-item--cinema .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 73% 4% 5% 62%;
+    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, .55);
+}
+
+
+/* CATÁLOGO */
+
+.ironstore-reels-vitrine-item--catalogo .ironstore-reels-vitrine-midia {
+    background: #ece9e2;
+}
+
+.ironstore-reels-vitrine-item--catalogo .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 5% 5% 39% 5%;
+    z-index: 2;
+    border-radius: 6px;
+    box-shadow: 0 18px 44px rgba(25, 25, 25, .18);
+}
+
+.ironstore-reels-vitrine-item--catalogo .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 63% 53% 6% 5%;
+    z-index: 3;
+    border-radius: 5px;
+}
+
+.ironstore-reels-vitrine-item--catalogo .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 63% 5% 6% 53%;
+    z-index: 3;
+    border-radius: 5px;
+}
+
+
+/* ASSIMÉTRICO */
+
+.ironstore-reels-vitrine-item--assimetrico .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 3% 25% 22% 3%;
+    z-index: 2;
+    border-radius: 30px 8px 30px 8px;
+}
+
+.ironstore-reels-vitrine-item--assimetrico .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 8% 3% 55% 69%;
+    z-index: 4;
+    border-radius: 8px 24px 8px 24px;
+    transform: rotate(3deg);
+}
+
+.ironstore-reels-vitrine-item--assimetrico .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 49% 3% 17% 63%;
+    z-index: 4;
+    border-radius: 24px 8px 24px 8px;
+    transform: rotate(-3deg);
+}
+
+
+/* LUXO */
+
+.ironstore-reels-vitrine-item--luxo .ironstore-reels-vitrine-midia {
+    background: radial-gradient(circle at 50% 35%, #272220, #050505 75%);
+}
+
+.ironstore-reels-vitrine-item--luxo .ironstore-reels-vitrine-imagem-quadro--1 {
+    inset: 7% 12% 23% 12%;
+    z-index: 3;
+    border: 1px solid rgba(218, 184, 112, .82);
+    border-radius: 45% 45% 12px 12px;
+    box-shadow: 0 35px 100px rgba(0, 0, 0, .7);
+}
+
+.ironstore-reels-vitrine-item--luxo .ironstore-reels-vitrine-imagem-quadro--2 {
+    inset: 62% 60% 10% 8%;
+    z-index: 4;
+    border: 2px solid #c6a55d;
+    border-radius: 50%;
+}
+
+.ironstore-reels-vitrine-item--luxo .ironstore-reels-vitrine-imagem-quadro--3 {
+    inset: 62% 8% 10% 60%;
+    z-index: 4;
+    border: 2px solid #c6a55d;
+    border-radius: 50%;
+}
+
+
+/* RESPONSIVO DOS MODELOS NOVOS */
+
+@media (max-width: 600px) {
+
+    .ironstore-reels-vitrine-item--galeria .ironstore-reels-vitrine-imagem-quadro--1,
+    .ironstore-reels-vitrine-item--premium .ironstore-reels-vitrine-imagem-quadro--1,
+    .ironstore-reels-vitrine-item--retrato .ironstore-reels-vitrine-imagem-quadro--1,
+    .ironstore-reels-vitrine-item--luxo .ironstore-reels-vitrine-imagem-quadro--1 {
+        bottom: 25%;
+    }
+
+}

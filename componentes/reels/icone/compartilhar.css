@@ -1,0 +1,481 @@
+.ironstore-compartilhar-premium-estrutura {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: inherit;
+
+    color: #ffffff;
+
+    isolation: isolate;
+
+    background:
+        radial-gradient(circle at 32% 22%,
+            rgba(255, 255, 255, .2),
+            transparent 36%),
+        linear-gradient(145deg,
+            rgba(255, 255, 255, .1),
+            rgba(255, 255, 255, .025));
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .14),
+        inset 0 -1px 0 rgba(0, 0, 0, .16);
+}
+
+
+.ironstore-compartilhar-premium-estrutura::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 1px;
+
+    z-index: -2;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, .07),
+            rgba(255, 255, 255, 0));
+
+    pointer-events: none;
+}
+
+
+.ironstore-compartilhar-premium-estrutura::after {
+    content: "";
+
+    position: absolute;
+
+    top: -50%;
+    left: -75%;
+
+    z-index: 5;
+
+    width: 45%;
+    height: 200%;
+
+    opacity: 0;
+
+    transform:
+        rotate(20deg);
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, .34),
+            transparent);
+
+    pointer-events: none;
+}
+
+
+.ironstore-compartilhar-premium-luz {
+    position: absolute;
+
+    left: 50%;
+    bottom: 16%;
+
+    z-index: -1;
+
+    width: 58%;
+    height: 22%;
+
+    border-radius: 50%;
+
+    opacity: .34;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        rgba(255, 255, 255, .3);
+
+    filter:
+        blur(8px);
+
+    transition:
+        width 260ms ease,
+        opacity 260ms ease;
+}
+
+
+.ironstore-compartilhar-premium-svg {
+    position: relative;
+
+    z-index: 2;
+
+    width: 64%;
+    height: 64%;
+
+    display: block;
+
+    overflow: visible;
+
+    filter:
+        drop-shadow(0 5px 5px rgba(0, 0, 0, .3));
+
+    transition:
+        transform 320ms cubic-bezier(.2, .8, .2, 1),
+        filter 320ms ease;
+}
+
+
+.ironstore-compartilhar-premium-linha {
+    fill: none;
+
+    stroke:
+        url(#ironstore-compartilhar-gradiente-linha);
+
+    stroke-width: 2.15;
+
+    stroke-linecap: round;
+
+    transition:
+        stroke-width 260ms ease;
+}
+
+
+.ironstore-compartilhar-premium-circulo {
+    fill:
+        url(#ironstore-compartilhar-gradiente-ponto);
+
+    stroke:
+        rgba(255, 255, 255, .96);
+
+    stroke-width: 1.65;
+
+    transform-box:
+        fill-box;
+
+    transform-origin:
+        center;
+
+    transition:
+        transform 320ms cubic-bezier(.2, .8, .2, 1);
+}
+
+
+.ironstore-compartilhar-premium-nucleo {
+    fill: #ffffff;
+
+    filter:
+        drop-shadow(0 0 3px rgba(255, 255, 255, .65));
+
+    transform-box:
+        fill-box;
+
+    transform-origin:
+        center;
+
+    transition:
+        transform 320ms cubic-bezier(.2, .8, .2, 1);
+}
+
+
+.ironstore-compartilhar-premium-reflexo {
+    fill: none;
+
+    stroke:
+        rgba(255, 255, 255, .46);
+
+    stroke-width: 1;
+
+    stroke-linecap: round;
+}
+
+
+.ironstore-compartilhar-premium-indicador {
+    position: absolute;
+
+    top: 18%;
+    right: 18%;
+
+    z-index: 4;
+
+    width: 8px;
+    height: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(255, 255, 255, .88);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, .22);
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, .24),
+        inset 0 1px 0 rgba(255, 255, 255, .45);
+
+    backdrop-filter:
+        blur(5px);
+
+    -webkit-backdrop-filter:
+        blur(5px);
+
+    transition:
+        transform 260ms cubic-bezier(.2, .8, .2, 1),
+        background 260ms ease;
+}
+
+
+.ironstore-compartilhar-premium-indicador span {
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 5px rgba(255, 255, 255, .8);
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-svg {
+    transform:
+        translateY(-2px) scale(1.07);
+
+    filter:
+        drop-shadow(0 8px 8px rgba(0, 0, 0, .36));
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-circulo--origem {
+    transform:
+        scale(1.08);
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-circulo--superior {
+    transform:
+        translate(1px, -1px) scale(1.06);
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-circulo--inferior {
+    transform:
+        translate(1px, 1px) scale(1.06);
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-nucleo {
+    transform:
+        scale(1.15);
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-linha {
+    stroke-width: 2.35;
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-luz {
+    width: 70%;
+
+    opacity: .54;
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-indicador {
+    transform:
+        translateY(-1px) scale(1.14);
+
+    background:
+        rgba(255, 255, 255, .32);
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-estrutura::after {
+    animation:
+        ironstore-compartilhar-premium-brilho 850ms ease forwards;
+}
+
+
+.ironstore-reels-vitrine-acao:active .ironstore-compartilhar-premium-svg {
+    transform:
+        translateY(0) scale(.92);
+
+    transition-duration:
+        100ms;
+}
+
+
+@keyframes ironstore-compartilhar-premium-brilho {
+
+    from {
+        left: -75%;
+        opacity: 0;
+    }
+
+    30% {
+        opacity: .7;
+    }
+
+    to {
+        left: 135%;
+        opacity: 0;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-compartilhar-premium-svg,
+    .ironstore-compartilhar-premium-luz,
+    .ironstore-compartilhar-premium-indicador,
+    .ironstore-compartilhar-premium-circulo,
+    .ironstore-compartilhar-premium-nucleo {
+        transition: none;
+    }
+
+
+    .ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-premium-estrutura::after {
+        animation: none;
+    }
+
+}
+
+.ironstore-compartilhar-celular-sombra {
+    fill:
+        rgba(0, 0, 0, .28);
+
+    transform:
+        translateY(1.4px);
+
+    filter:
+        blur(.5px);
+}
+
+
+.ironstore-compartilhar-celular-corpo {
+    fill:
+        url(#ironstore-compartilhar-celular-fundo);
+
+    stroke:
+        rgba(255, 255, 255, .96);
+
+    stroke-width:
+        1.7;
+}
+
+
+.ironstore-compartilhar-celular-tela {
+    fill:
+        rgba(5, 10, 20, .44);
+
+    stroke:
+        rgba(255, 255, 255, .28);
+
+    stroke-width:
+        .9;
+}
+
+
+.ironstore-compartilhar-celular-alto-falante {
+    fill: none;
+
+    stroke:
+        rgba(255, 255, 255, .72);
+
+    stroke-width:
+        1.15;
+
+    stroke-linecap:
+        round;
+}
+
+
+.ironstore-compartilhar-celular-botao {
+    fill:
+        rgba(255, 255, 255, .88);
+
+    filter:
+        drop-shadow(0 0 2px rgba(255, 255, 255, .45));
+}
+
+
+.ironstore-compartilhar-celular-seta {
+    fill: none;
+
+    stroke:
+        url(#ironstore-compartilhar-seta-gradiente);
+
+    stroke-width:
+        2.2;
+
+    stroke-linecap:
+        round;
+
+    stroke-linejoin:
+        round;
+
+    transform-origin:
+        center;
+
+    transition:
+        transform 300ms cubic-bezier(.2, .8, .2, 1);
+}
+
+
+.ironstore-compartilhar-celular-seta-ponta {
+    fill: none;
+
+    stroke:
+        rgba(255, 255, 255, .98);
+
+    stroke-width:
+        2.2;
+
+    stroke-linecap:
+        round;
+
+    stroke-linejoin:
+        round;
+
+    transform-origin:
+        center;
+
+    transition:
+        transform 300ms cubic-bezier(.2, .8, .2, 1);
+}
+
+
+.ironstore-compartilhar-celular-reflexo {
+    fill: none;
+
+    stroke:
+        rgba(255, 255, 255, .22);
+
+    stroke-width:
+        1.1;
+
+    stroke-linecap:
+        round;
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-celular-seta {
+    transform:
+        translate(1px, -1px);
+}
+
+
+.ironstore-reels-vitrine-acao:hover .ironstore-compartilhar-celular-seta-ponta {
+    transform:
+        translate(1.5px, -1px);
+}
