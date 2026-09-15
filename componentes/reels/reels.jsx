@@ -2070,7 +2070,15 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
 
     }
 
+    function executarAcaoNoHoverMobile(acao) {
+        if (window.innerWidth >= 800) {
+            return;
+        }
 
+        if (typeof acao === "function") {
+            acao();
+        }
+    }
     /* =====================================================
        RETURN
     ===================================================== */
@@ -2143,6 +2151,16 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                                         ? "eager"
                                                         : "lazy"
                                                 }
+                                                onError={evento => {
+                                                    const quadroImagem =
+                                                        evento.currentTarget.closest(
+                                                            ".ironstore-reels-vitrine-imagem-quadro"
+                                                        );
+
+                                                    if (quadroImagem) {
+                                                        quadroImagem.style.display = "none";
+                                                    }
+                                                }}
                                             />
 
                                         </figure>
@@ -2188,16 +2206,19 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     <button
                                         type="button"
                                         className={`
-            ironstore-reels-vitrine-acao
-            ironstore-reels-vitrine-acao--carrinho-logado
-            ${adicionado
+        ironstore-reels-vitrine-acao
+        ironstore-reels-vitrine-acao--carrinho-logado
+        ${adicionado
                                                 ? "ironstore-reels-vitrine-acao--ativo"
                                                 : ""
                                             }
-        `}
+    `}
                                         onClick={() =>
-                                            adicionarCarrinho(
-                                                produto
+                                            adicionarCarrinho(produto)
+                                        }
+                                        onMouseEnter={() =>
+                                            executarAcaoNoHoverMobile(() =>
+                                                adicionarCarrinho(produto)
                                             )
                                         }
                                     >
@@ -2239,8 +2260,11 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     type="button"
                                     className="ironstore-reels-vitrine-acao"
                                     onClick={() =>
-                                        navigate(
-                                            "/compras"
+                                        navigate("/compras")
+                                    }
+                                    onMouseEnter={() =>
+                                        executarAcaoNoHoverMobile(() =>
+                                            navigate("/compras")
                                         )
                                     }
                                 >
@@ -2265,8 +2289,11 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     type="button"
                                     className="ironstore-reels-vitrine-acao"
                                     onClick={() =>
-                                        navigate(
-                                            `/produtos/${produto.id}`
+                                        navigate(`/produtos/${produto.id}`)
+                                    }
+                                    onMouseEnter={() =>
+                                        executarAcaoNoHoverMobile(() =>
+                                            navigate(`/produtos/${produto.id}`)
                                         )
                                     }
                                 >
@@ -2292,8 +2319,11 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
         ironstore-reels-vitrine-acao--compartilhar
     "
                                     onClick={() =>
-                                        compartilharProduto(
-                                            produto
+                                        compartilharProduto(produto)
+                                    }
+                                    onMouseEnter={() =>
+                                        executarAcaoNoHoverMobile(() =>
+                                            compartilharProduto(produto)
                                         )
                                     }
                                 >

@@ -6463,7 +6463,133 @@ border-radius: 40px;
             translateX(2px) !important;
     }
 }
+/* =========================================================
+   INDICADOR DE MAIS VARIEDADES
+========================================================= */
 
+.ironstore-produto-classico-variedades-reticencias {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    min-width: 38px;
+    min-height: 36px;
+
+    padding:
+        5px
+        10px
+        10px;
+
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f2f4f7 100%
+        );
+
+    color: #475467;
+
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+    user-select: none;
+    cursor: default;
+
+    box-shadow:
+        0 1px 2px rgba(16, 24, 40, 0.04);
+
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+
+/* =========================================================
+   HOVER DO INDICADOR
+========================================================= */
+
+.ironstore-produto-classico-variedades-reticencias:hover {
+    border-color: #98a2b3;
+
+    color: #101828;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(16, 24, 40, 0.10);
+}
+
+
+/* =========================================================
+   INDICADOR DENTRO DOS CARDS
+========================================================= */
+
+.ironstore-categorias-classico-grid
+.ironstore-produto-classico-variedades-reticencias {
+    min-width: 32px;
+    min-height: 29px;
+
+    padding:
+        3px
+        7px
+        8px;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CELULARES PEQUENOS
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-produto-classico-variedades-reticencias {
+        min-width: 34px;
+        min-height: 34px;
+
+        padding:
+            3px
+            8px
+            8px;
+
+        border-radius: 9px;
+
+        font-size: 14px;
+    }
+
+    .ironstore-categorias-classico-grid
+    .ironstore-produto-classico-variedades-reticencias {
+        min-width: 29px;
+        min-height: 27px;
+
+        padding:
+            2px
+            6px
+            7px;
+
+        border-radius: 7px;
+
+        font-size: 12px;
+    }
+
+}
 `;
 
 export default classicoCategorias;

@@ -1071,6 +1071,9 @@ export default function ProdutoCategoria({
                                             alt={produto?.nome || "Produto"}
                                             loading="lazy"
                                             draggable="false"
+                                            onError={evento => {
+                                                evento.currentTarget.style.display = "none";
+                                            }}
                                         />
                                     </div>
 
@@ -1086,6 +1089,9 @@ export default function ProdutoCategoria({
                                             alt={produto?.nome || "Produto"}
                                             loading="lazy"
                                             draggable="false"
+                                            onError={evento => {
+                                                evento.currentTarget.style.display = "none";
+                                            }}
                                         />
                                     </div>
 
@@ -1096,14 +1102,7 @@ export default function ProdutoCategoria({
                 SÍMBOLO DE REPRODUZIR
             ============================================= */}
 
-                                <div
-                                    className="ironstore-produto-reels-play"
-                                    aria-hidden="true"
-                                >
-                                    <span>
-                                        ▶
-                                    </span>
-                                </div>
+
 
                             </>
 
@@ -1249,57 +1248,67 @@ export default function ProdutoCategoria({
                                 className="ironstore-produto-classico-variedades-lista"
                             >
 
-                                {variedades.map(
-                                    variedade => {
+                                {variedades
+                                    .slice(0, 3)
+                                    .map(
+                                        variedade => {
 
-                                        const selecionada =
-                                            String(
-                                                variedadeSelecionada?.id
-                                            ) ===
-                                            String(
-                                                variedade.id
-                                            );
-
-
-                                        return (
-
-                                            <button
-                                                key={
+                                            const selecionada =
+                                                String(
+                                                    variedadeSelecionada?.id
+                                                ) ===
+                                                String(
                                                     variedade.id
-                                                }
-                                                type="button"
-                                                className={
-                                                    `
+                                                );
+
+
+                                            return (
+
+                                                <button
+                                                    key={
+                                                        variedade.id
+                                                    }
+                                                    type="button"
+                                                    className={
+                                                        `
                                                     ironstore-produto-classico-variedade
                                                     ${selecionada
-                                                        ? "selecionada"
-                                                        : ""
-                                                    }
+                                                            ? "selecionada"
+                                                            : ""
+                                                        }
                                                     `
-                                                }
-                                                onClick={
-                                                    evento => {
-
-                                                        evento.preventDefault();
-                                                        evento.stopPropagation();
-
-                                                        setVariedadeSelecionada(
-                                                            variedade
-                                                        );
-
                                                     }
-                                                }
-                                            >
+                                                    onClick={
+                                                        evento => {
 
-                                                {variedade.nome}
+                                                            evento.preventDefault();
+                                                            evento.stopPropagation();
 
-                                            </button>
+                                                            setVariedadeSelecionada(
+                                                                variedade
+                                                            );
 
-                                        );
+                                                        }
+                                                    }
+                                                >
 
-                                    }
+                                                    {variedade.nome}
+
+                                                </button>
+
+                                            );
+
+                                        }
+                                    )}
+                                {variedades.length > 3 && (
+                                    <span
+                                        className="ironstore-produto-classico-variedades-reticencias"
+                                        title={`${variedades.length - 3} opções adicionais`}
+                                        aria-label={`${variedades.length - 3} opções adicionais`}
+                                    >
+                                        ...
+                                    </span>
                                 )}
-
                             </div>
 
                         </div>
