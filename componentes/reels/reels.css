@@ -2288,3 +2288,33 @@
     }
 
 }
+
+/* =========================================================
+   REMOVER DESTAQUE AZUL AO TOCAR NO CELULAR
+========================================================= */
+
+.ironstore-reels-vitrine,
+.ironstore-reels-vitrine *,
+.ironstore-reels-vitrine-item,
+.ironstore-reels-vitrine-item * {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* Remove seleção azul de textos e imagens do Reel */
+
+.ironstore-reels-vitrine-item {
+    -webkit-user-select: none;
+    user-select: none;
+
+    outline: none;
+}
+
+
+/* Mantém campos editáveis selecionáveis, caso existam */
+
+.ironstore-reels-vitrine-item input,
+.ironstore-reels-vitrine-item textarea {
+    -webkit-user-select: text;
+    user-select: text;
+}
