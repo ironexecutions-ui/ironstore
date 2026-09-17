@@ -1132,7 +1132,7 @@ export default function ProdutoAtual() {
                 "/entrar"
             );
 
-            return;
+            return false;
 
         }
 
@@ -1141,7 +1141,7 @@ export default function ProdutoAtual() {
             !produtoSelecionadoId ||
             adicionando
         ) {
-            return;
+            return false;
         }
 
 
@@ -1226,7 +1226,7 @@ export default function ProdutoAtual() {
                     "/entrar"
                 );
 
-                return;
+                return false;
 
             }
 
@@ -1248,6 +1248,8 @@ export default function ProdutoAtual() {
                 seguimentoCarrinhoId
             );
 
+            return true;
+
         } catch (erroAdicionar) {
 
             setErro(
@@ -1255,6 +1257,7 @@ export default function ProdutoAtual() {
                 "Não foi possível adicionar ao carrinho."
             );
 
+            return false;
 
         } finally {
 
@@ -1269,7 +1272,7 @@ export default function ProdutoAtual() {
        FINALIZAR
     ===================================================== */
 
-    function finalizarCompra() {
+    async function finalizarCompra() {
 
         if (!clienteLogado) {
 
@@ -1278,6 +1281,24 @@ export default function ProdutoAtual() {
             );
 
             return;
+
+        }
+
+
+        if (adicionando) {
+            return;
+        }
+
+
+        if (!adicionado) {
+
+            const produtoFoiAdicionado =
+                await adicionarCarrinho();
+
+
+            if (!produtoFoiAdicionado) {
+                return;
+            }
 
         }
 
