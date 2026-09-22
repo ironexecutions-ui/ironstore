@@ -238,12 +238,29 @@ export default function Sugestoes() {
        CATEGORIA DO PRODUTO ATUAL
     ========================================================= */
 
+    const categoriasProdutoAtual =
+        useMemo(
+            () => {
+
+                return String(
+                    produtoAtual?.categoria || ""
+                )
+                    .split("/")
+                    .map(
+                        categoria =>
+                            categoria.trim()
+                    )
+                    .filter(Boolean);
+
+            },
+            [
+                produtoAtual?.categoria
+            ]
+        );
+
+
     const categoriaProdutoAtual =
-        produtoAtual?.categoria
-            ? String(
-                produtoAtual.categoria
-            ).trim()
-            : "";
+        categoriasProdutoAtual[0] || "";
 
 
     /* =========================================================
@@ -422,13 +439,35 @@ export default function Sugestoes() {
                 ============================================= */
 
                 return lista.filter(
-                    produto =>
-                        String(
-                            produto?.categoria || ""
-                        ).trim() ===
-                        String(
-                            categoriaSelecionada || ""
-                        ).trim()
+                    produto => {
+
+                        const categoriasProduto =
+                            String(
+                                produto?.categoria || ""
+                            )
+                                .split("/")
+                                .map(
+                                    categoria =>
+                                        categoria.trim()
+                                )
+                                .filter(Boolean);
+
+
+                        const categoriaAtual =
+                            String(
+                                categoriaSelecionada || ""
+                            )
+                                .trim()
+                                .toLowerCase();
+
+
+                        return categoriasProduto.some(
+                            categoria =>
+                                categoria.toLowerCase() ===
+                                categoriaAtual
+                        );
+
+                    }
                 );
 
             },
