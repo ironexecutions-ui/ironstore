@@ -832,9 +832,31 @@ export default function Categorias() {
             ============================================= */
 
             return ordemValida.filter(
-                produto =>
-                    produto.categoria ===
-                    categoriaSelecionada
+                produto => {
+
+                    const categoriasProduto =
+                        String(
+                            produto.categoria || ""
+                        )
+                            .split("/")
+                            .map(
+                                categoria =>
+                                    categoria.trim()
+                            )
+                            .filter(Boolean);
+
+
+                    return categoriasProduto.some(
+                        categoria =>
+                            categoria.toLowerCase() ===
+                            String(
+                                categoriaSelecionada
+                            )
+                                .trim()
+                                .toLowerCase()
+                    );
+
+                }
             );
 
 

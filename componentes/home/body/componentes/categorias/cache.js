@@ -461,6 +461,24 @@ export function gerarCategoriasProdutos(
     }
 
 
+    /* =====================================================
+       GERAR CATEGORIAS
+
+       EXEMPLOS:
+
+       "Vestuário"
+       vira:
+       ["Vestuário"]
+
+       "Vestuário/Feminino"
+       vira:
+       ["Vestuário", "Feminino"]
+
+       "Vestuário/Feminino/Promoção"
+       vira:
+       ["Vestuário", "Feminino", "Promoção"]
+    ===================================================== */
+
     const categorias =
         produtos
             .filter(
@@ -469,14 +487,23 @@ export function gerarCategoriasProdutos(
                         produto.disponivel
                     ) === 1
             )
-            .map(
+            .flatMap(
                 produto =>
                     String(
                         produto.categoria || ""
-                    ).trim()
-            )
-            .filter(Boolean);
+                    )
+                        .split("/")
+                        .map(
+                            categoria =>
+                                categoria.trim()
+                        )
+                        .filter(Boolean)
+            );
 
+
+    /* =====================================================
+       REMOVER CATEGORIAS REPETIDAS
+    ===================================================== */
 
     const categoriasUnicas =
         [
@@ -485,6 +512,10 @@ export function gerarCategoriasProdutos(
             )
         ];
 
+
+    /* =====================================================
+       ORDENAR
+    ===================================================== */
 
     categoriasUnicas.sort(
         (a, b) =>
@@ -501,7 +532,6 @@ export function gerarCategoriasProdutos(
     ];
 
 }
-
 /* =========================================================
    ORDENAR PRODUTOS POR DESTAQUE
 
