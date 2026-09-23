@@ -3,13 +3,65 @@
 
 <head>
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>carregando...</title>
+  <!-- =====================================================
+       SEO / IDENTIDADE DA LOJA
+
+       Os valores __IRONSTORE_*__ serão substituídos
+       pelo servidor antes do HTML chegar aos crawlers.
+  ====================================================== -->
+
+  <title>__IRONSTORE_TITULO__</title>
+
+  <meta name="description" content="__IRONSTORE_DESCRICAO__">
+
+  <!-- =====================================================
+       OPEN GRAPH
+       WhatsApp / Facebook / Instagram / outros
+  ====================================================== -->
+
+  <meta property="og:type" content="website">
+
+  <meta property="og:title" content="__IRONSTORE_TITULO__">
+
+  <meta property="og:description" content="__IRONSTORE_DESCRICAO__">
+
+  <meta property="og:image" content="__IRONSTORE_IMAGEM__">
+
+  <meta property="og:image:secure_url" content="__IRONSTORE_IMAGEM__">
+
+  <meta property="og:url" content="__IRONSTORE_URL__">
+
+  <meta property="og:site_name" content="__IRONSTORE_TITULO__">
+
+  <!-- =====================================================
+       TWITTER / X
+  ====================================================== -->
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="twitter:title" content="__IRONSTORE_TITULO__">
+
+  <meta name="twitter:description" content="__IRONSTORE_DESCRICAO__">
+
+  <meta name="twitter:image" content="__IRONSTORE_IMAGEM__">
+
+  <!-- =====================================================
+       FAVICON
+
+       O React pode continuar alterando depois caso já faça.
+  ====================================================== -->
 
   <link id="favicon" rel="icon" type="image/png" href="/favicon.png">
 
+  <!-- =====================================================
+       FONTES
+  ====================================================== -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
@@ -21,12 +73,27 @@
 </head>
 
 <body>
+
+  <!-- =====================================================
+       REACT
+  ====================================================== -->
+
   <div id="root"></div>
 
   <script type="module" src="/main.jsx"></script>
 
+  <!-- =====================================================
+       GOOGLE IDENTITY SERVICES
+  ====================================================== -->
+
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- =====================================================
+       HTML2PDF
+  ====================================================== -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 </body>
 
 </html>
