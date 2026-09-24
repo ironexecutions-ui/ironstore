@@ -4858,7 +4858,134 @@ input::-webkit-outer-spin-button {
 
 }
 
+/* =========================================================
+   CORREÇÃO DE FLUXO
+   COMPRAS ABERTAS DEVEM EMPURRAR MAIS VISTOS
+========================================================= */
 
+.ironstore-perfil-compras-area {
+    position: relative !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    display: block !important;
+
+    overflow: visible !important;
+
+    contain: none !important;
+}
+
+.ironstore-perfil-compras-tabela-area {
+    position: relative !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    display: block !important;
+
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+}
+
+.ironstore-perfil-compras-tabela {
+    position: relative !important;
+
+    width: 100% !important;
+    height: auto !important;
+
+    table-layout: auto !important;
+}
+
+.ironstore-perfil-compras-tabela tbody {
+    position: static !important;
+
+    height: auto !important;
+}
+
+.ironstore-perfil-compras-tabela tr {
+    position: static !important;
+
+    height: auto !important;
+}
+
+.ironstore-compras-detalhes-linha {
+    position: static !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    visibility: visible !important;
+}
+
+.ironstore-compras-detalhes-linha > td {
+    position: static !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    overflow: visible !important;
+
+    vertical-align: top !important;
+}
+
+.ironstore-compras-detalhes {
+    position: relative !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    display: block !important;
+
+    overflow: visible !important;
+}
+
+.ironstore-compras-detalhes-topo,
+.ironstore-compras-produtos,
+.ironstore-compras-produtos-lista,
+.ironstore-compras-pos-entrega {
+    position: relative !important;
+
+    height: auto !important;
+    max-height: none !important;
+}
+
+/* =========================================================
+   GARANTIR ESPAÇO DEPOIS DE MINHAS COMPRAS
+========================================================= */
+
+#compras {
+    position: relative !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+
+    display: block !important;
+
+    overflow: visible !important;
+}
+
+#mais-vistos {
+    position: relative !important;
+
+    width: 100% !important;
+    height: auto !important;
+
+    display: block !important;
+
+    clear: both !important;
+
+    margin-top: 0 !important;
+}
 
 `;
 
