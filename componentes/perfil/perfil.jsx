@@ -36,7 +36,6 @@ export default function Perfillog() {
                 "ironstore_cliente_token"
             );
 
-
         if (!token) {
 
             navigate(
@@ -45,6 +44,7 @@ export default function Perfillog() {
                     replace: true
                 }
             );
+
         }
 
     }, [navigate]);
@@ -60,13 +60,11 @@ export default function Perfillog() {
             return;
         }
 
-
         const id =
             location.hash.replace(
                 "#",
                 ""
             );
-
 
         const timer =
             setTimeout(() => {
@@ -79,7 +77,6 @@ export default function Perfillog() {
                     });
 
             }, 100);
-
 
         return () => {
             clearTimeout(timer);
@@ -97,10 +94,62 @@ export default function Perfillog() {
             "ironstore_cliente_token"
         );
 
-
     if (!token) {
         return null;
     }
+
+
+    /* =========================================================
+       ESTILO DO LAYOUT
+    ========================================================= */
+
+    const estiloLayout = {
+
+        pagina: {
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "auto",
+            minHeight: "0",
+            overflow: "visible"
+        },
+
+        secao: {
+            position: "relative",
+            display: "block",
+            width: "100%",
+            height: "auto",
+            minHeight: "0",
+            flex: "0 0 auto",
+            overflow: "visible",
+            scrollMarginTop: "100px"
+        },
+
+        compras: {
+            position: "relative",
+            display: "flow-root",
+            width: "100%",
+            height: "auto",
+            minHeight: "0",
+            flex: "0 0 auto",
+            overflow: "visible",
+            scrollMarginTop: "100px"
+        },
+
+        maisVistos: {
+            position: "relative",
+            display: "block",
+            width: "100%",
+            height: "auto",
+            minHeight: "0",
+            flex: "0 0 auto",
+            overflow: "visible",
+            clear: "both",
+            scrollMarginTop: "100px"
+        }
+
+    };
 
 
     /* =========================================================
@@ -109,58 +158,64 @@ export default function Perfillog() {
 
     return (
         <>
-
             <Header />
 
+            <main
+                className="ironstore-perfillog-conteudo"
+                style={estiloLayout.pagina}
+            >
 
-            <main className="ironstore-perfillog-conteudo">
+                {/* =================================================
+                    DADOS
+                ================================================= */}
 
-
-                <div
+                <section
                     id="dados"
-                    style={{
-                        scrollMarginTop: "100px"
-                    }}
+                    style={estiloLayout.secao}
                 >
                     <Dados />
-                </div>
+                </section>
 
 
-                <div
+                {/* =================================================
+                    CARRINHO
+                ================================================= */}
+
+                <section
                     id="carrinho"
-                    style={{
-                        scrollMarginTop: "100px"
-                    }}
+                    style={estiloLayout.secao}
                 >
                     <Carrinho />
-                </div>
+                </section>
 
 
-                <div
+                {/* =================================================
+                    COMPRAS
+                ================================================= */}
+
+                <section
                     id="compras"
-                    style={{
-                        scrollMarginTop: "100px"
-                    }}
+                    style={estiloLayout.compras}
                 >
                     <Compras />
-                </div>
+                </section>
 
 
-                <div
+                {/* =================================================
+                    MAIS VISTOS
+                ================================================= */}
+
+                <section
                     id="mais-vistos"
-                    style={{
-                        scrollMarginTop: "100px"
-                    }}
+                    style={estiloLayout.maisVistos}
                 >
                     <MaisVistos />
-                </div>
-
+                </section>
 
             </main>
 
-
             <Footer />
-
         </>
     );
+
 }
