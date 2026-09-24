@@ -2527,14 +2527,69 @@ a.ironstore-compras-rastreio:hover {
        LINHA DOS DETALHES
     ===================================================== */
 
-    .ironstore-compras-detalhes-linha {
-        display: block;
+.ironstore-compras-detalhes-linha {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    overflow: visible;
+}
 
-        width: 100%;
+.ironstore-compras-detalhes-linha > td {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent;
+    overflow: visible;
+}
 
-        margin-top: -13px;
-    }
+.ironstore-compras-detalhes {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
 
+    padding:
+        14px
+        10px
+        12px;
+
+    border:
+        1px solid
+        #e6e8ec;
+
+    border-top: 0;
+
+    border-radius:
+        0
+        0
+        15px
+        15px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8f9fb 0%,
+            #fbfbfc 100%
+        );
+
+    overflow: visible;
+
+    box-shadow:
+        0 8px 22px
+        rgba(
+            15,
+            23,
+            42,
+            0.025
+        );
+}
     .ironstore-compras-detalhes-linha > td {
         display: block;
 
@@ -4413,6 +4468,12 @@ strong {
     }
 
 }
+
+
+
+
+
+
 
 `;
 
