@@ -187,7 +187,16 @@ export default function Perfillog() {
                 >
                     <Carrinho />
                 </section>
+                {/* =================================================
+                    MAIS VISTOS
+                ================================================= */}
 
+                <section
+                    id="mais-vistos"
+                    style={estiloLayout.maisVistos}
+                >
+                    <MaisVistos />
+                </section>
 
                 {/* =================================================
                     COMPRAS
@@ -201,16 +210,7 @@ export default function Perfillog() {
                 </section>
 
 
-                {/* =================================================
-                    MAIS VISTOS
-                ================================================= */}
 
-                <section
-                    id="mais-vistos"
-                    style={estiloLayout.maisVistos}
-                >
-                    <MaisVistos />
-                </section>
 
             </main>
 
