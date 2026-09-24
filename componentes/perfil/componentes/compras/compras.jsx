@@ -270,7 +270,34 @@ export default function Compras() {
     SITE <- CACHE
     SERVIDOR -> CACHE
  ===================================================== */
+    const [
+        mobile,
+        setMobile
+    ] = useState(
+        () => window.innerWidth <= 700
+    );
 
+    useEffect(() => {
+
+        function atualizarMobile() {
+            setMobile(
+                window.innerWidth <= 700
+            );
+        }
+
+        window.addEventListener(
+            "resize",
+            atualizarMobile
+        );
+
+        return () => {
+            window.removeEventListener(
+                "resize",
+                atualizarMobile
+            );
+        };
+
+    }, []);
     useEffect(() => {
 
         let ativo = true;

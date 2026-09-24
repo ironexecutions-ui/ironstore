@@ -2283,15 +2283,11 @@ a.ironstore-compras-rastreio:hover {
         display: none;
     }
 
-    .ironstore-perfil-compras-tabela tbody {
-        display: flex;
+.ironstore-perfil-compras-tabela tbody {
+    display: table-row-group;
 
-        width: 100%;
-
-        flex-direction: column;
-
-        gap: 12px;
-    }
+    width: 100%;
+}
 
 
     /* =====================================================
@@ -2301,8 +2297,7 @@ a.ironstore-compras-rastreio:hover {
     .ironstore-perfil-compras-tabela tbody > tr:not(
         .ironstore-compras-detalhes-linha
     ) {
-        display: grid;
-
+display: table-row;
         grid-template-columns:
             repeat(
                 2,
@@ -2528,13 +2523,70 @@ a.ironstore-compras-rastreio:hover {
     ===================================================== */
 
 .ironstore-compras-detalhes-linha {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 0;
-    margin: 0;
-    overflow: visible;
+    position: static !important;
+
+    display: table-row !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    margin: 0 !important;
+
+    overflow: visible !important;
+}
+
+.ironstore-compras-detalhes-linha > td {
+    position: static !important;
+
+    display: table-cell !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    background: transparent !important;
+
+    overflow: visible !important;
+}
+
+.ironstore-compras-detalhes {
+    position: relative !important;
+
+    display: block !important;
+
+    width: 100% !important;
+    height: auto !important;
+
+    box-sizing: border-box !important;
+
+    padding:
+        14px
+        10px
+        12px !important;
+
+    border:
+        1px solid
+        #e6e8ec !important;
+
+    border-top: 0 !important;
+
+    border-radius:
+        0
+        0
+        15px
+        15px !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8f9fb 0%,
+            #fbfbfc 100%
+        ) !important;
+
+    overflow: visible !important;
 }
 
 .ironstore-compras-detalhes-linha > td {
