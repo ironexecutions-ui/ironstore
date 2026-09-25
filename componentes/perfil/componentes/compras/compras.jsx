@@ -1421,7 +1421,25 @@ export default function Compras() {
 
                                                                     </div>
 
+                                                                    {/* DESCONTO */}
 
+                                                                    {Number(compra.desconto || 0) > 0 && (
+
+                                                                        <div className="ironstore-compras-resumo-desconto">
+
+                                                                            <span>
+                                                                                Desconto
+                                                                            </span>
+
+                                                                            <strong>
+                                                                                - {formatarPreco(
+                                                                                    compra.desconto
+                                                                                )}
+                                                                            </strong>
+
+                                                                        </div>
+
+                                                                    )}
                                                                     {/* FRETE */}
 
                                                                     <div>

@@ -24,7 +24,8 @@ import {
     criarPagamentoPix,
     criarPagamentoCartao,
     atualizarQuantidadeProduto,
-    consultarStatusPagamento
+    consultarStatusPagamento,
+    consultarPromocao
 } from "./api";
 /* =========================================================
    MODELOS
@@ -309,6 +310,25 @@ export default function Compraslog() {
     const [
         modelo,
         setModelo
+    ] = useState("");
+    const [
+        codigoPromocao,
+        setCodigoPromocao
+    ] = useState("");
+
+    const [
+        promocaoAplicada,
+        setPromocaoAplicada
+    ] = useState(null);
+
+    const [
+        verificandoPromocao,
+        setVerificandoPromocao
+    ] = useState(false);
+
+    const [
+        erroPromocao,
+        setErroPromocao
     ] = useState("");
     /* =====================================================
        CARREGAR PRODUTOS PRONTOS PARA COMPRA
@@ -1184,8 +1204,20 @@ export default function Compraslog() {
        TOTAL
     ===================================================== */
 
+    const descontoPromocao =
+        Number(
+            promocaoAplicada?.valor_desconto ||
+            0
+        );
+
+    const subtotalComDesconto =
+        Math.max(
+            0,
+            subtotal - descontoPromocao
+        );
+
     const total =
-        subtotal +
+        subtotalComDesconto +
         frete;
 
 
@@ -1196,7 +1228,232 @@ export default function Compraslog() {
        PIX
        CARTÃO
     ===================================================== */
+    async function alterarCodigoPromocao(valor) {
 
+        const codigo =
+            String(valor || "")
+                .toUpperCase()
+                .replace(/[^A-Z0-9]/g, "")
+                .slice(0, 7);
+
+        setCodigoPromocao(
+            codigo
+        );
+
+        setErroPromocao("");
+
+        /* =========================================
+           SE ALTEROU O CÓDIGO, REMOVE A ANTERIOR
+        ========================================= */
+
+        setPromocaoAplicada(
+            null
+        );
+
+        if (
+            codigo.length !== 7
+        ) {
+            return;
+        }
+
+        try {
+
+            setVerificandoPromocao(
+                true
+            );
+
+            const resultado =
+                await consultarPromocao(
+                    codigo,
+                    produtosSelecionados.map(
+                        produto =>
+                            Number(
+                                produto.seguimento_id
+                            )
+                    ),
+                    freteSelecionado
+                );
+
+            console.log(
+                "[IRONSTORE PROMOÇÃO]",
+                resultado
+            );
+
+            if (
+                resultado?.valida !== true
+            ) {
+
+                setErroPromocao(
+                    resultado?.mensagem ||
+                    "Promoção inválida."
+                );
+
+                return;
+            }
+
+            setPromocaoAplicada({
+                codigo:
+                    resultado.codigo,
+
+                tipo_desconto:
+                    resultado.tipo_desconto,
+
+                desconto:
+                    Number(
+                        resultado.desconto || 0
+                    ),
+
+                valor_desconto:
+                    Number(
+                        resultado.valor_desconto || 0
+                    ),
+
+                subtotal:
+                    Number(
+                        resultado.subtotal || 0
+                    ),
+
+                total_produtos:
+                    Number(
+                        resultado.subtotal_a_pagar || 0
+                    )
+            });
+
+        } catch (erroPromocao) {
+
+            console.error(
+                "[IRONSTORE PROMOÇÃO] Erro:",
+                erroPromocao
+            );
+
+            setPromocaoAplicada(
+                null
+            );
+
+            setErroPromocao(
+                erroPromocao?.message ||
+                "Não foi possível verificar a promoção."
+            );
+
+        } finally {
+
+            setVerificandoPromocao(
+                false
+            );
+        }
+    }
+    /* =====================================================
+   RECALCULAR PROMOÇÃO QUANDO A COMPRA MUDAR
+===================================================== */
+
+    useEffect(() => {
+
+        if (
+            !promocaoAplicada?.codigo ||
+            !freteSelecionado ||
+            produtosSelecionados.length === 0
+        ) {
+            return;
+        }
+
+        let ativo = true;
+
+        async function recalcularPromocao() {
+
+            try {
+
+                const resultado =
+                    await consultarPromocao(
+                        promocaoAplicada.codigo,
+                        produtosSelecionados.map(
+                            produto =>
+                                Number(
+                                    produto.seguimento_id
+                                )
+                        ),
+                        freteSelecionado
+                    );
+
+                if (!ativo) {
+                    return;
+                }
+
+                if (
+                    resultado?.valida !== true
+                ) {
+
+                    setPromocaoAplicada(
+                        null
+                    );
+
+                    setErroPromocao(
+                        resultado?.mensagem ||
+                        "Promoção não é mais válida para esta compra."
+                    );
+
+                    return;
+                }
+
+                setPromocaoAplicada(
+                    anterior => ({
+                        ...anterior,
+
+                        codigo:
+                            resultado.codigo,
+
+                        tipo_desconto:
+                            resultado.tipo_desconto,
+
+                        desconto:
+                            Number(
+                                resultado.desconto || 0
+                            ),
+
+                        valor_desconto:
+                            Number(
+                                resultado.valor_desconto || 0
+                            ),
+
+                        subtotal:
+                            Number(
+                                resultado.subtotal || 0
+                            ),
+
+                        total_produtos:
+                            Number(
+                                resultado.subtotal_a_pagar || 0
+                            )
+                    })
+                );
+
+                setErroPromocao("");
+
+            } catch (erroRecalcular) {
+
+                if (!ativo) {
+                    return;
+                }
+
+                console.error(
+                    "[IRONSTORE PROMOÇÃO] Erro ao recalcular:",
+                    erroRecalcular
+                );
+
+            }
+
+        }
+
+        recalcularPromocao();
+
+        return () => {
+            ativo = false;
+        };
+
+    }, [
+        subtotal,
+        freteSelecionado,
+        promocaoAplicada?.codigo
+    ]);
     async function comprar() {
 
         if (
@@ -1224,7 +1481,8 @@ export default function Compraslog() {
             const resultado =
                 await prepararCompra(
                     seguimentosIds,
-                    freteSelecionado
+                    freteSelecionado,
+                    promocaoAplicada?.codigo || null
                 );
 
             setCheckout({
@@ -1281,7 +1539,8 @@ export default function Compraslog() {
             const resultado =
                 await criarPagamentoPix(
                     checkout.seguimentos_ids,
-                    freteSelecionado
+                    freteSelecionado,
+                    promocaoAplicada?.codigo || null
                 );
 
             setPix(resultado);
@@ -1756,7 +2015,11 @@ export default function Compraslog() {
                     email,
 
                     frete:
-                        freteSelecionado
+                        freteSelecionado,
+
+                    promocaoCodigo:
+                        promocaoAplicada?.codigo ||
+                        null
 
                 });
 
@@ -2411,7 +2674,71 @@ export default function Compraslog() {
 
                         </div>
 
+                        {/* =====================================
+    CÓDIGO PROMOCIONAL
+===================================== */}
 
+                        <div className="ironstore-compras-promocao">
+
+                            <label htmlFor="ironstore-codigo-promocao">
+                                Código promocional
+                            </label>
+
+                            <div className="ironstore-compras-promocao-input-box">
+
+                                <input
+                                    id="ironstore-codigo-promocao"
+                                    type="text"
+                                    inputMode="text"
+                                    autoComplete="off"
+                                    maxLength={7}
+
+                                    value={
+                                        codigoPromocao
+                                    }
+
+                                    placeholder="ABC1234"
+
+                                    onChange={(e) =>
+                                        alterarCodigoPromocao(
+                                            e.target.value
+                                        )
+                                    }
+                                />
+
+                                {verificandoPromocao && (
+                                    <span className="ironstore-compras-promocao-carregando">
+                                        Verificando...
+                                    </span>
+                                )}
+
+                            </div>
+
+
+                            {promocaoAplicada && (
+                                <div className="ironstore-compras-promocao-aplicada">
+
+                                    <span>
+                                        Promoção aplicada
+                                    </span>
+
+                                    <strong>
+                                        - {formatarPreco(
+                                            promocaoAplicada.valor_desconto
+                                        )}
+                                    </strong>
+
+                                </div>
+                            )}
+
+
+                            {erroPromocao && (
+                                <div className="ironstore-compras-promocao-erro">
+                                    {erroPromocao}
+                                </div>
+                            )}
+
+                        </div>
                         {/* =====================================
                         DEPOIS SERÁ <Frete />
                     ====================================== */}
@@ -2724,7 +3051,28 @@ export default function Compraslog() {
                                                             </strong>
                                                         </div>
                                                     )}
+                                                    {!checkout?.preco_admin &&
+                                                        Number(
+                                                            checkout?.desconto || 0
+                                                        ) > 0 &&
+                                                        checkout?.promocao_codigo && (
 
+                                                            <div>
+                                                                <span>
+                                                                    Promoção {
+                                                                        checkout.promocao_codigo
+                                                                    }
+                                                                </span>
+
+                                                                <strong>
+                                                                    - {formatarPreco(
+                                                                        checkout.desconto
+                                                                    )}
+                                                                </strong>
+                                                            </div>
+
+                                                        )
+                                                    }
                                                     <div>
                                                         <span>Frete</span>
 

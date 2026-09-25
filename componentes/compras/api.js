@@ -238,7 +238,8 @@ export async function buscarCarrinhoCompra() {
 
 export async function prepararCompra(
     seguimentosIds,
-    frete
+    frete,
+    promocaoCodigo = null
 ) {
 
     if (
@@ -345,7 +346,10 @@ export async function prepararCompra(
                             ids,
 
                         frete:
-                            frete
+                            frete,
+
+                        promocao_codigo:
+                            promocaoCodigo || null
 
                     })
             }
@@ -361,14 +365,12 @@ export async function prepararCompra(
    POST
    CRIAR PAGAMENTO PIX
 ========================================================= */
-/* =========================================================
-   POST
-   CRIAR PAGAMENTO PIX
-========================================================= */
+
 
 export async function criarPagamentoPix(
     seguimentosIds,
-    frete
+    frete,
+    promocaoCodigo = null
 ) {
 
     if (
@@ -428,10 +430,12 @@ export async function criarPagamentoPix(
             ids,
 
         frete:
-            frete
+            frete,
+
+        promocao_codigo:
+            promocaoCodigo || null
 
     };
-
 
     /* =====================================================
        DEBUG
@@ -501,14 +505,14 @@ export async function criarPagamentoPix(
     );
 }
 
-
 export async function criarPagamentoCartao({
     seguimentosIds,
     frete,
     tokenCartao,
     parcelas = 1,
     paymentMethodId,
-    email
+    email,
+    promocaoCodigo = null
 }) {
 
     if (
@@ -627,7 +631,11 @@ export async function criarPagamentoCartao({
                             paymentMethodId,
 
                         email:
-                            email
+                            email,
+
+                        promocao_codigo:
+                            promocaoCodigo || null
+
                     })
             }
         );
@@ -742,6 +750,52 @@ export async function consultarStatusPagamento(
             }
         );
 
+
+    return await tratarResposta(
+        resposta
+    );
+}
+
+/* =========================================================
+   CONSULTAR PROMOÇÃO
+========================================================= */
+
+export async function consultarPromocao(
+    codigo,
+    seguimentosIds,
+    frete
+) {
+
+    const resposta =
+        await fetch(
+            `${API_URL}/ironstore/compras/promocao`,
+            {
+                method: "POST",
+
+                headers:
+                    criarHeadersPrivados(
+                        true
+                    ),
+
+                body:
+                    JSON.stringify({
+
+                        codigo:
+                            String(
+                                codigo || ""
+                            )
+                                .trim()
+                                .toUpperCase(),
+
+                        seguimentos_ids:
+                            seguimentosIds,
+
+                        frete:
+                            frete
+
+                    })
+            }
+        );
 
     return await tratarResposta(
         resposta

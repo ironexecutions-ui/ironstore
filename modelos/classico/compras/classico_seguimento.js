@@ -5621,6 +5621,155 @@ strong {
 }
 
 
+/* =========================================================
+   DESCONTO DA COMPRA
+   Destaque premium dentro do resumo
+========================================================= */
+
+.ironstore-compras-detalhes-topo
+.ironstore-compras-resumo-desconto {
+    position: relative !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0fdf4 0%,
+            #f7fff9 55%,
+            #ecfdf3 100%
+        ) !important;
+
+    border-right:
+        1px solid
+        #d1fae5 !important;
+}
+
+
+/* FAIXA VERDE SUPERIOR */
+
+.ironstore-compras-detalhes-topo
+.ironstore-compras-resumo-desconto::before {
+    content: "" !important;
+
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    height: 3px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #16a34a,
+            #22c55e
+        ) !important;
+}
+
+
+/* TEXTO "DESCONTO" */
+
+.ironstore-compras-detalhes-topo
+.ironstore-compras-resumo-desconto > span {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 5px !important;
+
+    margin-bottom: 7px !important;
+
+    color: #15803d !important;
+
+    font-size: 8px !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+
+    letter-spacing: 0.09em !important;
+    text-transform: uppercase !important;
+}
+
+
+/* PEQUENO INDICADOR */
+
+.ironstore-compras-detalhes-topo
+.ironstore-compras-resumo-desconto > span::before {
+    content: "" !important;
+
+    display: inline-block !important;
+
+    width: 6px !important;
+    height: 6px !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 50% !important;
+
+    background: #22c55e !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            34,
+            197,
+            94,
+            0.12
+        ) !important;
+}
+
+
+/* VALOR DO DESCONTO */
+
+.ironstore-compras-detalhes-topo
+.ironstore-compras-resumo-desconto > strong {
+    display: block !important;
+
+    overflow: visible !important;
+
+    color: #15803d !important;
+
+    font-size: 13px !important;
+    line-height: 1.25 !important;
+    font-weight: 850 !important;
+
+    letter-spacing: -0.02em !important;
+
+    text-overflow: initial !important;
+    white-space: nowrap !important;
+
+    font-variant-numeric:
+        tabular-nums !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .ironstore-compras-detalhes-topo
+    .ironstore-compras-resumo-desconto {
+        min-height: 68px !important;
+    }
+
+    .ironstore-compras-detalhes-topo
+    .ironstore-compras-resumo-desconto > span {
+        font-size: 7px !important;
+    }
+
+    .ironstore-compras-detalhes-topo
+    .ironstore-compras-resumo-desconto > strong {
+        font-size: 11px !important;
+    }
+
+}
+
+
 `;
 
 export default classicoSeguimento;

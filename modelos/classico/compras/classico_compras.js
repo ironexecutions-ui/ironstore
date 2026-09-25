@@ -4986,7 +4986,471 @@ input::-webkit-outer-spin-button {
 
     margin-top: 0 !important;
 }
+/* =========================================================
+   CÓDIGO PROMOCIONAL
+========================================================= */
 
+.ironstore-compras-promocao {
+    width: 100% !important;
+
+    margin-top: 16px !important;
+    padding: 15px !important;
+
+    border:
+        1px solid
+        #e4e7ec !important;
+
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f8fafc 100%
+        ) !important;
+
+    box-shadow:
+        0 1px 2px rgba(16,24,40,.025),
+        inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.ironstore-compras-promocao > label {
+    display: block !important;
+
+    margin:
+        0
+        0
+        8px !important;
+
+    color: #344054 !important;
+
+    font-size: 10px !important;
+    font-weight: 750 !important;
+
+    line-height: 1.2 !important;
+
+    letter-spacing: .01em !important;
+}
+
+
+/* =========================================================
+   CAIXA DO INPUT
+========================================================= */
+
+.ironstore-compras-promocao-input-box {
+    position: relative !important;
+
+    width: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.ironstore-compras-promocao-input-box input {
+    width: 100% !important;
+    height: 45px !important;
+
+    padding:
+        0
+        105px
+        0
+        14px !important;
+
+    outline: none !important;
+
+    border:
+        1px solid
+        #d8dee6 !important;
+
+    border-radius: 11px !important;
+
+    background: #ffffff !important;
+
+    color: #142a4a !important;
+
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: .11em !important;
+
+    text-transform: uppercase !important;
+
+    box-shadow:
+        inset 0 1px 2px rgba(16,24,40,.025),
+        0 1px 2px rgba(16,24,40,.02) !important;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease !important;
+}
+
+
+.ironstore-compras-promocao-input-box input::placeholder {
+    color: #98a2b3 !important;
+
+    font-weight: 650 !important;
+
+    letter-spacing: .08em !important;
+}
+
+
+.ironstore-compras-promocao-input-box input:hover {
+    border-color:
+        #b9c3cf !important;
+}
+
+
+.ironstore-compras-promocao-input-box input:focus {
+    border-color:
+        #54749b !important;
+
+    background:
+        #ffffff !important;
+
+    box-shadow:
+        0 0 0 3px rgba(20,42,74,.07),
+        0 3px 8px rgba(16,24,40,.04) !important;
+}
+
+
+/* =========================================================
+   VERIFICANDO...
+========================================================= */
+
+.ironstore-compras-promocao-carregando {
+    position: absolute !important;
+
+    top: 50% !important;
+    right: 12px !important;
+
+    transform:
+        translateY(-50%) !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 6px !important;
+
+    color: #667085 !important;
+
+    font-size: 9px !important;
+    font-weight: 700 !important;
+
+    pointer-events: none !important;
+}
+
+
+.ironstore-compras-promocao-carregando::before {
+    content: "" !important;
+
+    width: 11px !important;
+    height: 11px !important;
+
+    border:
+        2px solid
+        #e4e7ec !important;
+
+    border-top-color:
+        #142a4a !important;
+
+    border-radius:
+        50% !important;
+
+    animation:
+        ironstorePromocaoGirando
+        .7s
+        linear
+        infinite !important;
+}
+
+
+@keyframes ironstorePromocaoGirando {
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   PROMOÇÃO APLICADA
+========================================================= */
+
+.ironstore-compras-promocao-aplicada {
+    position: relative !important;
+
+    width: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 12px !important;
+
+    margin-top: 10px !important;
+
+    padding:
+        10px
+        11px !important;
+
+    overflow: hidden !important;
+
+    border:
+        1px solid
+        #abefc6 !important;
+
+    border-radius:
+        10px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f6fef9,
+            #ecfdf3
+        ) !important;
+
+    animation:
+        ironstorePromocaoEntrada
+        .25s
+        cubic-bezier(.22,1,.36,1) !important;
+}
+
+
+.ironstore-compras-promocao-aplicada::before {
+    content: "✓" !important;
+
+    width: 21px !important;
+    height: 21px !important;
+
+    flex:
+        0
+        0
+        21px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius:
+        50% !important;
+
+    background:
+        #067647 !important;
+
+    color:
+        #ffffff !important;
+
+    font-size:
+        11px !important;
+
+    font-weight:
+        900 !important;
+}
+
+
+.ironstore-compras-promocao-aplicada span {
+    flex: 1 !important;
+
+    color:
+        #067647 !important;
+
+    font-size:
+        10px !important;
+
+    font-weight:
+        750 !important;
+}
+
+
+.ironstore-compras-promocao-aplicada strong {
+    color:
+        #067647 !important;
+
+    font-size:
+        12px !important;
+
+    font-weight:
+        850 !important;
+
+    white-space:
+        nowrap !important;
+}
+
+
+@keyframes ironstorePromocaoEntrada {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-5px)
+            scale(.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   ERRO DA PROMOÇÃO
+========================================================= */
+
+.ironstore-compras-promocao-erro {
+    position: relative !important;
+
+    width: 100% !important;
+
+    margin-top:
+        9px !important;
+
+    padding:
+        9px
+        11px
+        9px
+        32px !important;
+
+    border:
+        1px solid
+        #fecdca !important;
+
+    border-radius:
+        9px !important;
+
+    background:
+        #fff6f5 !important;
+
+    color:
+        #b42318 !important;
+
+    font-size:
+        9px !important;
+
+    font-weight:
+        650 !important;
+
+    line-height:
+        1.4 !important;
+
+    animation:
+        ironstorePromocaoEntrada
+        .2s
+        ease !important;
+}
+
+
+.ironstore-compras-promocao-erro::before {
+    content: "!" !important;
+
+    position:
+        absolute !important;
+
+    left:
+        10px !important;
+
+    top:
+        50% !important;
+
+    transform:
+        translateY(-50%) !important;
+
+    width:
+        15px !important;
+
+    height:
+        15px !important;
+
+    display:
+        flex !important;
+
+    align-items:
+        center !important;
+
+    justify-content:
+        center !important;
+
+    border-radius:
+        50% !important;
+
+    background:
+        #d92d20 !important;
+
+    color:
+        #ffffff !important;
+
+    font-size:
+        9px !important;
+
+    font-weight:
+        900 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-compras-promocao {
+        margin-top:
+            14px !important;
+
+        padding:
+            13px !important;
+
+        border-radius:
+            13px !important;
+    }
+
+
+    .ironstore-compras-promocao-input-box input {
+        height:
+            47px !important;
+
+        font-size:
+            14px !important;
+    }
+
+
+    .ironstore-compras-promocao-aplicada {
+        padding:
+            11px !important;
+    }
+
+
+    .ironstore-compras-promocao-aplicada span {
+        font-size:
+            10px !important;
+    }
+
+
+    .ironstore-compras-promocao-aplicada strong {
+        font-size:
+            12px !important;
+    }
+
+}
 `;
 
 export default classicoCompras;
