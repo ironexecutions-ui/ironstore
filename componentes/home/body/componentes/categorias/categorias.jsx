@@ -708,7 +708,70 @@ export default function Categorias() {
                         []
                     )
                 );
+                setTimeout(async () => {
+                    if (!ativo) {
+                        return;
+                    }
 
+                    try {
+                        const dominioAtualizado =
+                            pegarDominioAtualCategorias();
+
+                        const segundaResposta = await fetch(
+                            `${API_URL}/ironstore/categorias?dominio=${encodeURIComponent(
+                                dominioAtualizado
+                            )}`,
+                            {
+                                method: "GET",
+                                headers: {
+                                    "X-IronStore-Key":
+                                        IRONSTORE_APP_KEY_GERAL,
+                                },
+                            }
+                        );
+
+                        if (!segundaResposta.ok) {
+                            console.warn(
+                                "[CATEGORIAS] Segunda atualização retornou erro.",
+                                segundaResposta.status
+                            );
+                            return;
+                        }
+
+                        const segundoResultado =
+                            await segundaResposta.json();
+
+                        const segundoServidor =
+                            normalizarDadosCategorias(
+                                segundoResultado
+                            );
+
+                        const segundoAtualizado =
+                            salvarCacheCategorias(
+                                segundoServidor
+                            );
+
+                        if (!ativo) {
+                            return;
+                        }
+
+                        setDados(
+                            segundoAtualizado
+                        );
+
+                        setOrdemProdutos(
+                            ordenarProdutosPorDestaque(
+                                segundoAtualizado?.produtos || []
+                            )
+                        );
+
+                    } catch (erro) {
+                        console.warn(
+                            "[CATEGORIAS] Erro na segunda atualização.",
+                            erro
+                        );
+                    }
+                }, 500);
             } catch (erro) {
 
                 console.warn(
