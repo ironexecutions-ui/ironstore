@@ -771,7 +771,7 @@ export default function Categorias() {
                             erro
                         );
                     }
-                }, 500);
+                }, 5000);
             } catch (erro) {
 
                 console.warn(
