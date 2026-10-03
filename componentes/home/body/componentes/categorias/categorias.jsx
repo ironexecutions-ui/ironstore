@@ -439,21 +439,10 @@ export default function Categorias() {
     /* =====================================================
        CACHE INICIAL
     ===================================================== */
-
-    const cacheInicial =
-        lerCacheCategorias();
-
-
-    /* =====================================================
-       DADOS
-    ===================================================== */
-
     const [
         dados,
         setDados
-    ] = useState(
-        cacheInicial
-    );
+    ] = useState(null);
 
 
     /* =====================================================
@@ -501,13 +490,7 @@ export default function Categorias() {
     const [
         ordemProdutos,
         setOrdemProdutos
-    ] = useState(
-        () =>
-            ordenarProdutosPorDestaque(
-                cacheInicial?.produtos ||
-                []
-            )
-    );
+    ] = useState([]);
 
 
     /* =====================================================
@@ -515,285 +498,124 @@ export default function Categorias() {
     ===================================================== */
 
     useEffect(() => {
-
-        let ativo =
-            true;
-
+        let ativo = true;
 
         async function carregar() {
-
-            /* =============================================
-               CACHE
-            ============================================= */
-
-            const cache =
-                lerCacheCategorias();
-
-            if (
-                cache &&
-                ativo
-            ) {
-
-                setDados(
-                    cache
-                );
-
-
-                setOrdemProdutos(
-                    ordenarProdutosPorDestaque(
-                        cache?.produtos ||
-                        []
-                    )
-                );
-
-            }
-
-
-            /* =============================================
-               CHAVE
-            ============================================= */
-
-            if (
-                !IRONSTORE_APP_KEY_GERAL
-            ) {
-
+            if (!IRONSTORE_APP_KEY_GERAL) {
                 console.error(
                     "[CATEGORIAS] VITE_IRONSTORE_APP_KEY_GERAL não configurada."
                 );
 
                 return;
-
             }
 
-
-            /* =============================================
-               SERVIDOR
-            ============================================= */
-
             try {
-
                 const dominio =
                     pegarDominioAtualCategorias();
 
-
                 const resposta =
                     await fetch(
-
                         `${API_URL}/ironstore/categorias?dominio=${encodeURIComponent(
                             dominio
-                        )}`,
-
+                        )}&_=${Date.now()}`,
                         {
-
-                            method:
-                                "GET",
-
+                            method: "GET",
+                            cache: "no-store",
                             headers: {
-
                                 "X-IronStore-Key":
                                     IRONSTORE_APP_KEY_GERAL,
 
-                            },
+                                "Cache-Control":
+                                    "no-cache, no-store, max-age=0",
 
+                                "Pragma":
+                                    "no-cache"
+                            }
                         }
-
                     );
 
-
-                let resultado =
-                    null;
-
+                let resultado = null;
 
                 try {
-
                     resultado =
                         await resposta.json();
-
                 } catch {
-
-                    resultado =
-                        null;
-
+                    resultado = null;
                 }
 
-
-                if (
-                    !ativo
-                ) {
-
+                if (!ativo) {
                     return;
-
                 }
 
-
-                if (
-                    !resposta.ok
-                ) {
-
-                    console.error(
-                        "[CATEGORIAS]",
+                if (!resposta.ok) {
+                    throw new Error(
                         resultado?.detail ||
                         `Erro HTTP ${resposta.status}`
                     );
-
-                    return;
-
                 }
-
-
-                /* =============================================
-                   NORMALIZAR SERVIDOR
-                ============================================= */
 
                 const servidor =
                     normalizarDadosCategorias(
                         resultado
                     );
 
-
-                /* =============================================
-                   CACHE ATUAL
-                ============================================= */
-
-                const cacheAtual =
-                    lerCacheCategorias();
-
-
-                /* =============================================
-                   COMPARAR
-                ============================================= */
-
-                const igual =
-                    dadosCategoriasSaoIguais(
-                        cacheAtual,
-                        servidor
+                if (!servidor) {
+                    throw new Error(
+                        "Resposta inválida do backend."
                     );
-
-
-                /* =============================================
-                   SEM ALTERAÇÃO
-                ============================================= */
-
-                if (
-                    igual
-                ) {
-
-                    return;
-
                 }
-
-
-                /* =============================================
-                   SERVIDOR MUDOU
-
-                   1. Atualiza cache
-                   2. Atualiza interface
-                   3. Gera nova ordem variada
-                ============================================= */
 
                 const atualizado =
                     salvarCacheCategorias(
                         servidor
                     );
 
+                if (!ativo) {
+                    return;
+                }
 
                 setDados(
                     atualizado
                 );
 
-
                 setOrdemProdutos(
                     ordenarProdutosPorDestaque(
-                        atualizado?.produtos ||
-                        []
+                        atualizado?.produtos || []
                     )
                 );
-                setTimeout(async () => {
-                    if (!ativo) {
-                        return;
-                    }
 
-                    try {
-                        const dominioAtualizado =
-                            pegarDominioAtualCategorias();
-
-                        const segundaResposta = await fetch(
-                            `${API_URL}/ironstore/categorias?dominio=${encodeURIComponent(
-                                dominioAtualizado
-                            )}`,
-                            {
-                                method: "GET",
-                                headers: {
-                                    "X-IronStore-Key":
-                                        IRONSTORE_APP_KEY_GERAL,
-                                },
-                            }
-                        );
-
-                        if (!segundaResposta.ok) {
-                            console.warn(
-                                "[CATEGORIAS] Segunda atualização retornou erro.",
-                                segundaResposta.status
-                            );
-                            return;
-                        }
-
-                        const segundoResultado =
-                            await segundaResposta.json();
-
-                        const segundoServidor =
-                            normalizarDadosCategorias(
-                                segundoResultado
-                            );
-
-                        const segundoAtualizado =
-                            salvarCacheCategorias(
-                                segundoServidor
-                            );
-
-                        if (!ativo) {
-                            return;
-                        }
-
-                        setDados(
-                            segundoAtualizado
-                        );
-
-                        setOrdemProdutos(
-                            ordenarProdutosPorDestaque(
-                                segundoAtualizado?.produtos || []
-                            )
-                        );
-
-                    } catch (erro) {
-                        console.warn(
-                            "[CATEGORIAS] Erro na segunda atualização.",
-                            erro
-                        );
-                    }
-                }, 5000);
             } catch (erro) {
-
                 console.warn(
-                    "[CATEGORIAS] Backend indisponível. Mantendo cache.",
+                    "[CATEGORIAS] Backend indisponível. Usando cache como fallback.",
                     erro
                 );
 
+                if (!ativo) {
+                    return;
+                }
+
+                const cache =
+                    lerCacheCategorias();
+
+                if (cache) {
+                    setDados(
+                        cache
+                    );
+
+                    setOrdemProdutos(
+                        ordenarProdutosPorDestaque(
+                            cache?.produtos || []
+                        )
+                    );
+                }
             }
-
         }
-
 
         carregar();
 
-
         return () => {
-
-            ativo =
-                false;
-
+            ativo = false;
         };
-
     }, []);
 
 
