@@ -986,7 +986,12 @@ export default function ProdutoCategoria({
         }
 
     }
+    const produtoPrincipalId =
+        Number(produtoSelecionado?.produto_variedade_id ?? 0) > 0
+            ? Number(produtoSelecionado.produto_variedade_id)
+            : produtoSelecionado?.id;
 
+    const urlProduto = `/produtos/${produtoPrincipalId}`;
     /* =====================================================
        RENDER
     ===================================================== */
@@ -1015,174 +1020,178 @@ export default function ProdutoCategoria({
                 }
             >
 
-
-                {/* =========================================
+                <a
+                    href={urlProduto}
+                    onClick={(evento) => evento.stopPropagation()}
+                >
+                    {/* =========================================
                     IMAGEM
                 ========================================= */}
 
-                <div
-                    className={
-                        `
+                    <div
+                        className={
+                            `
             ironstore-produto-classico-imagem-area
 
             ${modoReels
-                            ? "ironstore-produto-categoria-reels-viewport-unico"
-                            : ""
-                        }
+                                ? "ironstore-produto-categoria-reels-viewport-unico"
+                                : ""
+                            }
         `
-                    }
-                >
+                        }
+                    >
 
-                    {imagemAtual ? (
+                        {imagemAtual ? (
 
-                        modoReels ? (
+                            modoReels ? (
 
-                            <>
-                                {/* =============================================
+                                <>
+                                    {/* =============================================
                 MODO REELS
             ============================================= */}
 
-                                <div
-                                    className={
-                                        `
+                                    <div
+                                        className={
+                                            `
         ironstore-produto-categoria-reels-trilho-unico
 
         ${animandoReels
-                                            ? "ironstore-produto-categoria-reels-trilho-animando-unico"
-                                            : ""
-                                        }
+                                                ? "ironstore-produto-categoria-reels-trilho-animando-unico"
+                                                : ""
+                                            }
 
         ${resetandoReels
-                                            ? "ironstore-produto-categoria-reels-trilho-resetando-unico"
-                                            : ""
-                                        }
+                                                ? "ironstore-produto-categoria-reels-trilho-resetando-unico"
+                                                : ""
+                                            }
         `
-                                    }
-                                >
-
-                                    {/* IMAGEM ATUAL */}
-
-                                    <div
-                                        className="ironstore-produto-categoria-reels-slide-unico"
+                                        }
                                     >
-                                        <img
-                                            className="ironstore-produto-categoria-reels-imagem-unica"
-                                            src={imagemAtual}
-                                            alt={produto?.nome || "Produto"}
-                                            loading="lazy"
-                                            draggable="false"
-                                            onError={evento => {
-                                                evento.currentTarget.style.display = "none";
-                                            }}
-                                        />
+
+                                        {/* IMAGEM ATUAL */}
+
+                                        <div
+                                            className="ironstore-produto-categoria-reels-slide-unico"
+                                        >
+                                            <img
+                                                className="ironstore-produto-categoria-reels-imagem-unica"
+                                                src={imagemAtual}
+                                                alt={produto?.nome || "Produto"}
+                                                loading="lazy"
+                                                draggable="false"
+                                                onError={evento => {
+                                                    evento.currentTarget.style.display = "none";
+                                                }}
+                                            />
+                                        </div>
+
+
+                                        {/* PRÓXIMA IMAGEM */}
+
+                                        <div
+                                            className="ironstore-produto-categoria-reels-slide-unico"
+                                        >
+                                            <img
+                                                className="ironstore-produto-categoria-reels-imagem-unica"
+                                                src={proximaImagem || imagemAtual}
+                                                alt={produto?.nome || "Produto"}
+                                                loading="lazy"
+                                                draggable="false"
+                                                onError={evento => {
+                                                    evento.currentTarget.style.display = "none";
+                                                }}
+                                            />
+                                        </div>
+
                                     </div>
 
 
-                                    {/* PRÓXIMA IMAGEM */}
-
-                                    <div
-                                        className="ironstore-produto-categoria-reels-slide-unico"
-                                    >
-                                        <img
-                                            className="ironstore-produto-categoria-reels-imagem-unica"
-                                            src={proximaImagem || imagemAtual}
-                                            alt={produto?.nome || "Produto"}
-                                            loading="lazy"
-                                            draggable="false"
-                                            onError={evento => {
-                                                evento.currentTarget.style.display = "none";
-                                            }}
-                                        />
-                                    </div>
-
-                                </div>
-
-
-                                {/* =============================================
+                                    {/* =============================================
                 SÍMBOLO DE REPRODUZIR
             ============================================= */}
 
 
 
-                            </>
+                                </>
 
-                        ) : (
+                            ) : (
 
-                            /* =============================================
-                                MODO NORMAL
-                            ============================================= */
+                                /* =============================================
+                                    MODO NORMAL
+                                ============================================= */
 
-                            <img
-                                className={
-                                    `
+                                <img
+                                    className={
+                                        `
                 ironstore-produto-classico-imagem
 
                 ${trocandoImagem
-                                        ? "trocando"
-                                        : ""
-                                    }
+                                            ? "trocando"
+                                            : ""
+                                        }
                 `
-                                }
-                                src={imagemAtual}
-                                alt={produto?.nome || "Produto"}
-                                loading="lazy"
-                                draggable="false"
-                            />
+                                    }
+                                    src={imagemAtual}
+                                    alt={produto?.nome || "Produto"}
+                                    loading="lazy"
+                                    draggable="false"
+                                />
 
-                        )
+                            )
 
-                    ) : (
+                        ) : (
 
-                        <div
-                            className="ironstore-produto-classico-sem-imagem"
-                        >
+                            <div
+                                className="ironstore-produto-classico-sem-imagem"
+                            >
 
-                            <span>
-                                Sem imagem
-                            </span>
+                                <span>
+                                    Sem imagem
+                                </span>
 
-                        </div>
+                            </div>
 
-                    )}
+                        )}
 
 
-                    {/* =====================================
+                        {/* =====================================
                         INDICADORES DAS FOTOS
                     ===================================== */}
 
-                    {imagens.length > 1 && (
+                        {imagens.length > 1 && (
 
-                        <div
-                            className="ironstore-produto-classico-indicadores"
-                            aria-hidden="true"
-                        >
+                            <div
+                                className="ironstore-produto-classico-indicadores"
+                                aria-hidden="true"
+                            >
 
-                            {imagens.map(
-                                (
-                                    _,
-                                    indice
-                                ) => (
+                                {imagens.map(
+                                    (
+                                        _,
+                                        indice
+                                    ) => (
 
-                                    <span
-                                        key={
-                                            indice
-                                        }
-                                        className={
-                                            indice ===
-                                                indiceImagem
-                                                ? "ativo"
-                                                : ""
-                                        }
-                                    />
+                                        <span
+                                            key={
+                                                indice
+                                            }
+                                            className={
+                                                indice ===
+                                                    indiceImagem
+                                                    ? "ativo"
+                                                    : ""
+                                            }
+                                        />
 
-                                )
-                            )}
+                                    )
+                                )}
 
-                        </div>
+                            </div>
 
-                    )}
+                        )}
 
-                </div>
+                    </div>
+                </a>
 
 
                 {/* =========================================
