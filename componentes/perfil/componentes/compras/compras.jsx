@@ -822,45 +822,70 @@ export default function Compras() {
 
 
 
-    function abrirRastreamento(evento, codigo, transportadora) {
+
+    function abrirRastreamento(evento, codigo, transportadora, servico = "") {
         evento.preventDefault();
         evento.stopPropagation();
 
-        if (!codigo) {
-            return;
-        }
+        if (!codigo) return;
 
         const codigoLimpo = String(codigo).trim();
 
-        const nomeTransportadora = String(transportadora || "")
-            .trim()
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
+        function normalizar(valor) {
+            return String(valor || "")
+                .trim()
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
 
-        const ehJadlog = nomeTransportadora.includes("jadlog");
+        const nome = normalizar(transportadora);
+        const modalidade = normalizar(servico);
+        const identificacao = `${nome} ${modalidade}`;
 
-        const link = ehJadlog
-            ? "https://www.jadlog.com.br/jadlog/rastreie"
-            : `https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
-                codigoLimpo
-            )}`;
+        let link = "";
+
+        if (
+            identificacao.includes("j&t") ||
+            identificacao.includes("j and t") ||
+            identificacao.includes("jnt") ||
+            identificacao.includes("jet express") ||
+            identificacao.includes("j&t express")
+        ) {
+            link = "https://www.jtexpress.com.br/networkSelect";
+        } else if (identificacao.includes("jadlog")) {
+            link = "https://www.jadlog.com.br/jadlog/rastreie";
+        } else if (identificacao.includes("correios")) {
+            link = `https://rastreamento.correios.com.br/app/index.php?objetos=${encodeURIComponent(codigoLimpo)}`;
+        } else if (
+            identificacao.includes("latam cargo") ||
+            identificacao.includes("latam")
+        ) {
+            link = "https://www.latamcargo.com/";
+        } else if (
+            identificacao.includes("azul cargo") ||
+            identificacao.includes("azul cargo express")
+        ) {
+            link = "https://www.azulcargoexpress.com.br/";
+        } else if (identificacao.includes("total express")) {
+            link = "https://totalexpress.com.br/";
+        } else {
+            // Transportadora desconhecida: não inventa um rastreador.
+            alert(
+                `Não foi configurado o rastreamento para "${transportadora || "transportadora não informada"}".`
+            );
+            return;
+        }
 
         setRastreioCopiado(codigoLimpo);
 
         try {
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard
-                    .writeText(codigoLimpo)
-                    .catch((erro) => {
-                        console.error(
-                            "[RASTREIO] Erro ao copiar:",
-                            erro
-                        );
-                    });
+                navigator.clipboard.writeText(codigoLimpo).catch((erro) => {
+                    console.error("[RASTREIO] Erro ao copiar:", erro);
+                });
             } else {
                 const textarea = document.createElement("textarea");
-
                 textarea.value = codigoLimpo;
                 textarea.style.position = "fixed";
                 textarea.style.left = "-999999px";
@@ -868,15 +893,11 @@ export default function Compras() {
                 document.body.appendChild(textarea);
                 textarea.focus();
                 textarea.select();
-
                 document.execCommand("copy");
                 textarea.remove();
             }
         } catch (erro) {
-            console.error(
-                "[RASTREIO] Erro ao copiar:",
-                erro
-            );
+            console.error("[RASTREIO] Erro ao copiar:", erro);
         }
 
         setTimeout(() => {
@@ -889,6 +910,7 @@ export default function Compras() {
             );
         }, 2000);
     }
+
 
     return (
         <>
@@ -1467,13 +1489,16 @@ export default function Compras() {
                                                                                             <button
                                                                                                 type="button"
 
+
                                                                                                 onClick={(evento) =>
                                                                                                     abrirRastreamento(
                                                                                                         evento,
                                                                                                         compra.seguimento.codigo_rastreio,
-                                                                                                        compra.frete?.transportadora
+                                                                                                        compra.frete?.transportadora,
+                                                                                                        compra.frete?.servico
                                                                                                     )
                                                                                                 }
+
 
                                                                                                 className="ironstore-rastreio-link-premium"
                                                                                                 title="Copiar código e acompanhar entrega"
