@@ -821,7 +821,8 @@ export default function Compras() {
 
 
 
-    function abrirRastreamento(evento, codigo) {
+
+    function abrirRastreamento(evento, codigo, transportadora) {
         evento.preventDefault();
         evento.stopPropagation();
 
@@ -829,63 +830,46 @@ export default function Compras() {
             return;
         }
 
-        const codigoLimpo =
-            String(codigo).trim();
+        const codigoLimpo = String(codigo).trim();
 
-        const link =
-            `https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
+        const nomeTransportadora = String(transportadora || "")
+            .trim()
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+
+        const ehJadlog = nomeTransportadora.includes("jadlog");
+
+        const link = ehJadlog
+            ? "https://www.jadlog.com.br/jadlog/rastreie"
+            : `https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(
                 codigoLimpo
             )}`;
 
-        // Mostra a modal
-        setRastreioCopiado(
-            codigoLimpo
-        );
+        setRastreioCopiado(codigoLimpo);
 
-        // Copia o código
         try {
-            if (
-                navigator.clipboard &&
-                window.isSecureContext
-            ) {
+            if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard
-                    .writeText(
-                        codigoLimpo
-                    )
-                    .catch(
-                        erro => {
-                            console.error(
-                                "[RASTREIO] Erro ao copiar:",
-                                erro
-                            );
-                        }
-                    );
+                    .writeText(codigoLimpo)
+                    .catch((erro) => {
+                        console.error(
+                            "[RASTREIO] Erro ao copiar:",
+                            erro
+                        );
+                    });
             } else {
-                const textarea =
-                    document.createElement(
-                        "textarea"
-                    );
+                const textarea = document.createElement("textarea");
 
-                textarea.value =
-                    codigoLimpo;
+                textarea.value = codigoLimpo;
+                textarea.style.position = "fixed";
+                textarea.style.left = "-999999px";
 
-                textarea.style.position =
-                    "fixed";
-
-                textarea.style.left =
-                    "-999999px";
-
-                document.body.appendChild(
-                    textarea
-                );
-
+                document.body.appendChild(textarea);
                 textarea.focus();
                 textarea.select();
 
-                document.execCommand(
-                    "copy"
-                );
-
+                document.execCommand("copy");
                 textarea.remove();
             }
         } catch (erro) {
@@ -895,25 +879,17 @@ export default function Compras() {
             );
         }
 
-        // Aguarda 1 segundo
-        setTimeout(
-            () => {
+        setTimeout(() => {
+            setRastreioCopiado(null);
 
-                setRastreioCopiado(
-                    null
-                );
-
-                // Abre em nova aba
-                window.open(
-                    link,
-                    "_blank",
-                    "noopener,noreferrer"
-                );
-
-            },
-            2000
-        );
+            window.open(
+                link,
+                "_blank",
+                "noopener,noreferrer"
+            );
+        }, 2000);
     }
+
     return (
         <>
             {rastreioCopiado && (
@@ -1423,23 +1399,7 @@ export default function Compras() {
 
                                                                     {/* DESCONTO */}
 
-                                                                    {Number(compra.desconto || 0) > 0 && (
 
-                                                                        <div className="ironstore-compras-resumo-desconto">
-
-                                                                            <span>
-                                                                                Desconto
-                                                                            </span>
-
-                                                                            <strong>
-                                                                                - {formatarPreco(
-                                                                                    compra.desconto
-                                                                                )}
-                                                                            </strong>
-
-                                                                        </div>
-
-                                                                    )}
                                                                     {/* FRETE */}
 
                                                                     <div>
@@ -1506,12 +1466,15 @@ export default function Compras() {
 
                                                                                             <button
                                                                                                 type="button"
+
                                                                                                 onClick={(evento) =>
                                                                                                     abrirRastreamento(
                                                                                                         evento,
-                                                                                                        compra.seguimento.codigo_rastreio
+                                                                                                        compra.seguimento.codigo_rastreio,
+                                                                                                        compra.frete?.transportadora
                                                                                                     )
                                                                                                 }
+
                                                                                                 className="ironstore-rastreio-link-premium"
                                                                                                 title="Copiar código e acompanhar entrega"
                                                                                             >
