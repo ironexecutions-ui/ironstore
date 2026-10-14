@@ -14,6 +14,8 @@ import {
 } from "react-router-dom";
 import classicoMaiscomprados
     from "../../../../../modelos/classico/maiscomprados/maiscomprados";
+import classicoCategorias
+    from "../../../../../modelos/classico/categorias/classico_categorias";
 import {
     API_URL
 } from "../../../../../config";
@@ -664,6 +666,9 @@ export default function Maiscomprados() {
 
     return (
         <>
+            <style>
+                {classicoCategorias}
+            </style>
 
             <style>
                 {estilo}
@@ -672,7 +677,6 @@ export default function Maiscomprados() {
             <section
                 className="ironstore-mais-comprados"
             >
-
                 <div
                     className="ironstore-mais-comprados-conteudo"
                 >

@@ -11,8 +11,363 @@ const classicoCompras = `
 .ironstore-compras *::after {
     box-sizing: border-box;
 }
+/* =========================================================
+   ENDEREÇO DE ENTREGA
+   CONFERÊNCIA DO DESTINO DO FRETE
+========================================================= */
+
+.ironstore-frete-endereco {
+    width: 100% !important;
+
+    margin:
+        12px
+        0 !important;
+
+    padding:
+        14px !important;
+
+    border:
+        1px solid
+        #e1e6ec !important;
+
+    border-radius:
+        14px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f8fafc 100%
+        ) !important;
+
+    box-shadow:
+        0 1px 2px rgba(16,24,40,.025),
+        0 4px 12px rgba(16,24,40,.035) !important;
+
+    box-sizing:
+        border-box !important;
+}
 
 
+/* =========================================================
+   CABEÇALHO DO ENDEREÇO
+========================================================= */
+
+.ironstore-frete-endereco-cabecalho {
+    display: flex !important;
+    flex-direction: column !important;
+
+    align-items: flex-start !important;
+
+    gap:
+        4px !important;
+
+    margin-bottom:
+        11px !important;
+}
+
+
+.ironstore-frete-endereco-cabecalho strong {
+    margin: 0 !important;
+
+    color:
+        var(--ic-text, #101828) !important;
+
+    font-size:
+        12px !important;
+
+    font-weight:
+        800 !important;
+
+    line-height:
+        1.4 !important;
+}
+
+
+.ironstore-frete-endereco-cabecalho span {
+    color:
+        var(--ic-muted, #667085) !important;
+
+    font-size:
+        10px !important;
+
+    font-weight:
+        500 !important;
+
+    line-height:
+        1.5 !important;
+}
+
+
+/* =========================================================
+   DADOS DO ENDEREÇO
+========================================================= */
+
+.ironstore-frete-endereco-dados {
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    align-items: flex-start !important;
+
+    gap:
+        5px !important;
+
+    color:
+        var(--ic-text-secondary, #344054) !important;
+
+    font-size:
+        10px !important;
+
+    font-weight:
+        500 !important;
+
+    line-height:
+        1.5 !important;
+
+    overflow-wrap:
+        anywhere !important;
+}
+
+
+.ironstore-frete-endereco-dados strong {
+    max-width: 100% !important;
+
+    margin: 0 !important;
+
+    color:
+        var(--ic-text, #101828) !important;
+
+    font-size:
+        11px !important;
+
+    font-weight:
+        750 !important;
+
+    line-height:
+        1.5 !important;
+
+    overflow-wrap:
+        anywhere !important;
+}
+
+
+.ironstore-frete-endereco-dados span {
+    max-width: 100% !important;
+
+    color:
+        var(--ic-muted, #667085) !important;
+
+    font-size:
+        10px !important;
+
+    line-height:
+        1.5 !important;
+
+    overflow-wrap:
+        anywhere !important;
+}
+
+
+/* =========================================================
+   ALERTA DE CEP DIFERENTE
+========================================================= */
+
+.ironstore-frete-endereco-alerta {
+    width: 100% !important;
+
+    margin-top:
+        11px !important;
+
+    padding:
+        10px
+        11px !important;
+
+    border:
+        1px solid
+        #f5d889 !important;
+
+    border-radius:
+        10px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff9e8,
+            #fff3cd
+        ) !important;
+
+    color:
+        #795900 !important;
+
+    font-size:
+        10px !important;
+
+    font-weight:
+        600 !important;
+
+    line-height:
+        1.5 !important;
+
+    overflow-wrap:
+        anywhere !important;
+
+    box-sizing:
+        border-box !important;
+}
+
+
+/* =========================================================
+   AVISO DE ENDEREÇO NÃO CONFIRMADO
+========================================================= */
+
+.ironstore-frete-endereco-aviso {
+    margin: 0 !important;
+
+    color:
+        var(--ic-muted, #667085) !important;
+
+    font-size:
+        10px !important;
+
+    font-weight:
+        500 !important;
+
+    line-height:
+        1.5 !important;
+
+    overflow-wrap:
+        anywhere !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 780px) {
+
+    .ironstore-frete-endereco {
+        margin:
+            10px
+            0 !important;
+
+        padding:
+            12px !important;
+
+        border-radius:
+            12px !important;
+    }
+
+
+    .ironstore-frete-endereco-cabecalho {
+        margin-bottom:
+            9px !important;
+    }
+
+
+    .ironstore-frete-endereco-cabecalho strong {
+        font-size:
+            11px !important;
+    }
+
+
+    .ironstore-frete-endereco-dados {
+        gap:
+            4px !important;
+
+        font-size:
+            9px !important;
+    }
+
+
+    .ironstore-frete-endereco-dados strong {
+        font-size:
+            10px !important;
+    }
+
+
+    .ironstore-frete-endereco-dados span {
+        font-size:
+            9px !important;
+    }
+
+
+    .ironstore-frete-endereco-alerta {
+        margin-top:
+            9px !important;
+
+        padding:
+            9px !important;
+
+        font-size:
+            9px !important;
+    }
+
+
+    .ironstore-frete-endereco-aviso {
+        font-size:
+            9px !important;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE PEQUENO
+========================================================= */
+
+@media (max-width: 440px) {
+
+    .ironstore-frete-endereco {
+        padding:
+            10px !important;
+    }
+
+
+    .ironstore-frete-endereco-cabecalho {
+        gap:
+            3px !important;
+    }
+
+
+    .ironstore-frete-endereco-alerta {
+        padding:
+            8px !important;
+
+        font-size:
+            8px !important;
+    }
+
+}
+.ironstore-frete-carregando {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 90px;
+    padding: 20px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ironstore-frete-spinner {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border: 3px solid #e2e8f0;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: ironstore-frete-girar 0.7s linear infinite;
+}
+
+@keyframes ironstore-frete-girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
 /* =========================================================
    PÁGINA
 ========================================================= */

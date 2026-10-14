@@ -86,13 +86,96 @@ export default function Frete({
         setOpcoes
     ] = useState([]);
 
-
+    const [carregandoEndereco, setCarregandoEndereco] = useState(true);
     const [
         opcaoSelecionada,
         setOpcaoSelecionada
     ] = useState(null);
+    const [enderecoDestino, setEnderecoDestino] = useState(null);
+    const [erroEnderecoDestino, setErroEnderecoDestino] = useState("");
 
+    useEffect(() => {
+        let ativo = true;
 
+        async function carregarEnderecoDestino() {
+            setCarregandoEndereco(true);
+
+            const token = localStorage.getItem(
+                "ironstore_cliente_token"
+            );
+
+            if (!token) {
+                if (ativo) {
+                    setEnderecoDestino(null);
+                    setCarregandoEndereco(false);
+                }
+                return;
+            }
+
+            try {
+                // Mantenha aqui o seu fetch atual e o restante
+                // do código que processa os dados do endereço.
+                const resposta = await fetch(
+                    `${API_URL}/ironstore/me/dados`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "X-IronStore-Key":
+                                import.meta.env.VITE_IRONSTORE_APP_KEY_GERAL
+                        }
+                    }
+                );
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        "Não foi possível confirmar o endereço."
+                    );
+                }
+
+                const resultado = await resposta.json();
+                const dados = resultado?.dados;
+
+                if (!ativo) return;
+
+                if (!dados) {
+                    setEnderecoDestino(null);
+                    return;
+                }
+
+                setEnderecoDestino({
+                    rua_avenida: dados.rua_avenida || "",
+                    numero: dados.numero || "",
+                    bairro: dados.bairro || "",
+                    cidade: dados.cidade || "",
+                    cep: String(dados.cep || "").replace(/\D/g, "")
+                });
+
+                setErroEnderecoDestino("");
+            } catch (erro) {
+                if (!ativo) return;
+
+                console.error(
+                    "[IRONSTORE FRETE ENDEREÇO]",
+                    erro
+                );
+
+                setErroEnderecoDestino(
+                    "Não foi possível confirmar o endereço cadastrado."
+                );
+            } finally {
+                if (ativo) {
+                    setCarregandoEndereco(false);
+                }
+            }
+        }
+
+        carregarEnderecoDestino();
+
+        return () => {
+            ativo = false;
+        };
+    }, []);
     /* =====================================================
        ZERAR FRETE
     ===================================================== */
@@ -139,8 +222,11 @@ export default function Frete({
 
         let ativo = true;
 
-
         async function calcular() {
+            if (carregandoEndereco) {
+                return;
+            }
+
             console.log("[FRETE DEBUG INICIO]", {
                 temProdutos,
                 produtos,
@@ -174,49 +260,34 @@ export default function Frete({
             /* =============================================
                CEP
             ============================================= */
+            const origem = String(cepOrigem || "").replace(/\D/g, "");
 
-            const origem =
-                String(
-                    cepOrigem || ""
-                ).replace(
-                    /\D/g,
-                    ""
-                );
+            const destino = String(
+                cepDestino || enderecoDestino?.cep || ""
+            ).replace(/\D/g, "");
 
+            console.log("[FRETE] CEPs para cálculo:", {
+                origem,
+                destino
+            });
 
-            const destino =
-                String(
-                    cepDestino || ""
-                ).replace(
-                    /\D/g,
-                    ""
-                );
-            console.group("📍 [FRETE] CEPs NORMALIZADOS");
-
-            console.log("CEP origem recebido:", cepOrigem);
-            console.log("CEP origem enviado:", origem);
-
-            console.log("CEP destino recebido:", cepDestino);
-            console.log("CEP destino enviado:", destino);
-
-            console.groupEnd();
-
-            if (
-                origem.length !== 8 ||
-                destino.length !== 8
-            ) {
-
+            if (origem.length !== 8 || destino.length !== 8) {
                 if (ativo) {
-
                     zerarFrete();
-
                     setErro(
                         "Informe um endereço válido no seu perfil para calcular o frete."
                     );
+                    setCarregando(false);
                 }
-
                 return;
             }
+
+            setCarregando(true);
+            setErro("");
+
+
+
+
 
 
             /* =============================================
@@ -336,11 +407,7 @@ export default function Frete({
                CARREGANDO
             ============================================= */
 
-            setCarregando(
-                true
-            );
 
-            setErro("");
 
 
             try {
@@ -609,7 +676,8 @@ export default function Frete({
         temProdutos,
         produtos,
         cepOrigem,
-        cepDestino
+        cepDestino,
+        carregandoEndereco
     ]);
 
 
@@ -726,7 +794,18 @@ export default function Frete({
             </div>
         );
     }
-
+    if (carregandoEndereco) {
+        return (
+            <div className="ironstore-compras-frete">
+                <div className="ironstore-frete-carregando">
+                    <span className="ironstore-frete-spinner" />
+                    <span>
+                        Confirmando endereço de entrega...
+                    </span>
+                </div>
+            </div>
+        );
+    }
 
     /* =====================================================
        RENDER
@@ -779,7 +858,57 @@ export default function Frete({
                 )
             }
 
+            <div className="ironstore-frete-endereco">
+                <div className="ironstore-frete-endereco-cabecalho">
+                    <strong>Endereço de entrega</strong>
+                    <span>Confira o destino do frete</span>
+                </div>
 
+                {enderecoDestino ? (
+                    <>
+                        <div className="ironstore-frete-endereco-dados">
+                            <strong>
+                                {enderecoDestino.rua_avenida || "Rua não informada"}
+                                {enderecoDestino.numero
+                                    ? `, ${enderecoDestino.numero}`
+                                    : ""}
+                            </strong>
+
+                            <span>
+                                {[
+                                    enderecoDestino.bairro,
+                                    enderecoDestino.cidade
+                                ]
+                                    .filter(Boolean)
+                                    .join(" • ")}
+                            </span>
+
+                            <span>
+                                CEP:{" "}
+                                {enderecoDestino.cep.replace(
+                                    /^(\d{5})(\d{3})$/,
+                                    "$1-$2"
+                                )}
+                            </span>
+                        </div>
+
+                        {enderecoDestino.cep.length === 8 &&
+                            String(cepDestino || "").replace(/\D/g, "").length === 8 &&
+                            enderecoDestino.cep !==
+                            String(cepDestino || "").replace(/\D/g, "") && (
+                                <div className="ironstore-frete-endereco-alerta">
+                                    Atenção: o CEP do endereço cadastrado é diferente
+                                    do CEP utilizado no cálculo do frete.
+                                </div>
+                            )}
+                    </>
+                ) : (
+                    <p className="ironstore-frete-endereco-aviso">
+                        {erroEnderecoDestino ||
+                            "Não foi possível confirmar o endereço de entrega."}
+                    </p>
+                )}
+            </div>
             {/* =============================================
                 OPÇÕES
             ============================================== */}
