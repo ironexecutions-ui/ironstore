@@ -867,6 +867,8 @@ export default function Compras() {
             identificacao.includes("azul cargo express")
         ) {
             link = "https://www.azulcargoexpress.com.br/";
+        } else if (identificacao.includes("loggi")) {
+            link = "https://app.loggi.com/rastreador/completo";
         } else if (identificacao.includes("total express")) {
             link = "https://totalexpress.com.br/";
         } else {
