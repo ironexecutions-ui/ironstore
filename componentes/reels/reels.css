@@ -2318,3 +2318,353 @@
     -webkit-user-select: text;
     user-select: text;
 }
+
+
+/* =====================================================
+   IRONSTORE REELS
+   GALERIA ÚNICA COM IMAGEM COMPLETA
+===================================================== */
+
+.ironstore-reels-vitrine-midia {
+    position: absolute !important;
+    inset: 0 0 215px 0 !important;
+
+    width: 100% !important;
+    height: auto !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 24px 72px 12px !important;
+
+    overflow: hidden !important;
+
+    background: #050505 !important;
+
+    z-index: 2 !important;
+}
+
+/* Remove todos os layouts antigos */
+
+.ironstore-reels-vitrine-item .ironstore-reels-vitrine-imagem-quadro {
+    position: relative !important;
+
+    inset: auto !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    max-width: 100% !important;
+    max-height: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    border: none !important;
+    border-radius: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    opacity: 1 !important;
+
+    transform: none !important;
+    animation: none !important;
+}
+
+/* Imagem completa, sem cortes */
+
+.ironstore-reels-vitrine-imagem-quadro img {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    max-width: 100% !important;
+    max-height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    border: none !important;
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+
+    user-select: none !important;
+    pointer-events: none !important;
+
+    -webkit-user-drag: none !important;
+}
+
+/* Remove a sombra antiga sobre as imagens */
+
+.ironstore-reels-vitrine-sombra {
+    display: none !important;
+}
+
+/* =====================================================
+   PONTOS INDICADORES
+   POSICIONADOS ACIMA DO NOME
+===================================================== */
+
+.ironstore-reels-vitrine-pontos-imagens {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 7px;
+
+    width: 100%;
+
+    margin: 0 0 12px;
+    padding: 0;
+
+    position: relative;
+
+    z-index: 70;
+}
+
+.ironstore-reels-vitrine-ponto-imagem {
+    display: block;
+
+    width: 7px;
+    height: 7px;
+
+    flex: 0 0 7px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.42);
+
+    transition:
+        width 220ms ease,
+        background 220ms ease,
+        transform 220ms ease;
+}
+
+.ironstore-reels-vitrine-ponto-imagem--ativo {
+    width: 19px;
+    flex-basis: 19px;
+
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    transform: scale(1.02);
+}
+
+/* =====================================================
+   ÁREA DE INFORMAÇÕES
+===================================================== */
+
+.ironstore-reels-vitrine-info {
+    z-index: 55;
+}
+
+/* =====================================================
+   TABLETS E CELULARES
+===================================================== */
+
+@media (max-width: 900px) {
+    .ironstore-reels-vitrine-midia {
+        inset: 0 0 230px 0 !important;
+
+        padding: 22px 55px 12px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .ironstore-reels-vitrine-midia {
+        inset: 0 0 235px 0 !important;
+
+        padding: 18px 55px 10px !important;
+    }
+}
+
+@media (max-width: 390px) {
+    .ironstore-reels-vitrine-midia {
+        inset: 0 0 245px 0 !important;
+
+        padding: 14px 48px 8px !important;
+    }
+}
+
+
+/* ================================================
+   IRONSTORE | CARROSSEL PROFISSIONAL
+================================================ */
+
+.ironstore-reels-vitrine-midia {
+    overflow: hidden !important;
+    touch-action: pan-y !important;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    isolation: isolate;
+}
+
+.ironstore-reels-vitrine-midia:active {
+    cursor: grabbing;
+}
+
+/* TRILHO HORIZONTAL */
+
+.ironstore-reels-carrossel-trilho {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 300% !important;
+    height: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+
+    will-change: transform;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* CADA POSIÇÃO DO CARROSSEL */
+
+.ironstore-reels-carrossel-slide {
+    position: relative !important;
+
+    flex: 0 0 33.333333% !important;
+
+    width: 33.333333% !important;
+    height: 100% !important;
+
+    min-width: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+
+    background: transparent !important;
+}
+
+/* IMAGEM */
+
+.ironstore-reels-carrossel-slide img {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    max-width: 100% !important;
+    max-height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    pointer-events: none !important;
+    user-select: none !important;
+    -webkit-user-drag: none !important;
+
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* PROTEÇÃO CONTRA OS MODELOS VISUAIS ANTIGOS */
+
+.ironstore-reels-vitrine-item .ironstore-reels-carrossel-slide {
+    inset: auto !important;
+    transform: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+}
+
+/* INDICADORES */
+
+.ironstore-reels-vitrine-ponto-imagem {
+    transition:
+        width 280ms cubic-bezier(.22, 1, .36, 1),
+        background 220ms ease,
+        opacity 220ms ease;
+}
+
+.ironstore-reels-vitrine-ponto-imagem--ativo {
+    width: 22px;
+    flex-basis: 22px;
+}
+
+/* =========================================
+   CORREÇÃO DE ALINHAMENTO DO CARROSSEL
+========================================= */
+
+.ironstore-reels-vitrine-midia {
+    box-sizing: border-box !important;
+
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    width: 100% !important;
+
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.ironstore-reels-carrossel-trilho {
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 300% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+.ironstore-reels-carrossel-slide {
+    flex: 0 0 33.3333333333% !important;
+
+    width: 33.3333333333% !important;
+    min-width: 33.3333333333% !important;
+    max-width: 33.3333333333% !important;
+
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+
+    overflow: hidden !important;
+}
+
+.ironstore-reels-carrossel-slide img {
+    width: 100% !important;
+    height: 100% !important;
+
+    display: block !important;
+
+    object-fit: contain !important;
+    object-position: center center !important;
+
+    margin: 0 auto !important;
+}

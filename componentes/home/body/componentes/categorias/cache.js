@@ -714,3 +714,64 @@ export function ordenarProdutosPorDestaque(
     ];
 
 }
+
+// =====================================================
+// CACHE FÍSICO DAS IMAGENS
+// =====================================================
+
+const NOME_CACHE_IMAGENS = "ironstore-imagens-v1";
+
+export async function carregarImagemDoCache(url) {
+
+    if (!url || !("caches" in window)) {
+        return url;
+    }
+
+    try {
+
+        const cache = await caches.open(
+            NOME_CACHE_IMAGENS
+        );
+
+        let resposta = await cache.match(url);
+
+        // Se já existe no cache, utiliza imediatamente.
+        if (resposta) {
+
+            const blob = await resposta.blob();
+
+            return URL.createObjectURL(blob);
+
+        }
+
+        // Se não existe, baixa e armazena.
+        const download = await fetch(url, {
+            mode: "cors"
+        });
+
+        if (!download.ok) {
+            return url;
+        }
+
+        await cache.put(
+            url,
+            download.clone()
+        );
+
+        const blob = await download.blob();
+
+        return URL.createObjectURL(blob);
+
+    } catch (erro) {
+
+        console.warn(
+            "[IRONSTORE] Erro ao carregar imagem do cache:",
+            url,
+            erro
+        );
+
+        return url;
+
+    }
+
+}

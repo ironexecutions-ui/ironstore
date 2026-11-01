@@ -4600,6 +4600,509 @@ span + span::before {
     }
 }
 
+/* =========================================================
+   IRONSTORE
+   SISTEMA DE ENTRADA PREMIUM DO HEADER
+========================================================= */
+
+/* IDENTIDADE DA LOJA */
+
+.ironstore-header-identidade-loja {
+    animation:
+        ironstoreEntradaEsquerda
+        850ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+}
+
+
+/* LOGO */
+
+.ironstore-header-imagem-identidade {
+    animation:
+        ironstoreEntradaLogo
+        950ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+    animation-delay: 100ms;
+}
+
+
+/* NOME DA LOJA */
+
+.ironstore-header-texto-nome-loja {
+    animation:
+        ironstoreEntradaTexto
+        750ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+    animation-delay: 180ms;
+}
+
+
+/* PESQUISA */
+
+.ironstore-header-central-pesquisa {
+    animation:
+        ironstoreEntradaCima
+        900ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+    animation-delay: 100ms;
+}
+
+
+/* CONTROLES DA DIREITA */
+
+.ironstore-header-controles-direita {
+    animation:
+        ironstoreEntradaDireita
+        850ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+    animation-delay: 150ms;
+}
+
+
+/* ENTRAR / PERFIL */
+
+.ironstore-header-acao-entrar,
+.ironstore-header-cliente {
+    animation:
+        ironstoreEntradaControles
+        750ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+    animation-delay: 250ms;
+}
+
+
+/* CARRINHO */
+
+.ironstore-header-acao-carrinho {
+    animation:
+        ironstoreEntradaControles
+        750ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+    animation-delay: 350ms;
+}
+
+
+/* MENU */
+
+.ironstore-header-menu-area {
+    animation:
+        ironstoreEntradaControles
+        750ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+    animation-delay: 450ms;
+}
+
+
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+
+@keyframes ironstoreEntradaEsquerda {
+    from {
+        opacity: 0;
+        translate: -35px 0;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+
+@keyframes ironstoreEntradaDireita {
+    from {
+        opacity: 0;
+        translate: 38px 0;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+
+@keyframes ironstoreEntradaCima {
+    from {
+        opacity: 0;
+        translate: 0 -25px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+
+@keyframes ironstoreEntradaControles {
+    from {
+        opacity: 0;
+        translate: 0 18px;
+        scale: .96;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+        scale: 1;
+    }
+}
+
+
+@keyframes ironstoreEntradaLogo {
+    from {
+        opacity: 0;
+        translate: -15px 5px;
+        scale: .88;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+        scale: 1;
+    }
+}
+
+
+@keyframes ironstoreEntradaTexto {
+    from {
+        opacity: 0;
+        translate: -12px 0;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+   RESPEITAR PREFERÊNCIA POR MOVIMENTO REDUZIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .ironstore-header-identidade-loja,
+    .ironstore-header-imagem-identidade,
+    .ironstore-header-texto-nome-loja,
+    .ironstore-header-central-pesquisa,
+    .ironstore-header-controles-direita,
+    .ironstore-header-acao-entrar,
+    .ironstore-header-cliente,
+    .ironstore-header-acao-carrinho,
+    .ironstore-header-menu-area {
+        animation: none !important;
+        translate: none !important;
+        scale: none !important;
+    }
+}
+
+/* =========================================================
+   IRONSTORE
+   ENTRADA SEQUENCIAL DOS RESULTADOS DA BUSCA
+========================================================= */
+
+.ironstore-header-busca-produto {
+    opacity: 0;
+
+    animation:
+        ironstoreResultadoCascata
+        550ms
+        cubic-bezier(.16, 1, .3, 1)
+        both;
+
+    animation-delay:
+        calc(var(--ironstore-indice-produto, 0) * 65ms);
+}
+
+
+/* =========================================================
+   ANIMAÇÃO INDIVIDUAL
+========================================================= */
+
+@keyframes ironstoreResultadoCascata {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   RESPEITAR MOVIMENTO REDUZIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-header-busca-produto {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+    }
+
+}
+/* ==========================================
+   IRONSTORE | INPUT DE BUSCA PREMIUM
+========================================== */
+
+.ironstore-header-central-pesquisa {
+    position: relative;
+    isolation: isolate;
+}
+
+/* Campo de pesquisa */
+.ironstore-header-central-pesquisa input {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+
+    border: 1.5px solid rgba(120, 120, 120, 0.22);
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(246, 247, 249, 0.96)
+        );
+
+    color: #171717;
+
+    transition:
+        border-color 350ms ease,
+        box-shadow 450ms cubic-bezier(.16, 1, .3, 1),
+        background 350ms ease,
+        transform 350ms cubic-bezier(.16, 1, .3, 1),
+        padding 350ms ease;
+
+    outline: none;
+}
+
+/* Brilho externo */
+.ironstore-header-central-pesquisa:has(input:focus)::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    z-index: 0;
+
+    border-radius: 19px;
+
+    background: linear-gradient(
+        115deg,
+        rgba(80, 130, 255, 0.0),
+        rgba(80, 130, 255, 0.30),
+        rgba(120, 80, 255, 0.30),
+        rgba(80, 130, 255, 0.0)
+    );
+
+    filter: blur(13px);
+    opacity: 1;
+
+    animation: ironstoreBuscaBrilho 2.4s ease-in-out infinite;
+}
+
+/* Foco principal */
+.ironstore-header-central-pesquisa input:focus {
+    border-color: #648cff;
+
+    background: #ffffff;
+
+    transform: translateY(-2px) scale(1.008);
+
+    box-shadow:
+        0 0 0 3px rgba(80, 130, 255, 0.12),
+        0 0 0 6px rgba(80, 130, 255, 0.055),
+        0 9px 24px rgba(55, 100, 220, 0.13),
+        0 18px 38px rgba(0, 0, 0, 0.075);
+}
+
+/* Texto digitado */
+.ironstore-header-central-pesquisa input:focus {
+    caret-color: #4778f5;
+}
+
+/* Placeholder */
+.ironstore-header-central-pesquisa input::placeholder {
+    color: #9299a5;
+    transition:
+        opacity 250ms ease,
+        transform 300ms ease;
+}
+
+.ironstore-header-central-pesquisa input:focus::placeholder {
+    opacity: 0.48;
+    transform: translateX(5px);
+}
+
+/* Estado com conteúdo */
+.ironstore-header-central-pesquisa:has(input:not(:placeholder-shown)) input {
+    border-color: rgba(80, 130, 255, 0.45);
+}
+
+/* Animação do brilho */
+@keyframes ironstoreBuscaBrilho {
+    0%, 100% {
+        opacity: 0.45;
+        transform: scale(0.985);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.015);
+    }
+}
+
+/* Efeito de foco ao digitar */
+.ironstore-header-central-pesquisa:has(input:focus) {
+    animation: ironstoreBuscaAtivada 450ms cubic-bezier(.16, 1, .3, 1);
+}
+
+@keyframes ironstoreBuscaAtivada {
+    0% {
+        transform: scale(0.985);
+    }
+
+    65% {
+        transform: scale(1.015);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    .ironstore-header-central-pesquisa,
+    .ironstore-header-central-pesquisa input,
+    .ironstore-header-central-pesquisa::before {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* =============================================
+   IRONSTORE | LOGIN NO CARRINHO MOBILE
+============================================= */
+
+.ironstore-header-carrinho-sem-login {
+    position: relative;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+    .ironstore-header-carrinho-sem-login {
+        width: auto !important;
+        height: 42px !important;
+
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 0 17px !important;
+
+        gap: 7px;
+
+        border: 1px solid rgba(36, 79, 125, 0.18) !important;
+        border-radius: 12px !important;
+
+        background:
+            linear-gradient(
+                135deg,
+                #173d66,
+                #244f7d
+            ) !important;
+
+        color: #ffffff !important;
+
+        box-shadow:
+            0 4px 12px rgba(23, 61, 102, 0.17),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+        animation: ironstoreLoginMobileEntrada 550ms
+            cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .ironstore-header-carrinho-sem-login
+    .ironstore-header-texto-carrinho {
+        display: inline-flex !important;
+
+        color: #ffffff !important;
+
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.05px;
+    }
+
+    .ironstore-header-carrinho-sem-login:hover {
+        background:
+            linear-gradient(
+                135deg,
+                #244f7d,
+                #32669a
+            ) !important;
+
+        box-shadow:
+            0 6px 16px rgba(23, 61, 102, 0.23);
+
+        transform: translateY(-2px);
+    }
+
+    .ironstore-header-carrinho-sem-login:active {
+        transform: scale(0.96);
+    }
+}
+
+@keyframes ironstoreLoginMobileEntrada {
+    from {
+        opacity: 0;
+        translate: 12px 0;
+        scale: 0.94;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+        scale: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ironstore-header-carrinho-sem-login {
+        animation: none !important;
+    }
+}
+    .ironstore-header-icone-acessar-conta {
+    width: 25px;
+    height: 25px;
+    display: block;
+    flex-shrink: 0;
+}
 `;
 
 export default classicoHeader;

@@ -429,6 +429,397 @@ const classicoApresentacao = `
     }
 
 }
+/* =========================================================
+   IRONSTORE PREMIUM ENTRANCE
+   Animação cinematográfica de entrada
+========================================================= */
+
+/* ESTADO INICIAL DO BANNER */
+
+.ironstore-apresentacao-classico {
+    animation:
+        ironApresentacaoEntrada
+        1.15s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        both;
+}
+
+
+/* =========================================================
+   REVELAÇÃO DA IMAGEM
+========================================================= */
+
+.ironstore-apresentacao-classico-imagem-area {
+    animation:
+        ironImagemRevelacao
+        1.65s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        both;
+}
+
+
+/* MOVIMENTO DA IMAGEM */
+
+.ironstore-apresentacao-classico-imagem {
+    animation:
+        ironImagemZoomEntrada
+        2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        both;
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.ironstore-apresentacao-classico-overlay {
+    opacity: 0;
+
+    animation:
+        ironOverlayEntrada
+        1.1s
+        ease-out
+        0.35s
+        forwards;
+}
+
+
+/* =========================================================
+   ÁREA DO TEXTO
+========================================================= */
+
+.ironstore-apresentacao-classico-texto-area {
+    animation:
+        ironTextoAreaEntrada
+        1.1s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        0.35s
+        both;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+========================================================= */
+
+.ironstore-apresentacao-classico-texto {
+    animation:
+        ironTextoEntrada
+        1.15s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        0.55s
+        both;
+}
+
+
+/* TÍTULO */
+
+.ironstore-apresentacao-classico-texto h1 {
+    animation:
+        ironTituloEntrada
+        1.2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        0.7s
+        both;
+}
+
+
+/* DETALHE, CASO ESTEJA PRESENTE NO MODELO */
+
+.ironstore-apresentacao-classico-detalhe {
+    animation:
+        ironDetalheEntrada
+        0.9s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        0.6s
+        both;
+}
+
+
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+
+/* BANNER */
+
+@keyframes ironApresentacaoEntrada {
+    0% {
+        opacity: 0;
+        transform: translateY(32px) scale(0.975);
+        filter: blur(8px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+
+/* REVELAÇÃO CINEMATOGRÁFICA */
+
+@keyframes ironImagemRevelacao {
+    0% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+
+/* ZOOM DA IMAGEM */
+
+@keyframes ironImagemZoomEntrada {
+    0% {
+        transform: scale(1.18) translateX(3%);
+        filter: brightness(0.65) saturate(0.75);
+    }
+
+    100% {
+        transform: scale(1.015) translateX(0);
+        filter: brightness(1) saturate(0.96);
+    }
+}
+
+
+/* OVERLAY */
+
+@keyframes ironOverlayEntrada {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* ÁREA DO TEXTO */
+
+@keyframes ironTextoAreaEntrada {
+    0% {
+        opacity: 0;
+        transform: translateX(-45px);
+        filter: blur(8px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+    }
+}
+
+
+/* CONTEÚDO */
+
+@keyframes ironTextoEntrada {
+    0% {
+        opacity: 0;
+        transform: translateX(-35px) translateY(12px);
+        filter: blur(7px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+        filter: blur(0);
+    }
+}
+
+
+/* TÍTULO */
+
+@keyframes ironTituloEntrada {
+    0% {
+        opacity: 0;
+        transform: translateY(28px);
+        letter-spacing: 2px;
+        filter: blur(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        letter-spacing: inherit;
+        filter: blur(0);
+    }
+}
+
+
+/* DETALHE */
+
+@keyframes ironDetalheEntrada {
+    0% {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.9);
+        filter: blur(5px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-apresentacao-classico {
+        animation-duration: 1s;
+    }
+
+    .ironstore-apresentacao-classico-imagem-area {
+        animation-duration: 1.4s;
+    }
+
+    .ironstore-apresentacao-classico-texto-area {
+        animation-delay: 0.3s;
+    }
+
+    .ironstore-apresentacao-classico-texto {
+        animation-delay: 0.45s;
+    }
+
+    .ironstore-apresentacao-classico-texto h1 {
+        animation-delay: 0.6s;
+    }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-apresentacao-classico,
+    .ironstore-apresentacao-classico-imagem-area,
+    .ironstore-apresentacao-classico-imagem,
+    .ironstore-apresentacao-classico-overlay,
+    .ironstore-apresentacao-classico-texto-area,
+    .ironstore-apresentacao-classico-texto,
+    .ironstore-apresentacao-classico-texto h1,
+    .ironstore-apresentacao-classico-detalhe {
+        animation: none !important;
+        opacity: 1;
+        filter: none;
+        clip-path: none;
+        transform: none;
+    }
+
+}
+/* Título principal */
+.ironstore-apresentacao-classico-texto h1.ironstore-apresentacao-titulo-letras {
+    animation: none !important;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+/* Mantém cada palavra inteira durante a quebra de linha */
+.ironstore-apresentacao-palavra-animada {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Animação individual de cada letra */
+.ironstore-apresentacao-letra-animada {
+    display: inline-block;
+    position: relative;
+
+    opacity: 0;
+
+    transform:
+        translate3d(
+            var(--letra-x),
+            var(--letra-y),
+            0
+        )
+        rotate(var(--letra-rotacao))
+        scale(0.94);
+
+    filter: blur(7px);
+
+    transform-origin: center center;
+
+    animation:
+        ironLetraCinematicaEntrada
+        1120ms
+        cubic-bezier(0.22, 1, 0.36, 1)
+        var(--letra-atraso, 0ms)
+        both;
+
+    backface-visibility: hidden;
+    will-change: transform, opacity, filter;
+}
+
+/* Movimento de chegada */
+@keyframes ironLetraCinematicaEntrada {
+    0% {
+        opacity: 0;
+
+        transform:
+            translate3d(
+                var(--letra-x),
+                var(--letra-y),
+                0
+            )
+            rotate(var(--letra-rotacao))
+            scale(0.94);
+
+        filter: blur(7px);
+    }
+
+    45% {
+        opacity: 0.8;
+        filter: blur(3px);
+    }
+
+    78% {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            rotate(0deg)
+            scale(1.015);
+
+        filter: blur(0.5px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            rotate(0deg)
+            scale(1);
+
+        filter: blur(0);
+    }
+}
+
+/* Respeita usuários que preferem movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    .ironstore-apresentacao-letra-animada {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+        filter: none;
+        will-change: auto;
+    }
+}
 
 `;
 

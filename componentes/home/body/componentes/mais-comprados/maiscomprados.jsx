@@ -778,18 +778,14 @@ export default function Maiscomprados() {
                                 return (
 
                                     <div
-                                        key={
-                                            produto.id
-                                        }
-                                        className={
-                                            `
-                                        ironstore-mais-comprados-item
-                                        ${posicao === 1
-                                                ? "primeiro"
-                                                : ""
-                                            }
-                                        `
-                                        }
+                                        key={produto.id}
+                                        className={`
+        ironstore-mais-comprados-item
+        ${posicao === 1 ? "primeiro" : ""}
+    `}
+                                        style={{
+                                            "--ironstore-card-delay": `${Math.min(index, 12) * 100}ms`
+                                        }}
                                     >
 
                                         <div

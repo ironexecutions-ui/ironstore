@@ -327,3 +327,73 @@ export function reelsSaoIguais(
     }
 
 }
+
+// =====================================================
+// CACHE FÍSICO DAS IMAGENS DOS REELS
+// =====================================================
+
+const CACHE_IMAGENS_REELS = "ironstore-imagens-v1";
+
+export async function carregarImagemCacheReels(url) {
+
+    if (!url) {
+        return url;
+    }
+
+    if (
+        typeof window === "undefined" ||
+        !("caches" in window)
+    ) {
+        return url;
+    }
+
+    try {
+
+        const cache = await caches.open(
+            CACHE_IMAGENS_REELS
+        );
+
+        // Verifica se a imagem já está armazenada.
+        let resposta = await cache.match(url);
+
+        // Se existe, recupera o arquivo salvo.
+        if (resposta) {
+
+            const blob = await resposta.blob();
+
+            return URL.createObjectURL(blob);
+
+        }
+
+        // Se não existe, baixa a imagem.
+        const download = await fetch(url, {
+            mode: "cors"
+        });
+
+        if (!download.ok) {
+            return url;
+        }
+
+        // Salva o arquivo físico no Cache Storage.
+        await cache.put(
+            url,
+            download.clone()
+        );
+
+        const blob = await download.blob();
+
+        return URL.createObjectURL(blob);
+
+    } catch (erro) {
+
+        console.warn(
+            "[REELS CACHE IMAGENS] Erro:",
+            url,
+            erro
+        );
+
+        return url;
+
+    }
+
+}

@@ -1167,37 +1167,40 @@ export default function Categorias() {
 
 
                                 return (
-
-                                    <ProdutoCategoria
+                                    <div
                                         key={produto.id}
+                                        className="ironstore-categoria-card-entrada"
+                                        style={{
+                                            "--ironstore-categoria-card-delay":
+                                                `${(indiceProduto % 10) * 75}ms`
+                                        }}
+                                    >
+                                        <ProdutoCategoria
+                                            produto={produto}
 
-                                        produto={
-                                            produto
-                                        }
+                                            modoReels={
+                                                usarModoReels
+                                            }
 
-                                        modoReels={
-                                            usarModoReels
-                                        }
+                                            onAbrir={
+                                                usarModoReels
+                                                    ? abrirProdutoReels
+                                                    : abrirProduto
+                                            }
 
-                                        onAbrir={
-                                            usarModoReels
-                                                ? abrirProdutoReels
-                                                : abrirProduto
-                                        }
+                                            clienteLogado={
+                                                clienteLogado
+                                            }
 
-                                        clienteLogado={
-                                            clienteLogado
-                                        }
+                                            produtosCarrinho={
+                                                produtosCarrinho
+                                            }
 
-                                        produtosCarrinho={
-                                            produtosCarrinho
-                                        }
-
-                                        onAdicionarCarrinho={
-                                            adicionarAoCarrinho
-                                        }
-                                    />
-
+                                            onAdicionarCarrinho={
+                                                adicionarAoCarrinho
+                                            }
+                                        />
+                                    </div>
                                 );
 
                             }

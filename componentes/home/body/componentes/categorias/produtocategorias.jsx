@@ -6,7 +6,8 @@ import React, {
 } from "react";
 
 import {
-    separarImagensProduto
+    separarImagensProduto,
+    carregarImagemDoCache
 } from "./cache";
 
 
@@ -176,7 +177,57 @@ export default function ProdutoCategoria({
             produto?.imagem_url
         );
 
+    // =====================================================
+    // IMAGENS CARREGADAS DO CACHE
+    // =====================================================
 
+    const [imagensCacheadas, setImagensCacheadas] = useState({});
+
+    useEffect(() => {
+
+        let ativo = true;
+
+        const urlsCriadas = [];
+
+        async function carregarImagens() {
+
+            const resultado = {};
+
+            await Promise.all(
+
+                imagens.map(async (url) => {
+
+                    const imagem = await carregarImagemDoCache(url);
+
+                    resultado[url] = imagem;
+
+                    if (
+                        imagem.startsWith("blob:")
+                    ) {
+                        urlsCriadas.push(imagem);
+                    }
+
+                })
+
+            );
+
+            if (ativo) {
+                setImagensCacheadas(resultado);
+            }
+
+        }
+
+        carregarImagens();
+
+        return () => {
+
+            ativo = false;
+
+            urlsCriadas.forEach(URL.revokeObjectURL);
+
+        };
+
+    }, [produto?.id, produto?.imagem_url]);
     /* =====================================================
        ÍNDICE VISÍVEL
     ===================================================== */
@@ -1075,7 +1126,7 @@ export default function ProdutoCategoria({
                                         >
                                             <img
                                                 className="ironstore-produto-categoria-reels-imagem-unica"
-                                                src={imagemAtual}
+                                                src={imagensCacheadas[imagemAtual] || imagemAtual}
                                                 alt={produto?.nome || "Produto"}
                                                 loading="lazy"
                                                 draggable="false"
@@ -1093,7 +1144,11 @@ export default function ProdutoCategoria({
                                         >
                                             <img
                                                 className="ironstore-produto-categoria-reels-imagem-unica"
-                                                src={proximaImagem || imagemAtual}
+                                                src={
+                                                    imagensCacheadas[proximaImagem || imagemAtual] ||
+                                                    proximaImagem ||
+                                                    imagemAtual
+                                                }
                                                 alt={produto?.nome || "Produto"}
                                                 loading="lazy"
                                                 draggable="false"

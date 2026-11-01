@@ -6590,6 +6590,278 @@ border-radius: 40px;
     }
 
 }
+
+
+/* =========================================================
+   IRONSTORE PREMIUM
+   ENTRADA ESCALONADA DOS PRODUTOS
+========================================================= */
+
+.ironstore-mais-comprados-item {
+    opacity: 0;
+
+    animation:
+        ironMaisCompradosEntrada
+        1.05s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        var(--ironstore-card-delay, 0ms)
+        both;
+
+    transform-origin: center bottom;
+
+    backface-visibility: hidden;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO PRINCIPAL
+========================================================= */
+
+@keyframes ironMaisCompradosEntrada {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate3d(0, 42px, 0)
+            scale(0.94);
+
+        filter:
+            blur(9px);
+    }
+
+    55% {
+        opacity: 1;
+
+        filter:
+            blur(1px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+
+        filter:
+            blur(0);
+    }
+
+}
+
+
+/* =========================================================
+   IMAGEM DO PRODUTO
+   REFINAMENTO VISUAL DA ENTRADA
+========================================================= */
+
+.ironstore-mais-comprados-item
+.ironstore-produto-classico-imagem-area {
+    animation:
+        ironImagemProdutoEntrada
+        1.1s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        var(--ironstore-card-delay, 0ms)
+        both;
+}
+
+
+@keyframes ironImagemProdutoEntrada {
+
+    0% {
+        opacity: 0.55;
+
+        transform:
+            scale(0.94);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-mais-comprados-item {
+        animation-duration: 850ms;
+    }
+
+    .ironstore-mais-comprados-item
+    .ironstore-produto-classico-imagem-area {
+        animation-duration: 900ms;
+    }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-mais-comprados-item,
+    .ironstore-mais-comprados-item
+    .ironstore-produto-classico-imagem-area {
+        animation: none !important;
+
+        opacity: 1;
+
+        filter: none;
+
+        transform: none;
+    }
+
+}
+/* =========================================================
+   IRONSTORE PREMIUM
+   ENTRADA PROFISSIONAL DOS CARDS DE CATEGORIA
+========================================================= */
+
+.ironstore-categoria-card-entrada {
+    width: 100%;
+    min-width: 0;
+
+    opacity: 0;
+
+    animation:
+        ironCategoriaCardEntrada
+        950ms
+        cubic-bezier(0.16, 1, 0.3, 1)
+        var(--ironstore-categoria-card-delay, 0ms)
+        both;
+
+    transform-origin: center bottom;
+
+    backface-visibility: hidden;
+
+    will-change: transform, opacity, filter;
+}
+
+
+/* =========================================================
+   MOVIMENTO DE ENTRADA
+========================================================= */
+
+@keyframes ironCategoriaCardEntrada {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate3d(0, 38px, 0)
+            scale(0.955);
+
+        filter:
+            blur(8px);
+    }
+
+    60% {
+        opacity: 1;
+
+        filter:
+            blur(1px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+
+        filter:
+            blur(0);
+    }
+
+}
+
+
+/* =========================================================
+   IMAGEM
+   REVELAÇÃO SUAVE DENTRO DO CARD
+========================================================= */
+
+.ironstore-categoria-card-entrada
+.ironstore-produto-classico-imagem {
+    animation:
+        ironCategoriaImagemEntrada
+        1100ms
+        cubic-bezier(0.16, 1, 0.3, 1)
+        var(--ironstore-categoria-card-delay, 0ms)
+        both;
+}
+
+
+@keyframes ironCategoriaImagemEntrada {
+
+    0% {
+        opacity: 0.65;
+
+        transform:
+            scale(0.965);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ironstore-categoria-card-entrada {
+        animation-duration: 800ms;
+    }
+
+    .ironstore-categoria-card-entrada
+    .ironstore-produto-classico-imagem {
+        animation-duration: 900ms;
+    }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-categoria-card-entrada,
+    .ironstore-categoria-card-entrada
+    .ironstore-produto-classico-imagem {
+
+        animation: none !important;
+
+        opacity: 1;
+
+        filter: none;
+
+        transform: none;
+
+        will-change: auto;
+    }
+
+}
 `;
 
 export default classicoCategorias;

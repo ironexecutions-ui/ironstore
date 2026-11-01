@@ -21,9 +21,9 @@ import {
     salvarCacheReels,
     normalizarDadosReels,
     reelsSaoIguais,
-    pegarDominioAtualReels
+    pegarDominioAtualReels,
+    carregarImagemCacheReels
 } from "./cache";
-
 import "./reels.css";
 
 
@@ -580,7 +580,104 @@ function mesclarDadosReels(
 /* =========================================================
    COMPONENTE
 ========================================================= */
+// =====================================================
+// IMAGEM COM CACHE E CARREGAMENTO SOB DEMANDA
+// =====================================================
 
+function ImagemReelCacheada({
+    src,
+    ...props
+}) {
+
+    const imagemRef = useRef(null);
+
+    const [imagemCarregada, setImagemCarregada] = useState("");
+
+    useEffect(() => {
+
+        if (!src) {
+            setImagemCarregada("");
+            return;
+        }
+
+        let ativo = true;
+        let urlBlob = null;
+
+        async function carregar() {
+
+            const resultado = await carregarImagemCacheReels(src);
+
+            if (!ativo) {
+
+                if (resultado?.startsWith("blob:")) {
+                    URL.revokeObjectURL(resultado);
+                }
+
+                return;
+            }
+
+            if (resultado?.startsWith("blob:")) {
+                urlBlob = resultado;
+            }
+
+            setImagemCarregada(resultado);
+
+        }
+
+        const elemento = imagemRef.current;
+
+        let observador = null;
+
+        if ("IntersectionObserver" in window && elemento) {
+
+            observador = new IntersectionObserver(
+                entradas => {
+
+                    if (entradas.some(entrada => entrada.isIntersecting)) {
+
+                        observador.disconnect();
+
+                        carregar();
+
+                    }
+
+                },
+                {
+                    rootMargin: "300px"
+                }
+            );
+
+            observador.observe(elemento);
+
+        } else {
+
+            carregar();
+
+        }
+
+        return () => {
+
+            ativo = false;
+
+            observador?.disconnect();
+
+            if (urlBlob) {
+                URL.revokeObjectURL(urlBlob);
+            }
+
+        };
+
+    }, [src]);
+
+    return (
+        <img
+            ref={imagemRef}
+            src={imagemCarregada || undefined}
+            {...props}
+        />
+    );
+
+}
 export default function Reelslog() {
 
     const navigate =
@@ -595,7 +692,20 @@ export default function Reelslog() {
     /* =========================================================
 ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
 ========================================================= */
+    const [indicesImagens, setIndicesImagens] = useState({});
+    const [deslocamentoImagem, setDeslocamentoImagem] = useState(0);
+    const [transicaoImagem, setTransicaoImagem] = useState(false);
+    const [produtoArrastando, setProdutoArrastando] = useState(null);
+    const arrasteImagemRef = useRef({
+        inicioX: 0,
+        deslocamento: 0,
+        ativo: false,
+        produtoId: null,
+        largura: 0,
+        direcao: 0
+    });
 
+    const trilhoImagemRef = useRef(null);
     useEffect(() => {
 
         function pressionarTecla(
@@ -2127,73 +2237,260 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                 IMAGENS
                             ============================== */}
 
-                            <div className="ironstore-reels-vitrine-midia">
 
-                                {produto.imagens.map(
-                                    (
-                                        imagem,
-                                        imagemIndice
-                                    ) => (
 
-                                        <figure
-                                            key={`${produto.id}-${imagemIndice}`}
-                                            className={`
-                                                ironstore-reels-vitrine-imagem-quadro
-                                                ironstore-reels-vitrine-imagem-quadro--${imagemIndice + 1}
-                                            `}
-                                        >
 
-                                            <img
-                                                src={imagem}
-                                                alt={`${produto.nome} ${imagemIndice + 1}`}
-                                                loading={
-                                                    indice <= 1
-                                                        ? "eager"
-                                                        : "lazy"
-                                                }
-                                                onError={evento => {
-                                                    const quadroImagem =
-                                                        evento.currentTarget.closest(
-                                                            ".ironstore-reels-vitrine-imagem-quadro"
+                            {/* GALERIA PROFISSIONAL COM CARROSSEL E ARRASTE */}
+
+                            {(() => {
+                                const imagensProduto = Array.isArray(produto.imagens)
+                                    ? produto.imagens.filter(Boolean)
+                                    : [];
+
+                                const produtoId = String(produto.id);
+
+                                const indiceImagemAtual = Math.min(
+                                    indicesImagens[produtoId] || 0,
+                                    Math.max(imagensProduto.length - 1, 0)
+                                );
+
+                                const indiceAnterior = Math.max(indiceImagemAtual - 1, 0);
+                                const indiceProximo = Math.min(
+                                    indiceImagemAtual + 1,
+                                    imagensProduto.length - 1
+                                );
+
+                                function iniciarArraste(evento) {
+                                    if (
+                                        imagensProduto.length <= 1 ||
+                                        transicaoImagem
+                                    ) return;
+
+                                    evento.stopPropagation();
+
+                                    const largura = evento.currentTarget.clientWidth;
+
+                                    arrasteImagemRef.current = {
+                                        inicioX: evento.clientX,
+                                        deslocamento: 0,
+                                        ativo: true,
+                                        produtoId,
+                                        largura,
+                                        direcao: 0
+                                    };
+
+                                    arrasteImagemRef.current.direcao = 0;
+
+                                    setProdutoArrastando(produtoId);
+                                    setDeslocamentoImagem(0);
+                                }
+
+                                function moverArraste(evento) {
+                                    const arraste = arrasteImagemRef.current;
+
+                                    if (!arraste.ativo) return;
+
+                                    evento.stopPropagation();
+
+                                    let deslocamento =
+                                        evento.clientX - arraste.inicioX;
+
+                                    // Resistência nas extremidades do carrossel.
+                                    if (
+                                        (indiceImagemAtual === 0 && deslocamento > 0) ||
+                                        (
+                                            indiceImagemAtual === imagensProduto.length - 1 &&
+                                            deslocamento < 0
+                                        )
+                                    ) {
+                                        deslocamento *= 0.22;
+                                    }
+
+                                    arraste.deslocamento = deslocamento;
+
+                                    setDeslocamentoImagem(deslocamento);
+                                }
+
+                                function finalizarArraste(evento) {
+                                    const arraste = arrasteImagemRef.current;
+
+                                    if (!arraste.ativo) return;
+
+                                    evento.stopPropagation();
+
+                                    const deslocamento = arraste.deslocamento;
+                                    const limite = Math.max(55, arraste.largura * 0.17);
+
+                                    arraste.ativo = false;
+
+                                    if (
+                                        Math.abs(deslocamento) >= limite &&
+                                        (
+                                            (deslocamento < 0 && indiceImagemAtual < imagensProduto.length - 1) ||
+                                            (deslocamento > 0 && indiceImagemAtual > 0)
+                                        )
+                                    ) {
+                                        arraste.direcao = deslocamento < 0 ? 1 : -1;
+
+                                        setTransicaoImagem(true);
+
+                                        setDeslocamentoImagem(
+                                            arraste.direcao === 1
+                                                ? -arraste.largura
+                                                : arraste.largura
+                                        );
+
+                                        return;
+                                    }
+
+                                    // Retorna suavemente para a imagem original.
+                                    setTransicaoImagem(true);
+                                    setDeslocamentoImagem(0);
+                                }
+
+
+                                function concluirTransicao() {
+                                    const arraste = arrasteImagemRef.current;
+
+                                    // Só o carrossel que iniciou o movimento pode finalizá-lo.
+                                    if (
+                                        !transicaoImagem ||
+                                        produtoArrastando !== produtoId ||
+                                        arraste.produtoId !== produtoId
+                                    ) {
+                                        return;
+                                    }
+
+                                    const direcao = arraste.direcao;
+
+                                    if (direcao !== 0) {
+                                        setIndicesImagens(estado => {
+                                            const indiceAtual = estado[produtoId] || 0;
+
+                                            const novoIndice = Math.max(
+                                                0,
+                                                Math.min(
+                                                    indiceAtual + direcao,
+                                                    imagensProduto.length - 1
+                                                )
+                                            );
+
+                                            return {
+                                                ...estado,
+                                                [produtoId]: novoIndice
+                                            };
+                                        });
+                                    }
+
+                                    arrasteImagemRef.current.direcao = 0;
+                                    arrasteImagemRef.current.produtoId = null;
+
+                                    setDeslocamentoImagem(0);
+                                    setTransicaoImagem(false);
+                                    setProdutoArrastando(null);
+                                }
+
+
+                                function cancelarArraste(evento) {
+                                    if (!arrasteImagemRef.current.ativo) return;
+
+                                    evento.stopPropagation();
+
+                                    arrasteImagemRef.current.ativo = false;
+                                    arrasteImagemRef.current.direcao = 0;
+
+                                    setTransicaoImagem(true);
+                                    setDeslocamentoImagem(0);
+                                }
+
+                                const posicoes = [
+                                    indiceAnterior,
+                                    indiceImagemAtual,
+                                    indiceProximo
+                                ];
+
+                                return (
+                                    <div
+                                        className="ironstore-reels-vitrine-midia"
+                                        onClick={evento => evento.stopPropagation()}
+                                        onPointerDown={iniciarArraste}
+                                        onPointerMove={moverArraste}
+                                        onPointerUp={finalizarArraste}
+                                        onPointerCancel={cancelarArraste}
+                                        onLostPointerCapture={cancelarArraste}
+                                    >
+                                        {imagensProduto.length > 0 && (
+                                            <div
+                                                ref={trilhoImagemRef}
+                                                className={`ironstore-reels-carrossel-trilho ${transicaoImagem
+                                                    ? "ironstore-reels-carrossel-trilho--animando"
+                                                    : ""
+                                                    }`}
+                                                onTransitionEnd={evento => {
+                                                    if (
+                                                        evento.target !== evento.currentTarget ||
+                                                        evento.propertyName !== "transform" ||
+                                                        produtoArrastando !== produtoId
+                                                    ) {
+                                                        return;
+                                                    }
+
+                                                    concluirTransicao();
+                                                }}
+                                                style={{
+                                                    transform: `translate3d(calc(-33.333333% + ${produtoArrastando === produtoId
+                                                            ? deslocamentoImagem
+                                                            : 0
+                                                        }px), 0, 0)`,
+
+                                                    transition:
+                                                        produtoArrastando === produtoId && transicaoImagem
+                                                            ? "transform 420ms cubic-bezier(0.22, 1, 0.36, 1)"
+                                                            : "none"
+                                                }}
+                                            >
+                                                {posicoes.map((indiceImagem, posicao) => {
+                                                    const imagemValida =
+                                                        posicao === 1 ||
+                                                        (
+                                                            posicao === 0 &&
+                                                            indiceImagemAtual > 0
+                                                        ) ||
+                                                        (
+                                                            posicao === 2 &&
+                                                            indiceImagemAtual < imagensProduto.length - 1
                                                         );
 
-                                                    if (quadroImagem) {
-                                                        quadroImagem.style.display = "none";
-                                                    }
-                                                }}
-                                            />
+                                                    return (
+                                                        <div
+                                                            key={`${produtoId}-slide-${posicao}-${indiceImagem}`}
+                                                            className="ironstore-reels-carrossel-slide"
+                                                        >
+                                                            {imagemValida && (
+                                                                <ImagemReelCacheada
+                                                                    src={imagensProduto[indiceImagem]}
+                                                                    alt={`${produto.nome}, imagem ${indiceImagem + 1}`}
+                                                                    loading="eager"
+                                                                    draggable={false}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })()}
 
-                                        </figure>
 
-                                    )
-                                )}
-
-                                <div className="ironstore-reels-vitrine-sombra" />
-
-                            </div>
 
 
                             {/* =============================
                                 CONTADOR
                             ============================== */}
 
-                            <div className="ironstore-reels-vitrine-progresso">
 
-                                {produto.imagens.map(
-                                    (
-                                        _,
-                                        imagemIndice
-                                    ) => (
-
-                                        <span
-                                            key={imagemIndice}
-                                            className="ironstore-reels-vitrine-progresso-barra"
-                                        />
-
-                                    )
-                                )}
-
-                            </div>
 
 
                             {/* =============================
@@ -2354,7 +2651,7 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                 <div className="ironstore-reels-vitrine-loja">
 
                                     {comercio.imagem && (
-                                        <img
+                                        <ImagemReelCacheada
                                             src={comercio.imagem}
                                             alt={comercio.loja}
                                             className="ironstore-reels-vitrine-loja-logo"
@@ -2383,7 +2680,25 @@ ESC — VOLTAR PARA PÁGINA ANTERIOR NO COMPUTADOR
                                     </strong>
 
                                 </div>
+                                {/* INDICADORES DAS IMAGENS */}
 
+                                {produto.imagens?.filter(Boolean).length > 1 && (
+                                    <div className="ironstore-reels-vitrine-pontos-imagens">
+                                        {produto.imagens.filter(Boolean).map((_, imagemIndice) => (
+                                            <span
+                                                key={`${produto.id}-ponto-${imagemIndice}`}
+                                                className={`
+                    ironstore-reels-vitrine-ponto-imagem
+                    ${imagemIndice ===
+                                                        (indicesImagens[String(produto.id)] || 0)
+                                                        ? "ironstore-reels-vitrine-ponto-imagem--ativo"
+                                                        : ""
+                                                    }
+                `}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
                                 {/* NOME PRIMEIRO */}
                                 <h2 className="ironstore-reels-vitrine-produto-nome">
                                     {produto.nome}

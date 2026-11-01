@@ -1881,45 +1881,72 @@ export default function Header() {
                         </button>
 
                     )}
+                    {/* =============================================
+    CARRINHO OU LOGIN MOBILE
+============================================= */}
+
                     <button
-                        className="ironstore-header-acao-carrinho"
+                        className={`ironstore-header-acao-carrinho ${!clienteLogado
+                            ? "ironstore-header-carrinho-sem-login"
+                            : ""
+                            }`}
                         type="button"
-                        onClick={abrirCarrinho}
-                        aria-label="Abrir carrinho"
+                        onClick={clienteLogado ? abrirCarrinho : entrar}
+                        aria-label={
+                            clienteLogado
+                                ? "Abrir carrinho"
+                                : "Entrar para comprar"
+                        }
                     >
-                        <svg
-                            className="ironstore-header-icone-carrinho"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M3 4H5L7.2 14.2C7.4 15.1 8.2 15.7 9.1 15.7H17.4C18.3 15.7 19.1 15.1 19.3 14.2L21 7H6"
-                                stroke="currentColor"
-                                strokeWidth="1.8"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
+                        {clienteLogado ? (
+                            <>
+                                <svg
+                                    className="ironstore-header-icone-carrinho"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M3 4H5L7.2 14.2C7.4 15.1 8.2 15.7 9.1 15.7H17.4C18.3 15.7 19.1 15.1 19.3 14.2L21 7H6"
+                                        stroke="currentColor"
+                                        strokeWidth="1.8"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
 
-                            <circle
-                                cx="9.5"
-                                cy="19"
-                                r="1.25"
-                                fill="currentColor"
-                            />
+                                    <circle
+                                        cx="9.5"
+                                        cy="19"
+                                        r="1.25"
+                                        fill="currentColor"
+                                    />
 
-                            <circle
-                                cx="18"
-                                cy="19"
-                                r="1.25"
-                                fill="currentColor"
-                            />
-                        </svg>
+                                    <circle
+                                        cx="18"
+                                        cy="19"
+                                        r="1.25"
+                                        fill="currentColor"
+                                    />
+                                </svg>
 
-                        <span className="ironstore-header-texto-carrinho">
-                            Carrinho
-                        </span>
+                                <span className="ironstore-header-texto-carrinho">
+                                    Carrinho
+                                </span>
+                            </>
+                        ) : (
+                            <svg
+                                className="ironstore-header-icone-acessar-conta"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
+                            >
+                                <circle cx="10" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.8" />
+                                <path d="M3.5 20C3.5 16.4 6.4 13.5 10 13.5C12 13.5 13.8 14.4 14.9 15.8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                                <path d="M15 19H21M18 16L21 19L18 22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        )}
                     </button>
 
                     {/* MENU */}

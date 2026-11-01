@@ -1274,8 +1274,69 @@ export default function Apresentacao() {
 
 
 
-                            <h1>
-                                {mensagemAtual}
+                            <h1
+                                key={mensagemAtual}
+                                aria-label={mensagemAtual}
+                                className="ironstore-apresentacao-titulo-letras"
+                            >
+                                {mensagemAtual.split(/(\s+)/).map((parte, indicePalavra) => {
+                                    if (/^\s+$/.test(parte)) {
+                                        return parte;
+                                    }
+
+                                    const trajetorias = [
+                                        [-16, -20, -5],
+                                        [18, 14, 4],
+                                        [-13, 17, 3],
+                                        [15, -16, -4],
+                                        [0, 20, 5],
+                                        [-19, 5, -3],
+                                        [16, -18, 4],
+                                        [0, -15, -4],
+                                        [-12, 12, 3],
+                                        [14, 10, -3],
+                                        [-17, -9, 4],
+                                        [10, -14, -3]
+                                    ];
+
+                                    return (
+                                        <span
+                                            key={`${indicePalavra}-${parte}`}
+                                            className="ironstore-apresentacao-palavra-animada"
+                                        >
+                                            {Array.from(parte).map((letra, indiceLetra) => {
+                                                const indiceGlobal = indicePalavra * 12 + indiceLetra;
+                                                const [x, y, rotacao] =
+                                                    trajetorias[indiceGlobal % trajetorias.length];
+
+                                                const atraso =
+                                                    mensagemAtual.length > 1
+                                                        ? Math.round(
+                                                            (indiceGlobal /
+                                                                Math.max(mensagemAtual.length - 1, 1)) *
+                                                            180
+                                                        )
+                                                        : 0;
+
+                                                return (
+                                                    <span
+                                                        key={`${indiceLetra}-${letra}`}
+                                                        aria-hidden="true"
+                                                        className="ironstore-apresentacao-letra-animada"
+                                                        style={{
+                                                            "--letra-x": `${x}px`,
+                                                            "--letra-y": `${y}px`,
+                                                            "--letra-rotacao": `${rotacao}deg`,
+                                                            "--letra-atraso": `${atraso}ms`
+                                                        }}
+                                                    >
+                                                        {letra}
+                                                    </span>
+                                                );
+                                            })}
+                                        </span>
+                                    );
+                                })}
                             </h1>
 
                         </div>
