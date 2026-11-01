@@ -203,166 +203,118 @@ export default function ProdutoAtual() {
        CARREGAR PRODUTO
     ===================================================== */
 
+
     useEffect(() => {
-
-        let ativo =
-            true;
-
+        let ativo = true;
 
         async function carregarProduto() {
-
             if (!produtoId) {
-
-                setErro(
-                    "Produto não identificado."
-                );
-
+                setErro("Produto não identificado.");
                 setCarregando(false);
-
                 return;
-
             }
 
+            const dominio = pegarDominioAtualProduto();
 
-            const dominio =
-                pegarDominioAtualProduto();
+            // Não exibir dados antigos enquanto consulta o backend.
+            setDados(null);
+            setCarregando(true);
+            setErro("");
+            setAdicionado(false);
+            setSeguimentoCarrinhoId(null);
 
+            try {
+                const token = localStorage.getItem(
+                    "ironstore_cliente_token"
+                );
 
-            /* =============================================
-               CACHE PRIMEIRO
-            ============================================= */
+                const headers = {
+                    "X-IronStore-Key": IRONSTORE_APP_KEY_GERAL,
+                    "X-IronStore-Domain": dominio
+                };
 
-            const cache =
-                lerCacheProdutoAtual(
+                if (token) {
+                    headers.Authorization = `Bearer ${token}`;
+                }
+
+                // PRIMEIRO: consultar o backend.
+                const resposta = await fetch(
+                    `${API_URL}/ironstore/produto/${encodeURIComponent(produtoId)}`,
+                    {
+                        method: "GET",
+                        headers,
+                        cache: "no-store"
+                    }
+                );
+
+                let resultado = null;
+
+                try {
+                    resultado = await resposta.json();
+                } catch {
+                    resultado = null;
+                }
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        resultado?.detail ||
+                        "Não foi possível carregar o produto."
+                    );
+                }
+
+                if (!resultado?.produto) {
+                    throw new Error("Produto não encontrado.");
+                }
+
+                if (!ativo) return;
+
+                // SOMENTE DEPOIS DA RESPOSTA DO BACKEND:
+                // consultar o cache para comparar os dados.
+                const cache = lerCacheProdutoAtual(
                     dominio,
                     produtoId
                 );
 
-
-            if (
-                ativo &&
-                cache
-            ) {
-
-                setDados(
-                    cache
+                const igual = produtoAtualIgual(
+                    cache,
+                    resultado
                 );
+
+                if (!igual) {
+                    salvarCacheProdutoAtual(
+                        dominio,
+                        produtoId,
+                        resultado
+                    );
+                }
+
+                // O backend sempre fornece os dados exibidos.
+                setDados(resultado);
+
                 setAdicionado(
-                    Boolean(
-                        cache?.no_carrinho
-                    )
+                    Boolean(resultado?.no_carrinho)
                 );
 
                 setSeguimentoCarrinhoId(
-                    cache?.seguimento_carrinho_id ||
-                    null
-                );
-                setCarregando(
-                    false
+                    resultado?.seguimento_carrinho_id || null
                 );
 
-            } else {
-
-                setCarregando(
-                    true
-                );
-
-            }
-
-
-            setErro("");
-
-
-            try {
-
-                const token =
-                    localStorage.getItem(
-                        "ironstore_cliente_token"
-                    );
-
-
-                const headers = {
-
-                    "X-IronStore-Key":
-                        IRONSTORE_APP_KEY_GERAL,
-
-                    "X-IronStore-Domain":
-                        dominio
-
-                };
-
-
-                /*
-                 * TOKEN É OPCIONAL.
-                 *
-                 * Produto continua público.
-                 * Se existir token, backend poderá
-                 * registrar o visto.
-                 */
-
+                // Registrar produto visualizado.
                 if (token) {
-
-                    headers.Authorization =
-                        `Bearer ${token}`;
-
-                }
-
-
-                const resposta =
-                    await fetch(
-                        `${API_URL}/ironstore/produto/${encodeURIComponent(
-                            produtoId
-                        )}`,
-                        {
-                            method:
-                                "GET",
-
-                            headers
-                        }
-                    );
-
-                /* =========================================
-                   ABRIU PRODUTO -> REGISTRAR VISTO
-                ========================================= */
-                /* =========================================
-                   ABRIU PRODUTO -> REGISTRAR VISTO
-                ========================================= */
-
-                if (token) {
-
-                    console.log(
-                        "[VISTO] CHAMANDO ROTA",
-                        produtoId
-                    );
-
                     try {
-
-                        const respostaVisto =
-                            await fetch(
-                                `${API_URL}/ironstore/produto/${encodeURIComponent(
-                                    produtoId
-                                )}/visto`,
-                                {
-                                    method: "POST",
-
-                                    headers: {
-
-                                        "X-IronStore-Key":
-                                            IRONSTORE_APP_KEY_GERAL,
-
-                                        "X-IronStore-Domain":
-                                            dominio,
-
-                                        "Authorization":
-                                            `Bearer ${token}`
-                                    }
+                        const respostaVisto = await fetch(
+                            `${API_URL}/ironstore/produto/${encodeURIComponent(produtoId)}/visto`,
+                            {
+                                method: "POST",
+                                headers: {
+                                    "X-IronStore-Key": IRONSTORE_APP_KEY_GERAL,
+                                    "X-IronStore-Domain": dominio,
+                                    Authorization: `Bearer ${token}`
                                 }
-                            );
+                            }
+                        );
 
-
-                        const textoVisto =
-                            await respostaVisto.text();
-
+                        const textoVisto = await respostaVisto.text();
 
                         console.log(
                             "[VISTO] STATUS:",
@@ -374,152 +326,56 @@ export default function ProdutoAtual() {
                             textoVisto
                         );
 
-
                         if (!respostaVisto.ok) {
-
                             throw new Error(
                                 `Erro ${respostaVisto.status}: ${textoVisto}`
                             );
-
                         }
-
                     } catch (erroVisto) {
-
-                        console.error(
-                            "[VISTO] ERRO:",
-                            erroVisto
-                        );
-
+                        console.error("[VISTO] ERRO:", erroVisto);
                     }
-
-                } else {
-
-                    console.log(
-                        "[VISTO] NÃO CHAMOU: não existe ironstore_cliente_token"
-                    );
-
                 }
-                let resultado =
-                    null;
-
-
-                try {
-
-                    resultado =
-                        await resposta.json();
-
-                } catch {
-
-                    resultado =
-                        null;
-
-                }
-
-
-                if (!resposta.ok) {
-
-                    throw new Error(
-                        resultado?.detail ||
-                        "Não foi possível carregar o produto."
-                    );
-
-                }
-
-
-                if (
-                    !resultado?.produto
-                ) {
-
-                    throw new Error(
-                        "Produto não encontrado."
-                    );
-
-                }
-
-
-                /* =========================================
-                   COMPARAR CACHE
-                ========================================= */
-
-                const igual =
-                    produtoAtualIgual(
-                        cache,
-                        resultado
-                    );
-
-
-                if (!igual) {
-
-                    salvarCacheProdutoAtual(
-                        dominio,
-                        produtoId,
-                        resultado
-                    );
-
-                }
-
-
-                /* =========================================
-                   SERVIDOR É A VERDADE FINAL
-                ========================================= */
-
-                if (ativo) {
-
-                    setDados(
-                        resultado
-                    );
-                    setAdicionado(
-                        Boolean(
-                            resultado?.no_carrinho
-                        )
-                    );
-
-                    setSeguimentoCarrinhoId(
-                        resultado?.seguimento_carrinho_id ||
-                        null
-                    );
-                }
-
-
             } catch (erroCarregar) {
-
                 console.error(
                     "[PRODUTO ATUAL]",
                     erroCarregar
                 );
 
+                if (!ativo) return;
 
-                /*
-                 * Se já temos cache, continua mostrando.
-                 */
+                // O backend terminou a tentativa e falhou.
+                // Somente agora podemos recorrer ao cache.
+                const cache = lerCacheProdutoAtual(
+                    dominio,
+                    produtoId
+                );
 
-                if (
-                    ativo &&
-                    !cache
-                ) {
+                if (cache?.produto) {
+                    console.warn(
+                        "[PRODUTO ATUAL] Utilizando cache como alternativa."
+                    );
 
+                    setDados(cache);
+
+                    setAdicionado(
+                        Boolean(cache?.no_carrinho)
+                    );
+
+                    setSeguimentoCarrinhoId(
+                        cache?.seguimento_carrinho_id || null
+                    );
+                } else {
                     setErro(
                         erroCarregar?.message ||
                         "Não foi possível carregar o produto."
                     );
-
                 }
-
-
             } finally {
-
                 if (ativo) {
-
-                    setCarregando(
-                        false
-                    );
-
+                    setCarregando(false);
                 }
-
             }
-
         }
-
 
         setQuantidade(1);
 
@@ -533,17 +389,11 @@ export default function ProdutoAtual() {
 
         carregarProduto();
 
-
         return () => {
-
-            ativo =
-                false;
-
+            ativo = false;
         };
+    }, [produtoId]);
 
-    }, [
-        produtoId
-    ]);
 
     /* =====================================================
        VERIFICAR CARRINHO DA VARIEDADE SELECIONADA
@@ -904,44 +754,36 @@ export default function ProdutoAtual() {
        Ao selecionar, atualiza a URL para o ID dela.
     ===================================================== */
 
-    function escolherVariedade(
-        variedade
-    ) {
 
+    function escolherVariedade(variedade) {
         if (!variedade?.id) {
             return;
         }
 
-
-        const novoProdutoId =
-            Number(
-                variedade.id
-            );
-
+        const novoProdutoId = Number(variedade.id);
+        const produtoAtualId = Number(produtoId);
 
         if (
-            novoProdutoId ===
-            Number(produtoId)
+            !Number.isFinite(novoProdutoId) ||
+            novoProdutoId <= 0
         ) {
             return;
         }
 
+        // Não recarregar se já estiver nessa variedade.
+        if (novoProdutoId === produtoAtualId) {
+            return;
+        }
 
-        setVariedadeSelecionadaId(
-            novoProdutoId
-        );
+        // Impede novos cliques durante a navegação.
+        if (window.location.pathname === `/produtos/${novoProdutoId}`) {
+            return;
+        }
 
-
-        setQuantidade(1);
-
-        setErro("");
-
-
-        navigate(
-            `/produtos/${novoProdutoId}`
-        );
-
+        // Atualiza a página inteira usando o ID da variedade.
+        window.location.assign(`/produtos/${novoProdutoId}`);
     }
+
     async function salvarQuantidade(
         novaQuantidade
     ) {
