@@ -5103,6 +5103,18 @@ span + span::before {
     display: block;
     flex-shrink: 0;
 }
+    /* =====================================================
+   MENU RESPONSIVO ABAIXO DE 550PX
+   O BOTÃO NORMAL NÃO DEVE APARECER
+===================================================== */
+
+@media (max-width: 549.98px) {
+
+    .ironstore-header-acao-menu {
+        display: none !important;
+    }
+
+}
 `;
 
 export default classicoHeader;
