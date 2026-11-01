@@ -13,12 +13,15 @@ import {
     API_URL
 } from "../../../../config";
 
+
 import {
     pegarDominioAtualProduto,
     lerCacheProdutoAtual,
     salvarCacheProdutoAtual,
-    produtoAtualIgual
+    produtoAtualIgual,
+    obterImagemCacheada
 } from "./cache";
+
 
 import classicoProdutos
     from "../../../../modelos/classico/produtos/classico_produtos";
@@ -204,6 +207,7 @@ export default function ProdutoAtual() {
     ===================================================== */
 
 
+
     useEffect(() => {
         let ativo = true;
 
@@ -216,12 +220,34 @@ export default function ProdutoAtual() {
 
             const dominio = pegarDominioAtualProduto();
 
-            // Não exibir dados antigos enquanto consulta o backend.
-            setDados(null);
+            const cache = lerCacheProdutoAtual(
+                dominio,
+                produtoId
+            );
+
             setCarregando(true);
             setErro("");
             setAdicionado(false);
             setSeguimentoCarrinhoId(null);
+
+            /*
+             * PRIMEIRO: EXIBIR O CACHE IMEDIATAMENTE.
+             * O backend será consultado em seguida.
+             */
+
+            if (cache?.produto) {
+                setDados(cache);
+
+                setAdicionado(
+                    Boolean(cache?.no_carrinho)
+                );
+
+                setSeguimentoCarrinhoId(
+                    cache?.seguimento_carrinho_id || null
+                );
+            } else {
+                setDados(null);
+            }
 
             try {
                 const token = localStorage.getItem(
@@ -237,7 +263,10 @@ export default function ProdutoAtual() {
                     headers.Authorization = `Bearer ${token}`;
                 }
 
-                // PRIMEIRO: consultar o backend.
+                /*
+                 * CONSULTAR BACKEND EM SEGUNDO PLANO.
+                 */
+
                 const resposta = await fetch(
                     `${API_URL}/ironstore/produto/${encodeURIComponent(produtoId)}`,
                     {
@@ -268,19 +297,16 @@ export default function ProdutoAtual() {
 
                 if (!ativo) return;
 
-                // SOMENTE DEPOIS DA RESPOSTA DO BACKEND:
-                // consultar o cache para comparar os dados.
-                const cache = lerCacheProdutoAtual(
-                    dominio,
-                    produtoId
-                );
+                /*
+                 * ATUALIZAR O CACHE COM OS DADOS MAIS RECENTES.
+                 */
 
-                const igual = produtoAtualIgual(
+                const dadosIguais = produtoAtualIgual(
                     cache,
                     resultado
                 );
 
-                if (!igual) {
+                if (!dadosIguais) {
                     salvarCacheProdutoAtual(
                         dominio,
                         produtoId,
@@ -288,7 +314,10 @@ export default function ProdutoAtual() {
                     );
                 }
 
-                // O backend sempre fornece os dados exibidos.
+                /*
+                 * ATUALIZAR A TELA COM O BACKEND.
+                 */
+
                 setDados(resultado);
 
                 setAdicionado(
@@ -299,42 +328,26 @@ export default function ProdutoAtual() {
                     resultado?.seguimento_carrinho_id || null
                 );
 
-                // Registrar produto visualizado.
+                /*
+                 * REGISTRAR VISUALIZAÇÃO SEM BLOQUEAR A TELA.
+                 */
+
                 if (token) {
-                    try {
-                        const respostaVisto = await fetch(
-                            `${API_URL}/ironstore/produto/${encodeURIComponent(produtoId)}/visto`,
-                            {
-                                method: "POST",
-                                headers: {
-                                    "X-IronStore-Key": IRONSTORE_APP_KEY_GERAL,
-                                    "X-IronStore-Domain": dominio,
-                                    Authorization: `Bearer ${token}`
-                                }
+                    fetch(
+                        `${API_URL}/ironstore/produto/${encodeURIComponent(produtoId)}/visto`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "X-IronStore-Key": IRONSTORE_APP_KEY_GERAL,
+                                "X-IronStore-Domain": dominio,
+                                Authorization: `Bearer ${token}`
                             }
-                        );
-
-                        const textoVisto = await respostaVisto.text();
-
-                        console.log(
-                            "[VISTO] STATUS:",
-                            respostaVisto.status
-                        );
-
-                        console.log(
-                            "[VISTO] RESPOSTA:",
-                            textoVisto
-                        );
-
-                        if (!respostaVisto.ok) {
-                            throw new Error(
-                                `Erro ${respostaVisto.status}: ${textoVisto}`
-                            );
                         }
-                    } catch (erroVisto) {
-                        console.error("[VISTO] ERRO:", erroVisto);
-                    }
+                    ).catch(erro => {
+                        console.error("[VISTO] ERRO:", erro);
+                    });
                 }
+
             } catch (erroCarregar) {
                 console.error(
                     "[PRODUTO ATUAL]",
@@ -343,33 +356,18 @@ export default function ProdutoAtual() {
 
                 if (!ativo) return;
 
-                // O backend terminou a tentativa e falhou.
-                // Somente agora podemos recorrer ao cache.
-                const cache = lerCacheProdutoAtual(
-                    dominio,
-                    produtoId
-                );
+                /*
+                 * SE O CACHE JÁ FOI EXIBIDO,
+                 * MANTER O PRODUTO NA TELA.
+                 */
 
-                if (cache?.produto) {
-                    console.warn(
-                        "[PRODUTO ATUAL] Utilizando cache como alternativa."
-                    );
-
-                    setDados(cache);
-
-                    setAdicionado(
-                        Boolean(cache?.no_carrinho)
-                    );
-
-                    setSeguimentoCarrinhoId(
-                        cache?.seguimento_carrinho_id || null
-                    );
-                } else {
+                if (!cache?.produto) {
                     setErro(
                         erroCarregar?.message ||
                         "Não foi possível carregar o produto."
                     );
                 }
+
             } finally {
                 if (ativo) {
                     setCarregando(false);
@@ -378,9 +376,7 @@ export default function ProdutoAtual() {
         }
 
         setQuantidade(1);
-
         setAdicionado(false);
-
         setSeguimentoCarrinhoId(null);
 
         setVariedadeSelecionadaId(
@@ -393,6 +389,7 @@ export default function ProdutoAtual() {
             ativo = false;
         };
     }, [produtoId]);
+
 
 
     /* =====================================================
@@ -606,6 +603,55 @@ export default function ProdutoAtual() {
             ]
         );
 
+    const [imagensExibicao, setImagensExibicao] = useState([]);
+
+    useEffect(() => {
+        let ativo = true;
+        const urlsCriadas = [];
+
+        setImagensExibicao([]);
+
+        async function carregarImagens() {
+            if (!imagens.length) {
+                return;
+            }
+
+            const imagensCarregadas = await Promise.all(
+                imagens.map(async imagem => {
+                    const imagemCacheada = await obterImagemCacheada(
+                        imagem
+                    );
+
+                    const resultado = imagemCacheada || imagem;
+
+                    if (resultado.startsWith("blob:")) {
+                        urlsCriadas.push(resultado);
+                    }
+
+                    return resultado;
+                })
+            );
+
+            if (ativo) {
+                setImagensExibicao(imagensCarregadas);
+            } else {
+                urlsCriadas.forEach(url => {
+                    URL.revokeObjectURL(url);
+                });
+            }
+        }
+
+        carregarImagens();
+
+        return () => {
+            ativo = false;
+
+            urlsCriadas.forEach(url => {
+                URL.revokeObjectURL(url);
+            });
+        };
+    }, [imagens]);
+
 
     const [
         imagemAtual,
@@ -755,6 +801,7 @@ export default function ProdutoAtual() {
     ===================================================== */
 
 
+
     function escolherVariedade(variedade) {
         if (!variedade?.id) {
             return;
@@ -765,24 +812,15 @@ export default function ProdutoAtual() {
 
         if (
             !Number.isFinite(novoProdutoId) ||
-            novoProdutoId <= 0
+            novoProdutoId <= 0 ||
+            novoProdutoId === produtoAtualId
         ) {
             return;
         }
 
-        // Não recarregar se já estiver nessa variedade.
-        if (novoProdutoId === produtoAtualId) {
-            return;
-        }
-
-        // Impede novos cliques durante a navegação.
-        if (window.location.pathname === `/produtos/${novoProdutoId}`) {
-            return;
-        }
-
-        // Atualiza a página inteira usando o ID da variedade.
-        window.location.assign(`/produtos/${novoProdutoId}`);
+        navigate(`/produtos/${novoProdutoId}`);
     }
+
 
     async function salvarQuantidade(
         novaQuantidade
@@ -1410,14 +1448,9 @@ export default function ProdutoAtual() {
 
                         <div className="ironstore-produto-atual-imagem-principal">
 
-                            {imagens.length > 0 ? (
-
+                            {imagensExibicao.length > 0 ? (
                                 <img
-                                    src={
-                                        imagens[
-                                        imagemAtual
-                                        ]
-                                    }
+                                    src={imagensExibicao[imagemAtual]}
                                     alt={
                                         produto.nome
                                     }
@@ -1434,42 +1467,40 @@ export default function ProdutoAtual() {
                         </div>
 
 
-                        {imagens.length > 1 && (
-
+                        {imagensExibicao.length > 1 && (
                             <div className="ironstore-produto-atual-miniaturas">
 
-                                {imagens.map(
-                                    (
-                                        imagem,
-                                        index
-                                    ) => (
+                                {imagensExibicao.map((
+                                    imagem,
+                                    index
+                                ) => (
 
-                                        <button
-                                            key={
-                                                `${imagem}-${index}`
+                                    <button
+                                        key={
+                                            `${imagem}-${index}`
+                                        }
+                                        type="button"
+                                        className={
+                                            imagemAtual === index
+                                                ? "ativo"
+                                                : ""
+                                        }
+                                        onClick={
+                                            () =>
+                                                setImagemAtual(
+                                                    index
+                                                )
+                                        }
+                                    >
+                                        <img
+                                            src={
+                                                imagem
                                             }
-                                            type="button"
-                                            className={
-                                                imagemAtual === index
-                                                    ? "ativo"
-                                                    : ""
-                                            }
-                                            onClick={
-                                                () =>
-                                                    setImagemAtual(
-                                                        index
-                                                    )
-                                            }
-                                        >
-                                            <img
-                                                src={
-                                                    imagem
-                                                }
-                                                alt=""
-                                            />
-                                        </button>
+                                            alt=""
+                                        />
+                                    </button>
 
-                                    )
+                                )
                                 )}
 
                             </div>
