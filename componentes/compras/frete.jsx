@@ -486,12 +486,37 @@ export default function Frete({
                    OPÇÕES
                 ========================================= */
 
-                const novasOpcoes =
-                    Array.isArray(
-                        resultado?.opcoes
-                    )
+                const servicosBloqueados = [
+                    "standard jet",
+                    "standartd jet",
+                    "éfacil",
+                    "efacil",
+                    "total express",
+                    "e-commerce",
+                    "ecommerce",
+                    "expreso"
+                ];
+
+                const normalizarNome = (texto) =>
+                    String(texto || "")
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]/g, "");
+
+                const novasOpcoes = (
+                    Array.isArray(resultado?.opcoes)
                         ? resultado.opcoes
-                        : [];
+                        : []
+                ).filter((opcao) => {
+                    const nome = normalizarNome(
+                        `${opcao.nome || ""} ${opcao.empresa || ""}`
+                    );
+
+                    return !servicosBloqueados.some((servico) =>
+                        nome.includes(normalizarNome(servico))
+                    );
+                });
 
 
                 setOpcoes(
@@ -923,6 +948,30 @@ export default function Frete({
                             opcoes.map(
                                 opcao => {
 
+                                    const nomeFrete = `${opcao.nome || ""} ${opcao.empresa || ""}`
+                                        .normalize("NFD")
+                                        .replace(/[\u0300-\u036f]/g, "")
+                                        .toLowerCase()
+                                        .replace(/[^a-z0-9]/g, "");
+
+                                    const transportadorasBloqueadas = [
+                                        "standardjet",
+                                        "standartdjet",
+                                        "efacil",
+                                        "totalexpress",
+                                        "ecommerce",
+                                        "expreso",
+                                        "expressloggi"
+                                    ];
+
+                                    if (
+                                        transportadorasBloqueadas.some(
+                                            nome => nomeFrete.includes(nome)
+                                        )
+                                    ) {
+                                        return null;
+                                    }
+
                                     const selecionada =
                                         String(
                                             opcaoSelecionada?.id
@@ -931,29 +980,21 @@ export default function Frete({
                                             opcao.id
                                         );
 
-
                                     return (
 
                                         <button
-                                            key={
-                                                opcao.id
-                                            }
+                                            key={opcao.id}
                                             type="button"
-                                            className={
-                                                [
-                                                    "ironstore-frete-opcao",
+                                            className={[
+                                                "ironstore-frete-opcao",
 
-                                                    selecionada
-                                                        ? "selecionada"
-                                                        : ""
+                                                selecionada
+                                                    ? "selecionada"
+                                                    : ""
 
-                                                ]
-                                                    .filter(
-                                                        Boolean
-                                                    )
-                                                    .join(
-                                                        " "
-                                                    )
+                                            ]
+                                                .filter(Boolean)
+                                                .join(" ")
                                             }
                                             onClick={
                                                 () =>
@@ -966,23 +1007,19 @@ export default function Frete({
                                             <div className="ironstore-frete-opcao-info">
 
                                                 <strong>
-
                                                     {
                                                         opcao.nome ||
                                                         "Entrega"
                                                     }
-
                                                 </strong>
 
                                                 {
                                                     opcao.empresa && (
 
                                                         <small>
-
                                                             {
                                                                 opcao.empresa
                                                             }
-
                                                         </small>
 
                                                     )
@@ -992,7 +1029,6 @@ export default function Frete({
                                                     opcao.prazo && (
 
                                                         <span>
-
                                                             Entrega em{" "}
 
                                                             {
@@ -1013,7 +1049,6 @@ export default function Frete({
                                                 }
 
                                             </div>
-
 
                                             <strong className="ironstore-frete-opcao-preco">
 
