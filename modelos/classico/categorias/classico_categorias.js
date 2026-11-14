@@ -7751,20 +7751,55 @@ border-radius: 40px;
 /* =========================================================
    CELULAR
 ========================================================= */
+/* =========================================================
+   CELULARES
+========================================================= */
+/* =========================================================
+   CELULARES
+========================================================= */
 
 @media (max-width: 600px) {
     .ironstore-catimg-v2-vitrine {
+        width: 100%;
+        max-width: 100%;
         margin-bottom: 22px;
     }
 
     .ironstore-catimg-v2-grid {
-        gap: 11px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
         justify-content: center;
+        gap: 11px;
+        width: 100%;
     }
 
     .ironstore-catimg-v2-card {
-        height: clamp(125px, 34vw, 165px);
+        display: block;
+        flex: 0 0 auto;
+        width: 90vw;
+        max-width: 90vw;
+        height: auto;
+        min-height: 0;
+        aspect-ratio: auto;
         border-radius: 12px;
+    }
+
+    .ironstore-catimg-v2-imagem {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .ironstore-catimg-v2-imagem img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        max-height: none;
+        object-fit: contain;
     }
 
     .ironstore-catimg-v2-nome {
@@ -7784,6 +7819,7 @@ border-radius: 40px;
     .ironstore-catimg-v2-card.iron-catimg-logo
     .ironstore-catimg-v2-imagem img {
         padding: 8%;
+        box-sizing: border-box;
     }
 }
 
@@ -7797,17 +7833,14 @@ border-radius: 40px;
     }
 
     .ironstore-catimg-v2-card {
-        height: 125px;
+        width: 90vw;
+        max-width: 90vw;
     }
 
     .ironstore-catimg-v2-nome {
         font-size: 11px;
     }
 }
-
-
-
-
 `;
 
 export default classicoCategorias;
