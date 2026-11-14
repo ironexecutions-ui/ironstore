@@ -6862,6 +6862,562 @@ border-radius: 40px;
     }
 
 }
+
+
+/* ============================================================
+   IRONSTORE
+   VITRINE PREMIUM DE CATEGORIAS
+   Visual sofisticado, profundidade e microinterações
+============================================================ */
+
+.ironstore-categorias-classico-vitrine {
+    --iron-vitrine-borda: rgba(255, 255, 255, 0.48);
+    --iron-vitrine-sombra: rgba(15, 23, 42, 0.12);
+    --iron-vitrine-texto: #ffffff;
+
+    width: 100%;
+    margin: 0 0 30px;
+    box-sizing: border-box;
+}
+
+.ironstore-categorias-classico-vitrine-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 17px;
+    align-items: stretch;
+}
+
+
+/* ============================================================
+   CARD
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-card {
+    position: relative;
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1.32 / 1;
+
+    padding: 0;
+    overflow: hidden;
+    isolation: isolate;
+
+    border: 1px solid var(--iron-vitrine-borda);
+    border-radius: 17px;
+
+    background: #e9edf2;
+    text-align: left;
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(15, 23, 42, 0.035),
+        0 7px 18px rgba(15, 23, 42, 0.055),
+        0 18px 35px rgba(15, 23, 42, 0.035);
+
+    transition:
+        transform 420ms cubic-bezier(.2, .8, .2, 1),
+        box-shadow 420ms ease,
+        border-color 350ms ease,
+        filter 350ms ease,
+        border-radius 350ms ease;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* ============================================================
+   CAMADA DE LUZ SUPERIOR
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 4;
+
+    border-radius: inherit;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.22),
+            transparent 35%,
+            transparent 75%,
+            rgba(255, 255, 255, 0.08)
+        );
+
+    opacity: 0.55;
+
+    transition: opacity 350ms ease;
+}
+
+
+/* ============================================================
+   IMAGEM
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-imagem {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f1f4f8,
+            #dfe5ec
+        );
+}
+
+.ironstore-categorias-classico-vitrine-imagem img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transform: scale(1.001);
+
+    transition:
+        transform 850ms cubic-bezier(.16, 1, .3, 1),
+        filter 650ms ease,
+        opacity 400ms ease;
+}
+
+
+/* ============================================================
+   LOGO DA EMPRESA
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-card.com-logo
+.ironstore-categorias-classico-vitrine-imagem {
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            #ffffff 0%,
+            #f8fafc 45%,
+            #e9eef4 100%
+        );
+}
+
+.ironstore-categorias-classico-vitrine-card.com-logo
+.ironstore-categorias-classico-vitrine-imagem img {
+    object-fit: contain;
+    padding: 19%;
+    box-sizing: border-box;
+    filter: saturate(.94);
+    transition:
+        transform 700ms cubic-bezier(.16, 1, .3, 1),
+        filter 400ms ease;
+}
+
+
+/* ============================================================
+   SOMBREAMENTO CINEMATOGRÁFICO
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-sombra {
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+
+    display: block;
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(15, 23, 42, 0.08) 0%,
+            transparent 27%,
+            rgba(15, 23, 42, 0.10) 48%,
+            rgba(15, 23, 42, 0.48) 76%,
+            rgba(15, 23, 42, 0.84) 100%
+        );
+
+    transition:
+        background 450ms ease,
+        opacity 350ms ease;
+}
+
+
+/* ============================================================
+   NOME DA CATEGORIA
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-nome {
+    position: absolute;
+
+    left: 16px;
+    right: 58px;
+    bottom: 16px;
+
+    z-index: 2;
+
+    display: block;
+
+    width: auto;
+    max-width: calc(100% - 74px);
+
+    overflow: hidden;
+    container-type: inline-size;
+
+    color: var(--iron-vitrine-texto);
+
+    font-family: inherit;
+
+    font-size:
+        clamp(
+            8px,
+            calc(
+                180cqw /
+                var(--ironstore-categoria-caracteres)
+            ),
+            15px
+        );
+
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+
+    white-space: nowrap;
+    text-overflow: clip;
+
+    text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.22),
+        0 3px 9px rgba(0, 0, 0, 0.24);
+
+    pointer-events: none;
+
+    transition:
+        transform 350ms ease,
+        letter-spacing 350ms ease,
+        opacity 350ms ease;
+}
+
+
+/* ============================================================
+   SETA
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-seta {
+    position: absolute;
+
+    top: 13px;
+    right: 13px;
+
+    z-index: 3;
+
+    display: grid;
+
+    width: 36px;
+    height: 36px;
+
+    place-items: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.19);
+
+    color: #000272;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 3px 10px rgba(15, 23, 42, 0.08),
+        inset 0 1px 1px rgba(255, 255, 255, 0.20);
+
+    transition:
+        background 350ms ease,
+        color 350ms ease,
+        border-color 350ms ease,
+        transform 450ms cubic-bezier(.2, .8, .2, 1),
+        box-shadow 350ms ease;
+}
+
+
+/* ============================================================
+   HOVER PREMIUM
+============================================================ */
+
+@media (hover: hover) {
+
+    .ironstore-categorias-classico-vitrine-card:hover {
+        transform: translateY(-6px) scale(1.012);
+
+        border-color: rgba(255, 255, 255, 0.92);
+
+        box-shadow:
+            0 5px 12px rgba(15, 23, 42, 0.045),
+            0 15px 30px rgba(15, 23, 42, 0.12),
+            0 25px 50px rgba(15, 23, 42, 0.08);
+    }
+
+    .ironstore-categorias-classico-vitrine-card:hover::before {
+        opacity: 1;
+    }
+
+    .ironstore-categorias-classico-vitrine-card:hover
+    .ironstore-categorias-classico-vitrine-imagem img {
+        transform: scale(1.09);
+        filter: saturate(1.13) contrast(1.025);
+    }
+
+    .ironstore-categorias-classico-vitrine-card:hover
+    .ironstore-categorias-classico-vitrine-sombra {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(15, 23, 42, 0.02) 0%,
+                transparent 30%,
+                rgba(15, 23, 42, 0.15) 55%,
+                rgba(15, 23, 42, 0.90) 100%
+            );
+    }
+
+    .ironstore-categorias-classico-vitrine-card:hover
+    .ironstore-categorias-classico-vitrine-nome {
+        transform: translateY(-2px);
+        letter-spacing: -0.025em;
+    }
+
+    .ironstore-categorias-classico-vitrine-card:hover
+    .ironstore-categorias-classico-vitrine-seta {
+        background: rgba(255, 255, 255, 0.96);
+        border-color: #ffffff;
+        color: #172033;
+
+        transform: translateX(3px) rotate(0deg);
+
+        box-shadow:
+            0 5px 15px rgba(15, 23, 42, 0.12);
+    }
+
+}
+
+
+/* ============================================================
+   CATEGORIA SELECIONADA
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-card.selecionada {
+    border: 1px solid rgba(255, 255, 255, 0.95);
+
+    box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.42),
+        0 8px 22px rgba(15, 23, 42, 0.13),
+        0 15px 35px rgba(15, 23, 42, 0.07);
+}
+
+.ironstore-categorias-classico-vitrine-card.selecionada
+.ironstore-categorias-classico-vitrine-seta {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #172033;
+}
+
+
+/* ============================================================
+   CLIQUE
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-card:active {
+    transform: scale(.975);
+    box-shadow:
+        0 2px 7px rgba(15, 23, 42, 0.10);
+}
+
+
+/* ============================================================
+   ACESSIBILIDADE
+============================================================ */
+
+.ironstore-categorias-classico-vitrine-card:focus {
+    outline: none;
+}
+
+.ironstore-categorias-classico-vitrine-card:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.95);
+    outline-offset: 4px;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1050px) {
+
+    .ironstore-categorias-classico-vitrine-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .ironstore-categorias-classico-vitrine {
+        margin-bottom: 23px;
+    }
+
+    .ironstore-categorias-classico-vitrine-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+    }
+
+    .ironstore-categorias-classico-vitrine-card {
+        aspect-ratio: 1.20 / 1;
+        border-radius: 13px;
+    }
+
+    .ironstore-categorias-classico-vitrine-nome {
+        left: 11px;
+        right: 43px;
+        bottom: 12px;
+        max-width: calc(100% - 54px);
+    }
+
+    .ironstore-categorias-classico-vitrine-seta {
+        top: 9px;
+        right: 9px;
+        width: 29px;
+        height: 29px;
+    }
+
+    .ironstore-categorias-classico-vitrine-seta svg {
+        width: 14px;
+        height: 14px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE PEQUENO
+============================================================ */
+
+@media (max-width: 360px) {
+
+    .ironstore-categorias-classico-vitrine-grid {
+        gap: 8px;
+    }
+
+    .ironstore-categorias-classico-vitrine-card {
+        border-radius: 11px;
+    }
+
+    .ironstore-categorias-classico-vitrine-nome {
+        left: 9px;
+        right: 37px;
+        bottom: 10px;
+        max-width: calc(100% - 46px);
+    }
+
+    .ironstore-categorias-classico-vitrine-seta {
+        top: 7px;
+        right: 7px;
+        width: 26px;
+        height: 26px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUZIR MOVIMENTO
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ironstore-categorias-classico-vitrine-card,
+    .ironstore-categorias-classico-vitrine-card::before,
+    .ironstore-categorias-classico-vitrine-imagem img,
+    .ironstore-categorias-classico-vitrine-sombra,
+    .ironstore-categorias-classico-vitrine-nome,
+    .ironstore-categorias-classico-vitrine-seta {
+        transition: none !important;
+    }
+
+}
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .ironstore-categorias-classico-vitrine {
+        margin-bottom: 23px;
+    }
+
+    .ironstore-categorias-classico-vitrine-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .ironstore-categorias-classico-vitrine-card {
+        width: 85vw;
+        max-width: 85vw;
+        height: 35vh;
+        min-height: 0;
+        aspect-ratio: unset;
+        flex: 0 0 auto;
+        border-radius: 13px;
+    }
+
+    .ironstore-categorias-classico-vitrine-nome {
+        left: 11px;
+        right: 43px;
+        bottom: 12px;
+        max-width: calc(100% - 54px);
+    }
+
+    .ironstore-categorias-classico-vitrine-seta {
+        top: 9px;
+        right: 9px;
+        width: 29px;
+        height: 29px;
+    }
+
+    .ironstore-categorias-classico-vitrine-seta svg {
+        width: 14px;
+        height: 14px;
+    }
+
+}
+    /* ============================================================
+   LOGO MAIOR SOMENTE NO MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .ironstore-categorias-classico-vitrine-card.com-logo
+    .ironstore-categorias-classico-vitrine-imagem img {
+        padding: 7%;
+    }
+
+}
 `;
 
 export default classicoCategorias;
