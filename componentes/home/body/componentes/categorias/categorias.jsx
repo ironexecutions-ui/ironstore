@@ -755,29 +755,35 @@ export default function Categorias() {
    VITRINE DE CATEGORIAS*
 *===================================================== */}
                     {!estaEmProduto && (
-                        <div className="ironstore-categorias-classico-vitrine">
-                            <div className="ironstore-categorias-classico-vitrine-grid">
+                        <div className="ironstore-catimg-v2-vitrine">
+                            <div className="ironstore-catimg-v2-grid">
                                 {categorias.map(categoria => {
                                     const chave = String(categoria)
                                         .trim()
                                         .toLocaleLowerCase("pt-BR");
+
                                     const registro = mapaImagensCategorias.get(
                                         chave
                                     );
+
                                     const imagemPersonalizada =
                                         registro &&
                                             String(registro.aparece ?? "").trim() === "1" &&
                                             String(registro.imagem ?? "").trim()
                                             ? registro.imagem.trim()
                                             : "";
+
                                     const imagemFinal =
                                         imagemPersonalizada ||
                                         dados?.comercio?.imagem ||
                                         "";
+
                                     const usaLogo =
                                         !imagemPersonalizada;
+
                                     const selecionada =
                                         categoriaSelecionada === categoria;
+
                                     return (
                                         <button
                                             type="button"
@@ -785,9 +791,9 @@ export default function Categorias() {
                                             aria-label={`Ver produtos da categoria ${categoria}`}
                                             aria-pressed={selecionada}
                                             className={`
-                            ironstore-categorias-classico-vitrine-card
-                            ${selecionada ? "selecionada" : ""}
-                            ${usaLogo ? "com-logo" : "com-imagem"}
+                            ironstore-catimg-v2-card
+                            ${selecionada ? "iron-catimg-selecionada" : ""}
+                            ${usaLogo ? "iron-catimg-logo" : "iron-catimg-imagem"}
                         `}
                                             onClick={() => {
                                                 setCategoriaSelecionada(categoria);
@@ -803,7 +809,7 @@ export default function Categorias() {
                                             }}
                                         >
                                             {/* IMAGEM */}
-                                            <span className="ironstore-categorias-classico-vitrine-imagem">
+                                            <span className="ironstore-catimg-v2-imagem">
                                                 {imagemFinal && (
                                                     <img
                                                         src={imagemFinal}
@@ -813,11 +819,13 @@ export default function Categorias() {
                                                     />
                                                 )}
                                             </span>
+
                                             {/* SOMBREAMENTO */}
-                                            <span className="ironstore-categorias-classico-vitrine-sombra" />
+                                            <span className="ironstore-catimg-v2-sombra" />
+
                                             {/* NOME DA CATEGORIA */}
                                             <span
-                                                className="ironstore-categorias-classico-vitrine-nome"
+                                                className="ironstore-catimg-v2-nome"
                                                 style={{
                                                     "--ironstore-categoria-caracteres":
                                                         Math.max(1, String(categoria).length)
@@ -825,8 +833,9 @@ export default function Categorias() {
                                             >
                                                 {categoria}
                                             </span>
+
                                             {/* SETA */}
-                                            <span className="ironstore-categorias-classico-vitrine-seta">
+                                            <span className="ironstore-catimg-v2-seta">
                                                 <svg
                                                     width="17"
                                                     height="17"
