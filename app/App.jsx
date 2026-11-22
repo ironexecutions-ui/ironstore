@@ -319,7 +319,51 @@ async function enviarRastreio(
   }
 
 }
+// =========================================================
+// NOVO RASTREIO PELO DOMÍNIO, SEM LOGIN
+// =========================================================
 
+async function enviarRastreioDominio(caminho) {
+  try {
+    const dominio = pegarDominioAtual();
+
+    const resposta = await fetch(
+      `${API_URL}/rastreio-espaco/registrar-dominio`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          dominio,
+          caminho
+        }),
+        keepalive: true
+      }
+    );
+
+    if (!resposta.ok) {
+      console.warn(
+        "[RASTREIO DOMÍNIO] Erro:",
+        resposta.status
+      );
+      return;
+    }
+
+    const dados = await resposta.json();
+
+    console.log(
+      "[RASTREIO DOMÍNIO] Registrado:",
+      dados
+    );
+
+  } catch (erro) {
+    console.warn(
+      "[RASTREIO DOMÍNIO] Falha:",
+      erro
+    );
+  }
+}
 
 /* =========================================================
    APP
@@ -496,30 +540,25 @@ export default function App() {
      não logado = IP
   ======================================================= */
 
-  useEffect(() => {
+  // =========================================================
+  // RASTREAR NAVEGAÇÃO
+  // =========================================================
 
-    /* =====================================================
-       CAMINHO COMPLETO
-    ===================================================== */
+  useEffect(() => {
 
     const caminhoCompleto =
       `${location.pathname}${location.search}`;
 
+    // RASTREIO ATUAL, NÃO ALTERAR
+    enviarRastreio(caminhoCompleto);
 
-    /* =====================================================
-       REGISTRAR
-    ===================================================== */
-
-    enviarRastreio(
-      caminhoCompleto
-    );
-
+    // NOVO RASTREIO, IDENTIFICANDO PELO DOMÍNIO
+    enviarRastreioDominio(caminhoCompleto);
 
   }, [
     location.pathname,
     location.search
   ]);
-
 
   /* =======================================================
      INTERFACE
